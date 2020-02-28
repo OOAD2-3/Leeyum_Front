@@ -1,0 +1,36 @@
+.bottom_router{
+  height: 60px;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  background: white;
+  display: flex;
+  justify-content: center;
+}
+.bottom_router_see{
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  height: 100%;
+}
+.bottom_router_item{
+  width: 20%;
+  height: 100%;
+
+}
+.bottom_router_item_img{
+  height: 40px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.bottom_router_item_text{
+  height: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 13px;
+  color: #333;
+}

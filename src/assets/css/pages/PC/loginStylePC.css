@@ -1,0 +1,215 @@
+.root{
+  background-size: 100% 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 80%;
+
+  /* float:left;
+  border:1px;
+  width:100%; */
+}
+
+.logoimg{
+  border: 0;
+  width: 60px;
+  height:60px;
+  background: url(/static/picture/xmulogo.png);
+  background-size: 100%;
+  border: 2px solid rgb(255, 255, 255);
+  border-radius: 50%;
+  margin-left:40px;
+  margin-top:5px;
+  float:left;
+}
+
+.login_title{
+  height: 4%;
+  /* width: 100%; */
+  /* display: flex; */
+  justify-content: center;
+  align-items: center;
+  color:rgb(128, 128, 128);
+  font-size: 150%;
+  float:left;
+  margin-left:20px;
+  font-family: stxinwei;
+  margin-top:23px;
+
+}
+.intro{
+  top:0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  text-align: center;
+  line-height: 40px;
+  width: 900px;
+  height: 300px;
+
+}
+#big{
+
+  color:rgb(68, 68, 68);
+  font-size: 50px;
+  font-weight: bold;
+  position: relative;
+  margin-top:30px;
+  font-family: stxinwei;
+}
+#small
+{
+  color:rgb(75, 75, 75);
+  font-size:15px;
+  font-family: stxinwei;
+}
+.logoimg2{
+
+  background: url(/static/picture/contact.jpg);
+  background-size: 100%;
+  border: 2px solid rgb(224, 179, 96);
+  border-radius: 50%;
+  height:50px;
+  width:50px;
+
+}
+.plmain{
+  background: url("../../../../../static/picture/campus.jpg") no-repeat;
+  width: 100%;
+  height:400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* .other{
+width:60%;
+width:200px;
+height:100%;
+float:left;
+left:0px;
+} */
+.login_main{
+  width: 30%;
+  height: 90%;
+  background: rgba(255, 255, 255, 0.788);
+  border-radius: 1%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.loginother
+{
+  width: 10%;
+  height: 100%;
+  background: white;
+  border-radius: 1%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fastlogintitle{
+  float:left;
+  width:100px;
+  margin-right:20px;
+  margin-top:0;
+}
+
+.login_main_content{
+  width: 80%;
+  height: 65%;
+
+}
+.login_main_row{
+  width: 100%;
+  height: 30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.login_main_row_text{
+  width: 20%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #515a6e;
+}
+.login_phone_input{
+  width: 60%;
+  /* margin-left: 5%; */
+  height: 50%;
+  border: #dcdee2 solid 1px;
+  border-radius: 3px;
+  padding-left: 10px;
+  margin-top:20px;
+}
+.login_phone_input::placeholder{
+  color: #dcdee2;
+  font-size: 90%;
+
+}
+.login_check_input{
+  width: calc(89% - 10px);
+  /* margin-left: 5%; */
+  height: 50%;
+  border: #dcdee2 solid 1px;
+  border-radius: 3px;
+  padding-left: 10px;
+  margin-top:20px;
+}
+.login_check_input::placeholder{
+  color: #dcdee2;
+  font-size: 90%;
+}
+.login_check_send{
+  width: 25%;
+  height: 60%;
+  border: transparent;
+  border-radius: 3px;
+  background: rgb(253,192,6);
+  color: white;
+  font-size: 100%;
+  margin-top:20px;
+  cursor: pointer;
+}
+.login_main_button{
+  background: rgb(253,192,6);
+  color: white;
+  width: 90%;
+  height: 50%;
+  border: transparent;
+  border-radius: 3px;
+  margin-top:20px;/*往下挪一点zzj*/
+  cursor: pointer;
+}
+.login_tip{
+  height: 10%;
+  width: 100%;
+  color: #888;
+  display: flex;
+  justify-content: center;
+  font-size: 50%;
+  margin-top:20px;/*往下挪一点zzj*/
+}
+
+.order {
+  height: 10px;
+  line-height: 10px;
+  text-align: center;
+}
+.order .line {
+  display: inline-block;
+  width: 110px;
+  border-top: 1px solid #ccc ;
+}
+.order .txt {
+  color: #888;
+  vertical-align: middle;
+  font-size: 50%;
+}
+.pplogo{
+
+}
