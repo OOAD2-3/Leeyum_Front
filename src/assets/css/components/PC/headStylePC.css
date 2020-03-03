@@ -14,7 +14,6 @@
 }
 .logo{
   height: 80%;
-  margin-right: 2%;
   cursor:pointer
 }
 .search-div{
@@ -62,17 +61,31 @@
 }
 
 .login{
-  width: 35%;
   height: 80%;
   color: #222222;
   font-size: 85%;
+  width: 30%;
   display: flex;
   align-items: center;
+}
+.login_button{
+  display: flex;
   cursor:pointer;
 }
-.login:hover{
+.login_button:hover{
   color: rgb(253,192,6);
   transition: all .15s;
+}
+.logout_button{
+  font-size: 20px;
+  color: red;
+  margin-left: 10px;
+  cursor:pointer;
+}
+.onlineState{
+  display: none;
+  align-items: center;
+  cursor:pointer;
 }
 .back{
   display: flex;
@@ -80,6 +93,7 @@
   height: 80%;
   width: 30%;
   color:#222222;
+  justify-content: flex-end;
 }
 .release-button{
   width: 35%;
@@ -89,7 +103,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: 30%;
 }
 .release-button:hover{
   color: rgb(253,192,6);

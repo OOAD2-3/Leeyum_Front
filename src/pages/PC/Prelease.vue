@@ -11,8 +11,8 @@
             <input class="content-title-main" v-model="title"/>
           </div>
           <div class="content-main">
-            <div class="content-title-text">内容</div>
-            <textarea class="content-main-main" v-model="content"></textarea>
+            <div class="content-title-text">内容（200字以内）</div>
+            <textarea class="content-main-main" v-model="content" maxlength="200"></textarea>
           </div>
           <div class="content-type">
             <div class="content-title-text">类目</div>
@@ -173,25 +173,24 @@
             console.log(err);
           })
         },
-        clickTag:function(tag){
-          let flag=-1;
-          for(let i=0;i<this.$data.tagCheckboxGroup.length;i++){
-            if(tag.name===this.$data.tagCheckboxGroup[i]) {
-              flag=i;
+        clickTag:function(tag) {
+          let flag = -1;
+          for (let i = 0; i < this.$data.tagCheckboxGroup.length; i++) {
+            if (tag.name === this.$data.tagCheckboxGroup[i]) {
+              flag = i;
               break;
             }
           }
-          if(flag===-1) {
+          if (flag === -1) {
             this.$data.tagCheckboxGroup.push(tag.name);
-            document.getElementById(tag.name).style.color="white";
-            document.getElementById(tag.name).style.background="#fdc006";
-            document.getElementById(tag.name).style.border="1px solid #fdc006";
-          }
-          else{
-            this.$data.tagCheckboxGroup.splice(flag,1);
-            document.getElementById(tag.name).style.color="#606266";
-            document.getElementById(tag.name).style.background="white";
-            document.getElementById(tag.name).style.border="1px solid #DCDFE6";
+            document.getElementById(tag.name).style.color = "white";
+            document.getElementById(tag.name).style.background = "#fdc006";
+            document.getElementById(tag.name).style.border = "1px solid #fdc006";
+          } else {
+            this.$data.tagCheckboxGroup.splice(flag, 1);
+            document.getElementById(tag.name).style.color = "#606266";
+            document.getElementById(tag.name).style.background = "white";
+            document.getElementById(tag.name).style.border = "1px solid #DCDFE6";
           }
         },
         getAllType:function() {

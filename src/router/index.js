@@ -23,7 +23,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect:'/phome'
+      redirect:'/pgoods'
     },
 
     {

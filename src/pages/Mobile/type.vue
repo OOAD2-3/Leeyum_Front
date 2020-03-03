@@ -81,7 +81,8 @@
         this.$router.push({
           name:'MGoods',
           params:{
-            choosenType:item.category_id
+            choosenType:item.category_id,
+            choosenTypeName:item.category_name
           }
         })
       }

@@ -1,7 +1,7 @@
 <template>
   <div class="myHead">
     <div class="head_adjust">
-      <img class="logo" src="../../../static/picture/logo.jpg" alt="" @click="jump('PHome')"/>
+      <img class="logo" src="../../../static/picture/logo_temp.png" alt="" @click="jump('PHome')"/>
       <el-menu
         :default-active="active1"
         class="el-menu-demo"
@@ -9,8 +9,7 @@
         background-color="#ffffff"
         style="border-bottom: transparent;"
         active-text-color="rgb(253,192,6)"
-        text-color="#222222"
-      >
+        text-color="#222222">
         <el-menu-item index="1" @click="jump('PHome')">首页</el-menu-item>
         <el-menu-item index="2" @click="jump('PGoods')">发现</el-menu-item>
 <!--        <el-menu-item index="3" @click="jump('PBuy')">求购</el-menu-item>-->
@@ -32,10 +31,16 @@
       </div>
       <div class="back">
 <!--        <div class="application" @click="dialogVisible = true">APP</div>-->
-        <div class="release-button" @click="jump('PRelease')">我要发布</div>
+        <div class="release-button" @click="PwantRelease">我要发布</div>
         <div class="login">
           <img src="../../../static/picture/about_pic.jpg" alt="" style="height: 70%;margin-right: 10px;"/>
-          <div class="login_button" @click="jump('PLogin')">登录</div>
+          <div class="login_button" @click="jump('PLogin')" id="noLogin">登录</div>
+          <div class="onlineState" id="onlineState">
+            <div id="userName"></div>
+            <div class="logout_button" @click="logout">
+              <el-icon name="switch-button"></el-icon>
+            </div>
+          </div>
         </div>
       </div>
 <!--    <el-dialog-->
@@ -73,18 +78,46 @@
       methods:{
         init:function() {
           this.$data.active1=this.$props.defaultActive;
-          let Width = window.screen.availWidth;
-            require("../../assets/css/components/PC/headStylePC.css")
-
+          require("../../assets/css/components/PC/headStylePC.css");
+          this.$axios.get("/api/user/details/").then(res=>{
+            document.getElementById("noLogin").style.display="none";
+            document.getElementById("onlineState").style.display="flex";
+            document.getElementById("userName").innerHTML=res.data.data.username;
+            localStorage.setItem("username",res.data.data.username);
+          }).catch(err=>{
+            console.log(err)
+          })
         },
         jump:function(name){
           this.$router.push({name:name});
         },
         changePsearchKeyWord:function(){
-          this.$emit('update:PsearchKeyWord',this.$data.PsearchKeyWord);
+          var e = window.event || arguments.callee.caller.arguments[0];
+          if (e && e.keyCode === 13 ) {
+            this.$emit('Psearch');
+          }
+          else this.$emit('update:PsearchKeyWord',this.$data.PsearchKeyWord);
         },
         Psearch:function(){
           this.$emit('Psearch');
+        },
+        logout:function(){
+          this.$axios.get("/api/user/logout/").then(res=>{
+            localStorage.setItem("username",'');
+            location.reload();
+          }).catch(err=>{
+            alert(err);
+          })
+        },
+        PwantRelease:function(){
+          console.log(localStorage.getItem("username"));
+          if(localStorage.getItem("username")!==''){
+            this.jump("PRelease");
+          }
+          else{
+            this.$message.error("请登录！");
+            this.jump("PLogin");
+          }
         }
       },
       mounted() {

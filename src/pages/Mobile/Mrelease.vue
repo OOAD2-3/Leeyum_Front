@@ -8,11 +8,11 @@
           <div class="mline"></div>
           <div class="mcontent-title">
             <div class="mcontent-title-text">标题</div>
-            <input class="mcontent-title-main"/>
+            <input class="mcontent-title-main" v-model="title"/>
           </div>
           <div class="mcontent-main">
-            <div class="mcontent-title-text">内容</div>
-            <textarea class="mcontent-main-main"></textarea>
+            <div class="mcontent-title-text">内容（200字以内）</div>
+            <textarea class="mcontent-main-main" maxlength="200" v-model="content"></textarea>
           </div>
           <div class="mcontent-type">
             <div class="mcontent-title-text">类目</div>
@@ -24,8 +24,7 @@
                   :key="type.category_name"
                   class="mchooseFirstTypeItem"
                   @click="readyChooseSubType(type)"
-                  :id="type.category_name"
-                >
+                  :id="type.category_name">
                   {{type.category_name}}
                 </div>
               </div>
@@ -33,7 +32,7 @@
                 <div v-for="item in activeSecondType"
                      @click="alreadyChooseSecondType(item)"
                      class="msecondType"
-                     :id="item.category_name">
+                     :id="item.category_id">
                   {{item.category_name}}</div>
               </div>
             </div>
@@ -46,47 +45,14 @@
           </div>
           <div class="mcontent-pic">
             <div class="mcontent-title-text">上传图片</div>
-            <el-upload
-              action="#"
-              list-type="picture-card"
-              :auto-upload="false"
-              class="muploadPic"
-            >
+            <el-upload action="/api/file/upload/"
+                       list-type="picture-card"
+                       class="muploadPic"
+                       :on-success="(response, file, fileList)=>{return onSuccess(response, file, fileList)}">
               <i slot="default" class="el-icon-plus"/>
-              <div slot="file" slot-scope="{file}">
-                <img
-                  class="el-upload-list__item-thumbnail"
-                  :src="file.url" alt=""
-                >
-                <span class="el-upload-list__item-actions">
-                  <span
-                    class="el-upload-list__item-preview"
-                    @click="handlePictureCardPreview(file)"
-                  >
-                    <i class="el-icon-zoom-in"/>
-                  </span>
-                  <span
-                    v-if="!disabled"
-                    class="el-upload-list__item-delete"
-                    @click="handleDownload(file)"
-                  >
-                    <i class="el-icon-download"/>
-                  </span>
-                  <span
-                    v-if="!disabled"
-                    class="el-upload-list__item-delete"
-                    @click="handleRemove(file)"
-                  >
-                    <i class="el-icon-delete"/>
-                  </span>
-                </span>
-              </div>
             </el-upload>
-            <el-dialog :visible.sync="dialogVisible">
-              <img width="100%" :src="dialogImageUrl" alt="">
-            </el-dialog>
           </div>
-          <button class="mconfirm">发 布</button>
+          <button class="mconfirm" @click="myRelease">发 布</button>
         </div>
       </div>
     </div>
@@ -102,6 +68,7 @@
         name: "release_goods",
       data(){
           return{
+            file_list:[],
             type_list:[],
             activeSecondType:[],
             chosenFirstType:'',
@@ -114,44 +81,11 @@
               id:'10',
               name:'又长又宽',
               intro:'自带'
-            },{
-              id:'10',
-              name:'又扁又圆',
-              intro:'自带'
-            },{
-              id:'10',
-              name:'又又圆',
-              intro:'自带'
-            },{
-              id:'10',
-              name:'又大圆',
-              intro:'自带'
-            },{
-              id:'10',
-              name:'1大又圆',
-              intro:'自带'
-            },{
-              id:'10',
-              name:'2大又圆',
-              intro:'自带'
-            },{
-              id:'10',
-              name:'3大又圆',
-              intro:'自带'
-            },{
-              id:'10',
-              name:'4大又圆',
-              intro:'自带'
-            },{
-              id:'10',
-              name:'5大又圆',
-              intro:'自带'
             }
             ],
             tagCheckboxGroup:[],
-            dialogImageUrl: '',
-            dialogVisible: false,
-            disabled: false
+            title:'',
+            content:'',
           }
       },
       components: {BottomRouter, MMyHead, Tail},
@@ -178,16 +112,6 @@
         jump: function (name) {
           this.$router.push({name: name});
         },
-        handleRemove(file) {
-          console.log(file);
-        },
-        handlePictureCardPreview: function (file) {
-          this.dialogImageUrl = file.url;
-          this.dialogVisible = true;
-        },
-        handleDownload: function (file) {
-          console.log(file);
-        },
         mgetAllTags: function () {
           let _this = this;
           _this.$axios.get("/api/tag/all/").then((res) => {
@@ -201,13 +125,13 @@
         clickTag: function (tag) {
           let flag = -1;
           for (let i = 0; i < this.$data.tagCheckboxGroup.length; i++) {
-            if (tag === this.$data.tagCheckboxGroup[i]) {
+            if (tag.name === this.$data.tagCheckboxGroup[i]) {
               flag = i;
               break;
             }
           }
           if (flag === -1) {
-            this.$data.tagCheckboxGroup.push(tag);
+            this.$data.tagCheckboxGroup.push(tag.name);
             document.getElementById(tag.name).style.color = "white";
             document.getElementById(tag.name).style.background = "#fdc006";
             document.getElementById(tag.name).style.border = "1px solid #fdc006";
@@ -217,7 +141,6 @@
             document.getElementById(tag.name).style.background = "white";
             document.getElementById(tag.name).style.border = "1px solid #DCDFE6";
           }
-          console.log(this.$data.tagCheckboxGroup);
         },
         readyChooseSubType: function (item) {
           if (this.$data.chosenFirstType !== '') {
@@ -246,7 +169,7 @@
             document.getElementById(this.$data.typeCheck).style.color = "#606266";
             document.getElementById(this.$data.typeCheck).style.border = "1px solid #DCDFE6";
           }
-          this.$data.typeCheck = item.category_name;
+          this.$data.typeCheck = item.category_id;
           document.getElementById(this.$data.typeCheck).style.background = "#c0c0c0";
           document.getElementById(this.$data.typeCheck).style.color = "#606266";
           document.getElementById(this.$data.typeCheck).style.border = "1px solid #c0c0c0";
@@ -259,6 +182,34 @@
           }).catch(err => {
             console.log(err);
           })
+        },
+        onSuccess:function(response, file, fileList){
+          this.$data.file_list.push(response.data);
+          console.log(this.$data.file_list);
+        },
+        myRelease:function(){
+          let re=[];
+          for(let i=0;i<this.$data.file_list.length;i++){
+            re.push(this.$data.file_list[i].file_url);
+          }
+          const dataa=JSON.stringify({
+            title:this.$data.title,
+            content:this.$data.content,
+            tags:this.$data.tagCheckboxGroup,
+            category_id:this.$data.typeCheck,
+            pic_urls:re
+          });
+          const config={
+            headers:{
+              'Content-Type':'application/json'
+            }
+          };
+          this.$axios.post("/api/article/",dataa,config).then(res=>{
+            this.jump("MGoods");
+          }).catch(err=>{
+            this.$message.error("出了一点错误，请稍后再试");
+          })
+
         },
       },
       mounted() {

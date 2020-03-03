@@ -48,17 +48,28 @@
 }
 .mmobile-type{
   width: 100%;
-  height: 200px;
+  margin-bottom: 10px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin-bottom: 20px;
 }
 .mmobile-type-item{
   height: 49%;
   width: 23%;
   margin-top: 1%;
-  background: #00ac90;
+}
+.malreadyType{
+  font-size: 14px;
+  margin-left: 20px;
+  width: calc(100% - 20px);
+  margin-bottom: 10px;
+  color: #797979;
+  display: flex;
+  align-items: center;
+}
+.mclearAlreadyType{
+  margin-left: 10px;
+  color: #8cc5ff;
 }
 .mgoods_order{
   height: 20px;

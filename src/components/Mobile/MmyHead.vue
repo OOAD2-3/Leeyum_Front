@@ -1,7 +1,7 @@
 <template>
   <div class="mmyHead">
     <div class="mhead_adjust">
-      <img class="mlogo" src="../../../static/picture/logo.jpg" alt="" @click="jump('MHome')"/>
+      <img class="mlogo" src="../../../static/picture/logo_temp.png" alt="" @click="jump('MHome')"/>
       <div class="msearch-div">
         <div class="msearch_main">
           <input class="msearch-input" v-model="MsearchKeyWord" placeholder="发现你想要的" @keyup="changeMsearchKeyWord"/>

@@ -27,14 +27,17 @@
           </div>
         </div>
         <div class="mmobile-type">
-          <div class="mmobile-type-item">123</div>
-          <div class="mmobile-type-item">123</div>
-          <div class="mmobile-type-item">123</div>
-          <div class="mmobile-type-item">123</div>
-          <div class="mmobile-type-item">123</div>
-          <div class="mmobile-type-item">123</div>
-          <div class="mmobile-type-item">123</div>
-          <div class="mmobile-type-item">123</div>
+          <img class="mmobile-type-item" src="../../../static/picture/temp1.png"/>
+          <img class="mmobile-type-item" src="../../../static/picture/temp2.png"/>
+          <img class="mmobile-type-item" src="../../../static/picture/temp3.png"/>
+          <img class="mmobile-type-item" src="../../../static/picture/temp5.png"/>
+          <img class="mmobile-type-item" src="../../../static/picture/temp8.png"/>
+          <img class="mmobile-type-item" src="../../../static/picture/temp4.png"/>
+          <img class="mmobile-type-item" src="../../../static/picture/temp7.png"/>
+          <img class="mmobile-type-item" src="../../../static/picture/temp6.png"/>
+        </div>
+        <div class="malreadyType">当前类目：{{this.$data.nowTypeName}}
+          <div class="mclearAlreadyType" @click="clearType" v-if="this.$data.nowTypeName!=='热门'">清空已选</div>
         </div>
         <div class="mgoods_order">
           <div class="mgoods_time">按热度↓</div>
@@ -43,10 +46,12 @@
         <div class="mline"></div>
         <div class="mgoods_content">
           <div class="mgoods_items" v-for="item in goodsItems">
-            <img class="mgoods_items_img" src="../../../static/picture/pic.png" alt=""/>
+            <img class="mgoods_items_img" :src="item.pic_urls.length>0?item.pic_urls[0]:'http://leeyum-bucket.oss-cn-hangzhou.aliyuncs.com/default_front_file/404pic.png'" alt=""/>
             <div class="mgoods_items_content">
               <div class="mitems_line1">
-                <div class="mline1_title">{{item.title}}</div>
+                <div class="mline1_title">{{item.title.substr(0,10)}}
+                  <span v-if="item.title.length>10">...</span>
+                </div>
                 <div class="mline1_date">{{item.publish_time}}</div>
               </div>
             </div>
@@ -76,18 +81,12 @@
             '../../../static/picture/ads2.jpg',
             '../../../static/picture/ads3.jpg',
           ],
-          goodsItems: [{
-            id:'',
-            content:{body:'王世奇傻逼王世奇傻逼王世奇傻逼王世奇傻逼王世奇傻逼王世奇傻逼王世奇傻逼王世奇傻逼王世奇傻逼'},
-            pic_urls:'',
-            publish_time:'2020/1/19',
-            tags:['王世奇傻逼','唐一淞傻逼','李伟泽傻逼','李伟泽傻逼','李伟泽傻逼','李伟泽傻逼','李伟泽傻逼','李伟泽傻逼',],
-            title:'王世奇的头'
-          }],
+          goodsItems: [],
           maxPage: 1,
           more_goods: true,
           nowType: '',
-          nowKeyword:''
+          nowKeyword:'',
+          nowTypeName:'热门'
         }
       },
       methods: {
@@ -113,10 +112,13 @@
           this.$router.push({name: name});
         },
         mgetMoreGoods: function () {
-          if(this.$route.params.choosenType) this.$data.nowType=this.$route.params.choosenType;
+          if (this.$route.params.choosenType&&this.$route.params.choosenTypeName) {
+            this.$data.nowType = this.$route.params.choosenType;
+            this.$data.nowTypeName = this.$route.params.choosenTypeName;
+          }
           if (this.$data.more_goods) {
             if (this.$data.nowType === '') {
-              if(this.$data.nowKeyword==='') {
+              if (this.$data.nowKeyword === '') {
                 this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&is_main=1").then(res => {
                   for (let i = 0; i < res.data.data.article_list.length; i++)
                     this.$data.goodsItems.push(res.data.data.article_list[i]);
@@ -128,9 +130,8 @@
                 }).catch(err => {
                   console.log(err);
                 });
-              }
-              else{
-                this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&keyword="+this.$data.nowKeyword).then(res => {
+              } else {
+                this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&keyword=" + this.$data.nowKeyword).then(res => {
                   for (let i = 0; i < res.data.data.article_list.length; i++)
                     this.$data.goodsItems.push(res.data.data.article_list[i]);
                   if (!res.data.data.has_next_page) {
@@ -143,8 +144,8 @@
                 });
               }
             } else {
-              if(this.$data.nowKeyword==='') {
-                this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&category=" + this.$data.nowType).then(res => {
+              if (this.$data.nowKeyword === '') {
+                this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&is_main=1&category=" + this.$data.nowType).then(res => {
                   for (let i = 0; i < res.data.data.article_list.length; i++)
                     this.$data.goodsItems.push(res.data.data.article_list[i]);
                   if (!res.data.data.has_next_page) {
@@ -155,9 +156,8 @@
                 }).catch(err => {
                   console.log(err);
                 });
-              }
-              else{
-                this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&category="+this.$data.nowType+"&keyword="+this.$data.nowKeyword).then(res => {
+              } else {
+                this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&is_main=1&category=" + this.$data.nowType + "&keyword=" + this.$data.nowKeyword).then(res => {
                   for (let i = 0; i < res.data.data.article_list.length; i++)
                     this.$data.goodsItems.push(res.data.data.article_list[i]);
                   if (!res.data.data.has_next_page) {
@@ -172,43 +172,33 @@
             }
           }
         },
-        getNewMsearchKeyWordOut:function(MsearchKeyWord){
-          this.$data.MsearchKeyWordOut=MsearchKeyWord;
+        getNewMsearchKeyWordOut: function (MsearchKeyWord) {
+          this.$data.MsearchKeyWordOut = MsearchKeyWord;
         },
-        Msearch:function() {
+        Msearch: function () {
           if (this.$data.MsearchKeyWordOut === '') location.reload();
           else {
             this.$data.nowKeyword = this.$data.MsearchKeyWordOut;
             this.$data.maxPage = 1;
-            this.$data.goodsItems.splice(0, this.$data.goodsItems.length);
-            if (this.$data.nowType === '') {
-              this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&keyword=" + this.$data.nowKeyword).then(res => {
-                for (let i = 0; i < res.data.data.article_list.length; i++)
-                  this.$data.goodsItems.push(res.data.data.article_list[i]);
-                if (!res.data.data.has_next_page) {
-                  document.getElementById("mmoreGoods").innerHTML = "已无更多";
-                  document.getElementById("mmoreGoods").style.cursor = "auto";
-                  this.$data.more_goods = false;
-                } else this.$data.maxPage++;
-              }).catch(err => {
-                console.log(err);
-              });
-            } else {
-              this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&category=" + this.$data.nowType + "&keyword=" + this.$data.nowKeyword).then(res => {
-                for (let i = 0; i < res.data.data.article_list.length; i++)
-                  this.$data.goodsItems.push(res.data.data.article_list[i]);
-                if (!res.data.data.has_next_page) {
-                  document.getElementById("mmoreGoods").innerHTML = "已无更多";
-                  document.getElementById("mmoreGoods").style.cursor = "auto";
-                  this.$data.more_goods = false;
-                } else this.$data.maxPage++;
-              }).catch(err => {
-                console.log(err);
-              });
-            }
+            this.$data.nowType = '';
+            this.$data.nowTypeName = '热门';
+            this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&keyword=" + this.$data.nowKeyword).then(res => {
+              this.$data.goodsItems.splice(0, this.$data.goodsItems.length);
+              for (let i = 0; i < res.data.data.article_list.length; i++)
+                this.$data.goodsItems.push(res.data.data.article_list[i]);
+              if (!res.data.data.has_next_page) {
+                document.getElementById("mmoreGoods").innerHTML = "已无更多";
+                document.getElementById("mmoreGoods").style.cursor = "auto";
+                this.$data.more_goods = false;
+              } else this.$data.maxPage++;
+            }).catch(err => {
+              console.log(err);
+            });
           }
-        }
-
+        },
+        clearType: function () {
+          location.reload();
+        },
       },
         mounted() {
           this.init();

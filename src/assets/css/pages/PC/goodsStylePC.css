@@ -66,6 +66,21 @@
   box-shadow:0 0 10px #bdbfc2;
   cursor: pointer
 }
+.alreadyType{
+  padding: 0 30px;
+  height: 30px;
+  width: calc(100% - 30px);
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  color: #797979;
+  font-size: 15px;
+}
+.clearAlreadyType{
+  margin-left: 50px;
+  cursor: pointer;
+  color: #409eff;
+}
 .goods_order{
   height: 20px;
   width: 100%;
@@ -128,9 +143,10 @@
 }
 .items_line1{
   width: 100%;
-  height: 40px;
+  min-height: 40px;
   font-size: 18px;
   display: flex;
+  margin-bottom: 5px;
 }
 .line1_title{
   width: 60%;

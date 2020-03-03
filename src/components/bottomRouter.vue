@@ -13,7 +13,7 @@
         </div>
         <div class="bottom_router_item_text" id="two_text">分类</div>
       </div>
-      <div class="bottom_router_item" @click="jump('MRelease')">
+      <div class="bottom_router_item" @click="MwantRelease">
         <div class="bottom_router_item_img">
           <img src="../../static/picture/add.png" style="height: 30px" alt="" id="four"/>
         </div>
@@ -54,10 +54,27 @@
             document.getElementById("four_text").style.color="rgb(253,192,6)";
           }
           require('../assets/css/components/Mobile/bottomRouterStyleMobile.css');
+          this.$axios.get("/api/user/details/").then(res=>{
+            this.$data.username=res.data.data.username;
+            localStorage.setItem("username",res.data.data.username);
+          }).catch(err=>{
+            localStorage.setItem("username",'');
+            console.log(err)
+          });
         },
         jump:function(name){
           this.$router.push({name:name});
         },
+        MwantRelease:function(){
+          console.log(localStorage.getItem("username"));
+          if(localStorage.getItem("username")!==''){
+            this.jump("MRelease");
+          }
+          else{
+            this.$message.error("请登录！");
+            this.jump("MLogin");
+          }
+        }
       },
       mounted() {
         this.init();

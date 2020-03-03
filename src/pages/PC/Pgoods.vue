@@ -3,20 +3,19 @@
     <PMyHead default-active="2"
              v-bind:PsearchKeyWordOut="PsearchKeyWordOut"
              v-on:update:PsearchKeyWord="getNewPsearchKeyWordOut"
-             v-on:Psearch="Psearch"
-    />
+             v-on:Psearch="Psearch"/>
     <div class="bac1">
     <div class="adjust">
       <div class="goods_main">
         <div class="goods_header">
-          <div class="goods_header_left">
+          <div class="goods_header_left" @mouseout="judgeHandleCloseSubMenu1">
             <div class="type_see">
               <div v-for="item in types" class="type_items" @mouseover="handleOpenSubMenu(item)" @click="firstTypeSearch(item)">
                 <span>{{item.category_name}}</span>
               </div>
             </div>
           </div>
-          <div class="submenu" id="submenu" v-model="activeSubMenu">
+          <div class="submenu" id="submenu" v-model="activeSubMenu" @mouseout="judgeHandleCloseSubMenu">
             <div class="submenuItem" v-for="i in activeSubMenu" @click="secondTypeSearch(i)">{{i.category_name}}</div>
           </div>
           <div class="goods_header_right">
@@ -35,6 +34,9 @@
             </div>
           </div>
         </div>
+        <div class="alreadyType">当前类目：{{this.$data.nowTypeName}}
+          <div class="clearAlreadyType" @click="clearType" v-if="this.$data.nowTypeName!=='热门'">清空已选</div>
+        </div>
         <div class="goods_order">
           <div class="goods_time">按热度↓</div>
           <div class="goods_see">按时间</div>
@@ -42,7 +44,7 @@
         <div class="line"></div>
         <div class="goods_content">
           <div class="goods_items" v-for="item in goodsItems">
-            <img class="goods_items_img" src="../../../static/picture/pic.png" alt=""/>
+            <img class="goods_items_img" :src="item.pic_urls.length>0?item.pic_urls[0]:'http://leeyum-bucket.oss-cn-hangzhou.aliyuncs.com/default_front_file/404pic.png'" alt=""/>
             <div class="goods_items_content">
               <div class="items_line1">
                 <div class="line1_title">{{item.title}}</div>
@@ -95,18 +97,12 @@
               '../../../static/picture/ads2.jpg',
               '../../../static/picture/ads3.jpg',
             ],
-            goodsItems:[{
-               id:'',
-               content:{body:'王世奇傻逼王世奇傻逼王世奇傻逼王世奇傻逼王世奇傻逼王世奇傻逼王世奇傻逼王世奇傻逼王世奇傻逼'},
-               pic_urls:'',
-               publish_time:'2020/1/19',
-               tags:['王世奇傻逼','唐一淞傻逼','李伟泽傻逼','李伟泽傻逼','李伟泽傻逼','李伟泽傻逼','李伟泽傻逼','李伟泽傻逼',],
-               title:'王世奇的头'
-             }],
+            goodsItems:[],
             maxPage:1,
             more_goods:true,
             nowType:'',
             nowKeyword:'',
+            nowTypeName:'热门'
           }
       },
       methods:{
@@ -126,7 +122,11 @@
           document.getElementById("root").style.height = Height + "px";
           document.getElementById("root").style.width = Width-this.getScrollWidth() + "px";
           document.getElementById("root").style.background="#f0f0f0";
+          if(Width>1200)
             require('../../assets/css/pages/PC/goodsStylePC.css');
+          else{
+            this.jump("MGoods");
+          }
         },
         jump:function(name){
           this.$router.push({name:name});
@@ -227,6 +227,7 @@
           this.$data.goodsItems.splice(0,this.$data.goodsItems.length);
           this.$data.nowType=item.category_id;
           this.$data.nowKeyword='';
+          this.$data.nowTypeName=item.category_name;
           this.$axios.get("/api/article/?page="+this.$data.maxPage+"&page_size=10&is_main=1&category="+item.category_id).then(res=>{
             for (let i = 0; i < res.data.data.article_list.length; i++)
               this.$data.goodsItems.push(res.data.data.article_list[i]);
@@ -243,12 +244,15 @@
         getNewPsearchKeyWordOut:function(PsearchKeyWord){
           this.$data.PsearchKeyWordOut=PsearchKeyWord;
         },
-        Psearch:function(){
-          this.$data.nowKeyword=this.$data.PsearchKeyWordOut;
-          this.$data.maxPage=1;
-          this.$data.goodsItems.splice(0,this.$data.goodsItems.length);
-          if(this.$data.nowType===''){
-            this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&keyword="+this.$data.nowKeyword).then(res => {
+        Psearch:function() {
+          if (this.$data.PsearchKeyWordOut === '') location.reload();
+          else {
+            this.$data.nowKeyword = this.$data.PsearchKeyWordOut;
+            this.$data.maxPage = 1;
+            this.$data.nowType='';
+            this.$data.nowTypeName='热门';
+            this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&keyword=" + this.$data.nowKeyword).then(res => {
+              this.$data.goodsItems.splice(0, this.$data.goodsItems.length);
               for (let i = 0; i < res.data.data.article_list.length; i++)
                 this.$data.goodsItems.push(res.data.data.article_list[i]);
               if (!res.data.data.has_next_page) {
@@ -260,18 +264,18 @@
               console.log(err);
             });
           }
-          else{
-            this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&category="+this.$data.nowType+"&keyword="+this.$data.nowKeyword).then(res => {
-              for (let i = 0; i < res.data.data.article_list.length; i++)
-                this.$data.goodsItems.push(res.data.data.article_list[i]);
-              if (!res.data.data.has_next_page) {
-                document.getElementById("moreGoods").innerHTML = "已无更多";
-                document.getElementById("moreGoods").style.cursor = "auto";
-                this.$data.more_goods = false;
-              } else this.$data.maxPage++;
-            }).catch(err => {
-              console.log(err);
-            });
+        },
+        clearType:function(){
+          location.reload();
+        },
+        judgeHandleCloseSubMenu:function(e){
+          if(e.offsetX>500||e.offsetY<0||e.clientY>400){
+            this.handleCloseSubMenu();
+          }
+        },
+        judgeHandleCloseSubMenu1:function(e){
+          if(e.offsetX<0||e.clientY>400){
+            this.handleCloseSubMenu();
           }
         }
 
