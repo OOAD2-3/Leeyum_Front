@@ -8,14 +8,14 @@
     <div class="adjust">
       <div class="goods_main">
         <div class="goods_header">
-          <div class="goods_header_left" @mouseout="judgeHandleCloseSubMenu1">
+          <div class="goods_header_left" @mouseleave="judgeHandleCloseSubMenu1">
             <div class="type_see">
-              <div v-for="item in types" class="type_items" @mouseover="handleOpenSubMenu(item)" @click="firstTypeSearch(item)">
+              <div v-for="item in types" class="type_items" @mouseenter="handleOpenSubMenu(item)" @click="firstTypeSearch(item)">
                 <span>{{item.category_name}}</span>
               </div>
             </div>
           </div>
-          <div class="submenu" id="submenu" v-model="activeSubMenu" @mouseout="judgeHandleCloseSubMenu">
+          <div class="submenu" id="submenu" v-model="activeSubMenu" @mouseleave="judgeHandleCloseSubMenu">
             <div class="submenuItem" v-for="i in activeSubMenu" @click="secondTypeSearch(i)">{{i.category_name}}</div>
           </div>
           <div class="goods_header_right">
@@ -43,8 +43,9 @@
         </div>
         <div class="line"></div>
         <div class="goods_content">
-          <div class="goods_items" v-for="item in goodsItems">
-            <img class="goods_items_img" :src="item.pic_urls.length>0?item.pic_urls[0]:'http://leeyum-bucket.oss-cn-hangzhou.aliyuncs.com/default_front_file/404pic.png'" alt=""/>
+          <div class="goods_items" v-for="item in goodsItems" @click="enterDetail(item)">
+            <img class="goods_items_img"
+                 :src="item.pic_urls.length>0?item.pic_urls[0]:'http://leeyum-bucket.oss-cn-hangzhou.aliyuncs.com/default_front_file/404pic.png'" alt=""/>
             <div class="goods_items_content">
               <div class="items_line1">
                 <div class="line1_title">{{item.title}}</div>
@@ -247,6 +248,16 @@
         Psearch:function() {
           if (this.$data.PsearchKeyWordOut === '') location.reload();
           else {
+            if(localStorage.getItem('history_search')) {
+              let temp = JSON.parse(localStorage.getItem('history_search'));
+              temp.push(this.$data.PsearchKeyWordOut);
+              localStorage.setItem('history_search',JSON.stringify(temp));
+            }
+            else{
+              let temp=[];
+              temp.push(this.$data.PsearchKeyWordOut);
+              localStorage.setItem('history_search',JSON.stringify(temp));
+            }
             this.$data.nowKeyword = this.$data.PsearchKeyWordOut;
             this.$data.maxPage = 1;
             this.$data.nowType='';
@@ -269,14 +280,22 @@
           location.reload();
         },
         judgeHandleCloseSubMenu:function(e){
-          if(e.offsetX>500||e.offsetY<0||e.clientY>400){
+          if(e.offsetX>=500||e.offsetY<=0||e.clientY>=400){
             this.handleCloseSubMenu();
           }
         },
         judgeHandleCloseSubMenu1:function(e){
-          if(e.offsetX<0||e.clientY>400){
+          if(e.offsetX<=0||e.clientY>=400){
             this.handleCloseSubMenu();
           }
+        },
+        enterDetail:function(item){
+          this.$router.push({
+            name:'PDetail',
+            params:{
+              articleId:item.id
+            }
+          })
         }
 
       },

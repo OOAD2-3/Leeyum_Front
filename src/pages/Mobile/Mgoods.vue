@@ -3,8 +3,10 @@
     <MMyHead default-active="2"
              v-bind:MsearchKeyWordOut="MsearchKeyWordOut"
              v-on:update:MsearchKeyWord="getNewMsearchKeyWordOut"
-             v-on:Msearch="Msearch"/>
-    <div class="mbac">
+             v-on:Msearch="Msearch"
+             v-on:MfocusInput="MfocusInput"
+             ref="mi"/>
+    <div class="mbac" id="mbac">
     <div class="madjust">
       <div class="mgoods_main">
         <div class="mgoods_header">
@@ -46,7 +48,7 @@
         <div class="mline"></div>
         <div class="mgoods_content">
           <div class="mgoods_content_col1">
-            <div class="mgoods_items" v-for="item in goodsItems1">
+            <div class="mgoods_items" v-for="item in goodsItems1" @click="enterDetail(item)">
               <img class="mgoods_items_img" :src="item.pic_urls.length>0?item.pic_urls[0]:'http://leeyum-bucket.oss-cn-hangzhou.aliyuncs.com/default_front_file/404pic.png'" alt=""/>
               <div class="mgoods_items_content">
                 <div class="mitems_line1">
@@ -58,7 +60,7 @@
             </div>
           </div>
           <div class="mgoods_content_col2">
-            <div class="mgoods_items" v-for="item in goodsItems2">
+            <div class="mgoods_items" v-for="item in goodsItems2" @click="enterDetail(item)">
               <img class="mgoods_items_img" :src="item.pic_urls.length>0?item.pic_urls[0]:'http://leeyum-bucket.oss-cn-hangzhou.aliyuncs.com/default_front_file/404pic.png'" alt=""/>
               <div class="mgoods_items_content">
                 <div class="mitems_line1">
@@ -85,6 +87,24 @@
       </div>
     </div>
     </div>
+    <div id="focusInputDiv" class="MfocusInputDiv" @click="cancelFocusInput">
+      <div class="MhotSearch">
+        <div style="margin: 8px 0">热门搜索</div>
+        <div class="MhotSearchMain">
+          <div v-for="item in search_hot" class="MhotSearchItem" @click="clickQuickSearch(item)">{{item}}</div>
+        </div>
+      </div>
+      <div class="MhistorySearch">
+        <div style="width: 100%;display: flex;justify-content: space-between">
+          <div style="margin-left: 8px">搜索历史</div>
+          <div style="font-size: 13px;color: #8cc5ff;padding-right: 10px" v-if="this.$data.search_history.length>0" @click="clearSearchHistory">清空记录</div>
+        </div>
+        <div class="MhistorySearchMain">
+          <div v-for="item in search_history" class="MhistorySearchItem" @click="clickQuickSearch(item)">{{item}}</div>
+          <div v-if="search_history.length===0">无</div>
+        </div>
+      </div>
+    </div>
     <bottom-router id="pcmbottomrouter" default-active="1"></bottom-router>
   </div>
 </template>
@@ -105,14 +125,15 @@
             '../../../static/picture/ads2.jpg',
             '../../../static/picture/ads3.jpg',
           ],
-          goodsItems: [],
           goodsItems1: [],
           goodsItems2: [],
           maxPage: 1,
           more_goods: true,
           nowType: '',
           nowKeyword: '',
-          nowTypeName: '热门'
+          nowTypeName: '热门',
+          search_history:[],
+          search_hot:['123','123','456','789']
         }
       },
       methods: {
@@ -146,7 +167,6 @@
             if (this.$data.nowType === '') {
               this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&is_main=1").then(res => {
                 for (let i = 0; i < res.data.data.article_list.length; i++) {
-                  this.$data.goodsItems.push(res.data.data.article_list[i]);
                   if(i%2===0) this.$data.goodsItems1.push(res.data.data.article_list[i]);
                   else this.$data.goodsItems2.push(res.data.data.article_list[i]);
                 }
@@ -162,7 +182,6 @@
           } else {
             this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&is_main=1&category=" + this.$data.nowType).then(res => {
               for (let i = 0; i < res.data.data.article_list.length; i++) {
-                this.$data.goodsItems.push(res.data.data.article_list[i]);
                 if(i%2!==0) this.$data.goodsItems1.push(res.data.data.article_list[i]);
                 else this.$data.goodsItems2.push(res.data.data.article_list[i]);
               }
@@ -180,16 +199,32 @@
           this.$data.MsearchKeyWordOut = MsearchKeyWord;
         },
         Msearch: function () {
+          document.getElementById("mbac").style.display="block";
+          document.getElementById("pcmbottomrouter").style.display="flex";
+          document.getElementById("focusInputDiv").style.display="none";
           if (this.$data.MsearchKeyWordOut === '') location.reload();
           else {
+            if(localStorage.getItem('history_search')) {
+              let temp = JSON.parse(localStorage.getItem('history_search'));
+              temp.push(this.$data.MsearchKeyWordOut);
+              localStorage.setItem('history_search',JSON.stringify(temp));
+            }
+            else{
+              let temp=[];
+              temp.push(this.$data.MsearchKeyWordOut);
+              localStorage.setItem('history_search',JSON.stringify(temp));
+            }
             this.$data.nowKeyword = this.$data.MsearchKeyWordOut;
             this.$data.maxPage = 1;
             this.$data.nowType = '';
             this.$data.nowTypeName = '热门';
             this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&keyword=" + this.$data.nowKeyword).then(res => {
-              this.$data.goodsItems.splice(0, this.$data.goodsItems.length);
-              for (let i = 0; i < res.data.data.article_list.length; i++)
-                this.$data.goodsItems.push(res.data.data.article_list[i]);
+              this.$data.goodsItems1.splice(0, this.$data.goodsItems1.length);
+              this.$data.goodsItems2.splice(0, this.$data.goodsItems2.length);
+              for (let i = 0; i < res.data.data.article_list.length; i++){
+                if(i%2===0) this.$data.goodsItems1.push(res.data.data.article_list[i]);
+                else this.$data.goodsItems2.push(res.data.data.article_list[i]);
+              }
               if (!res.data.data.has_next_page) {
                 document.getElementById("mmoreGoods").innerHTML = "已无更多";
                 document.getElementById("mmoreGoods").style.cursor = "auto";
@@ -203,6 +238,47 @@
         clearType: function () {
           location.reload();
         },
+        MfocusInput:function() {
+          document.getElementById("mbac").style.display = "none";
+          document.getElementById("pcmbottomrouter").style.display = "none";
+          document.getElementById("focusInputDiv").style.display = "block";
+          this.$data.search_history.splice(0, this.$data.search_history.length);
+          if(localStorage.getItem('history_search')) {
+            let temp = JSON.parse(localStorage.getItem('history_search'));
+            if (temp.length > 30) {
+              temp.splice(0, 10);
+              localStorage.setItem('history_search', JSON.stringify(temp));
+            }
+            if (temp.length < 10) {
+              for (let i = temp.length - 1; i >= 0; i--)
+                this.$data.search_history.push(temp[i]);
+            } else {
+              for (let i = temp.length - 1; i >= temp.length - 10; i--)
+                this.$data.search_history.push(temp[i]);
+            }
+          }
+        },
+        cancelFocusInput:function(){
+          document.getElementById("mbac").style.display="block";
+          document.getElementById("pcmbottomrouter").style.display="flex";
+          document.getElementById("focusInputDiv").style.display="none";
+        },
+        clickQuickSearch:function(item){
+          this.$refs.mi.setSearchInput(item);
+          this.$data.MsearchKeyWordOut=item;
+          this.Msearch();
+        },
+        clearSearchHistory:function(){
+          localStorage.removeItem("history_search");
+        },
+        enterDetail:function(item){
+          this.$router.push({
+            name:'MDetail',
+            params:{
+              articleId:item.id
+            }
+          })
+        }
       },
         mounted() {
           this.init();

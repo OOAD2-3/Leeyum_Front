@@ -6,7 +6,7 @@ import PGoods from '@/pages/PC/Pgoods'
 import PTest from '@/pages/test'
 import PLogin from '@/pages/PC/Plogin'
 import PRelease from '@/pages/PC/Prelease'
-import Pprofile from '@/pages/PC/Pprofile'
+import PDetail from '@/pages/PC/Pdetail'
 
 
 import MHome from '@/pages/Mobile/Mhome'
@@ -15,6 +15,7 @@ import MLogin from '@/pages/Mobile/Mlogin'
 import MRelease from '@/pages/Mobile/Mrelease'
 import Mprofile from '@/pages/Mobile/Mprofile'
 import MType from '@/pages/Mobile/type'
+import MDetail from '@/pages/Mobile/Mdetail'
 
 
 Vue.use(Router)
@@ -57,9 +58,9 @@ export default new Router({
       component:PTest
     },
     {
-      path:'/pprofile',
-      name:'Pprofile',
-      component:Pprofile
+      path:'/pdetail/:articleId',
+      name:'PDetail',
+      component:PDetail
     },
 
 
@@ -95,6 +96,11 @@ export default new Router({
       path:'/mtype',
       name:'MType',
       component:MType
-    }
+    },
+    {
+      path:'/mdetail/:articleId',
+      name:'MDetail',
+      component:MDetail
+    },
   ]
 })

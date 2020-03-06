@@ -12,19 +12,16 @@
         text-color="#222222">
         <el-menu-item index="1" @click="jump('PHome')">首页</el-menu-item>
         <el-menu-item index="2" @click="jump('PGoods')">发现</el-menu-item>
-<!--        <el-menu-item index="3" @click="jump('PBuy')">求购</el-menu-item>-->
-  <!--      <el-menu-item index="4" @click="jump('Switch')">切换学校</el-menu-item>-->
-  <!--      <el-menu-item index="5">校园动态</el-menu-item>-->
-  <!--      <el-submenu index="6">-->
-  <!--        <template slot="title">更多</template>-->
-  <!--        <el-menu-item index="6-1" style="padding-left: 10%" @click="dialogVisible = true">兼职</el-menu-item>-->
-  <!--        <el-menu-item index="6-2" style="padding-left: 10%" @click="dialogVisible = true">优惠券</el-menu-item>-->
-  <!--        <el-menu-item index="6-3" style="padding-left: 10%" @click="dialogVisible = true">加入我们</el-menu-item>-->
-  <!--      </el-submenu>-->
       </el-menu>
       <div class="search-div">
         <div class="search_main">
-          <input class="search-input" v-model="PsearchKeyWord" placeholder="发现你想要的" @keyup="changePsearchKeyWord"/>
+          <input id="inputFocus"
+                 class="search-input"
+                 v-model="PsearchKeyWord"
+                 placeholder="发现你想要的"
+                 @keyup="changePsearchKeyWord"
+                 @focus="PCfocus"
+                 @blur="PCfocusOut"/>
           <div class="search-button" @click="Psearch">
             <el-icon name="search"/></div>
         </div>
@@ -43,20 +40,24 @@
           </div>
         </div>
       </div>
-<!--    <el-dialog-->
-<!--      title="下载APP获取更多功能"-->
-<!--      :visible.sync="dialogVisible"-->
-<!--      width="30%">-->
-<!--      // :before-close="handleClose"  对话框关闭前的确认-->
-<!--      <img src="../../../static/picture/2dc.png" alt="" style="margin-left:2%;width: 30%"/>-->
-<!--      <img src="../../../static/picture/2dc.png" alt="" style="margin-left:2%;width: 30%"/>-->
-<!--      <img src="../../../static/picture/2dc.png" alt="" style="margin-left:2%;width: 30%"/>-->
-<!--      <span slot="footer" class="dialog-footer">-->
-<!--        <button class="cancel_button" @click="dialogVisible = false">取消</button>-->
-<!--        <button class="confirm_button" @click="dialogVisible = false">确定</button>-->
-<!--      </span>-->
-<!--    </el-dialog>-->
   </div>
+    <div class="PCfocusDiv" id="PCfocusDiv">
+      <div class="PChotSearch">
+        <div style="margin-left: 10px;width: calc(100% - 10px);height: 30px;line-height: 30px;display: flex;justify-content: space-between">
+          <div style="">历史搜索</div>
+          <div v-if="this.$data.search_history.length>0" style="color: #8cc5ff;font-size: 13px;padding-right: 20px;cursor: pointer" @mousedown="clearSearchHistory">清空记录</div>
+        </div>
+        <div class="PChistorySearchMain">
+          <div class="searchHistoryItem" v-for="item in search_history" @mousedown="chooseSearch(item)">{{item}}</div>
+          <div class="searchHistoryItem" style="cursor: auto" v-if="this.$data.search_history.length===0">无</div>
+        </div>
+      </div>
+      <div class="PChistorySearch">
+        <div style="margin-left: 10px;width: calc(100% - 10px);height: 30px;line-height: 30px">热门搜索</div>
+        <div class="PChotSearchMain">
+          <div class="searchHistoryItem" v-for="item in search_history" @mousedown="chooseSearch(item)">{{item}}</div></div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -72,7 +73,8 @@
           active1:'',
           active2:'',
           dialogVisible:false,
-          PsearchKeyWord:this.$props.PsearchKeyWordIn
+          PsearchKeyWord:this.$props.PsearchKeyWordIn,
+          search_history:[]
         }
       },
       methods:{
@@ -94,11 +96,14 @@
         changePsearchKeyWord:function(){
           var e = window.event || arguments.callee.caller.arguments[0];
           if (e && e.keyCode === 13 ) {
+            document.getElementById("inputFocus").blur();
+            this.PCfocusOut();
             this.$emit('Psearch');
           }
           else this.$emit('update:PsearchKeyWord',this.$data.PsearchKeyWord);
         },
         Psearch:function(){
+          document.getElementById("PCfocusDiv").style.display = "none";
           this.$emit('Psearch');
         },
         logout:function(){
@@ -118,6 +123,35 @@
             this.$message.error("请登录！");
             this.jump("PLogin");
           }
+        },
+        PCfocus:function() {
+          this.$data.search_history.splice(0, this.$data.search_history.length);
+          if(localStorage.getItem('history_search')) {
+            let temp = JSON.parse(localStorage.getItem('history_search'));
+            if (temp.length > 30) {
+              temp.splice(0, 10);
+              localStorage.setItem('history_search', JSON.stringify(temp));
+            }
+            if (temp.length < 8) {
+              for (let i = temp.length - 1; i >= 0; i--)
+                this.$data.search_history.push(temp[i]);
+            } else {
+              for (let i = temp.length - 1; i >= temp.length - 8; i--)
+                this.$data.search_history.push(temp[i]);
+            }
+          }
+          document.getElementById("PCfocusDiv").style.display = "flex";
+        },
+        PCfocusOut:function() {
+          document.getElementById("PCfocusDiv").style.display = "none";
+        },
+        chooseSearch:function(item){
+          this.$data.PsearchKeyWord=item;
+          this.$emit('update:PsearchKeyWord',this.$data.PsearchKeyWord);
+          this.Psearch();
+        },
+        clearSearchHistory:function(){
+          localStorage.removeItem("history_search");
         }
       },
       mounted() {

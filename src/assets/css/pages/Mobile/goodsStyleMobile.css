@@ -168,3 +168,47 @@
   align-items: center;
   color: #939393;
 }
+.MfocusInputDiv{
+  width: 100%;
+  height: calc(100% - 60px);
+  display: none
+}
+.MhotSearch{
+  width: 94%;
+  margin-left: 3%;
+  color: #a6a6a6;
+  font-size: 15px;
+}
+.MhotSearchMain{
+  width: 94%;
+  margin-left: 3%;
+  display: flex;
+  flex-wrap: wrap;
+}
+.MhotSearchItem{
+  padding: 3px 6px;
+  border: 1px solid #a6a6a6;
+  margin-right: 2%;
+  border-radius: 3px;
+}
+.MhistorySearch{
+  width: 94%;
+  margin-left: 3%;
+  margin-top: 20px;
+  color: #a6a6a6;
+  font-size: 15px;
+}
+.MhistorySearchMain{
+  width: 94%;
+  margin-top: 5px;
+  margin-left: 3%;
+  display: flex;
+  flex-wrap: wrap;
+}
+.MhistorySearchItem{
+  border: 1px solid #a6a6a6;
+  margin-bottom: 5px;
+  margin-right: 5px;
+  padding: 2px 5px;
+  border-radius: 3px;
+}
