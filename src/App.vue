@@ -17,7 +17,7 @@ export default {
     -moz-osx-font-smoothing: grayscale;
   }
   html,body,#app {margin: 0;height: 100%}
-  html,body input,button,textarea{
+  html,body input,button,textarea,span,div {
     outline: none;
   }
 </style>

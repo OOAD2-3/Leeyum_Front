@@ -120,7 +120,7 @@
             this.jump("PRelease");
           }
           else{
-            this.$message.error("请登录！");
+            this.$message.error("请登录后发布！");
             this.jump("PLogin");
           }
         },

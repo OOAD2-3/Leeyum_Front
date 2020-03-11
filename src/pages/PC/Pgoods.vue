@@ -33,6 +33,66 @@
               <img src="../../../static/picture/kw2.jpg" style="height: 100%;width: 100%">
             </div>
           </div>
+          <div class="personalInfo">
+            <div class="personalInfoOne">
+              <img src="../../../static/picture/personalPic.png" alt="" style="height: 55px;border-radius: 55px">
+              <div class="personalInfoOneLogin" v-if="this.$data.username===''">
+                <div style="height: 25%;width: 100%">Hi~欢迎逛流云!</div>
+                <div style="height: 25%;width: 100%;display: flex">
+                  <div class="loginOr" @click="jump('PLogin')">登陆 | 注册</div>
+                </div>
+              </div>
+
+              <div class="personalInfoOneLogin" v-if="this.$data.username!==''">
+                <div style="height: 25%;width: 100%">Hi~ {{username.substr(0,7)}}
+                  <span v-if="this.$data.username.length>7">..</span>
+                </div>
+                <div style="height: 25%;width: 100%;display: flex">欢迎逛流云!</div>
+              </div>
+
+            </div>
+            <div style="background: linear-gradient(270deg,white,#eeeeee,#eeeeee,white);height: 1px;width: 100%"></div>
+            <div class="personalInfoTwo">
+              <div class="personalInfoTwoTitle">流云快报</div>
+              <div style="height: 90px;width: 100%">
+                <div class="quickNewItem">
+                  <div class="quickNewItemTag">热议</div>
+                  <div class="quickNewItemContent">还正在为买不到口罩...</div>
+                </div>
+                <div class="quickNewItem">
+                  <div class="quickNewItemTag">HOT</div>
+                  <div class="quickNewItemContent">抗击疫情，3Q医用口...</div>
+                </div>
+                <div class="quickNewItem">
+                  <div class="quickNewItemTag">最新</div>
+                  <div class="quickNewItemContent">降了！iPhone 11官方...</div>
+                </div>
+                <div class="quickNewItem">
+                  <div class="quickNewItemTag">推荐</div>
+                  <div class="quickNewItemContent">骁龙865对比麒麟999...</div>
+                </div>
+              </div>
+            </div>
+            <div style="background: linear-gradient(270deg,white,#eeeeee,#eeeeee,white);height: 1px;width: 100%"></div>
+            <div class="personalInfoThree">
+              <div class="personalInfoDetailItem" @click="openSideCol('我的收藏')">
+                <img src="../../../static/picture/收藏.png" alt="" style="height: 25px">
+                <div style="height: 25px;font-size: 14px;margin-top: 2px">我的收藏</div>
+              </div>
+              <div class="personalInfoDetailItem" @click="openSideCol('浏览记录')">
+                <img src="../../../static/picture/浏览.png" alt="" style="height: 25px">
+                <div style="height: 25px;font-size: 14px;margin-top: 2px">浏览记录</div>
+              </div>
+              <div class="personalInfoDetailItem" style="margin-top: 10px" @click="openSideCol('已发布内容')">
+                <img src="../../../static/picture/发布.png" alt="" style="height: 25px">
+                <div style="height: 25px;font-size: 14px;margin-top: 2px">已发布内容</div>
+              </div>
+              <div class="personalInfoDetailItem" style="margin-top: 10px" @click="openSideCol('设置')">
+                <img src="../../../static/picture/设置.png" alt="" style="height: 25px">
+                <div style="height: 25px;font-size: 14px;margin-top: 2px">设置</div>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="alreadyType">当前类目：{{this.$data.nowTypeName}}
           <div class="clearAlreadyType" @click="clearType" v-if="this.$data.nowTypeName!=='热门'">清空已选</div>
@@ -71,6 +131,19 @@
       </div>
     </div>
     </div>
+    <el-drawer
+      :title="sideTitle"
+      :visible.sync="sideCol"
+      direction="rtl"
+      size="500px"
+      style="outline: transparent;">
+      <div class="sideContent" id="sideContent">
+        <div v-if="sideContent.length>0" v-for="item in sideContent" style="height: 100px;width: 100%;margin-top: 10px;background: #5daf34">{{item}}</div>
+        <div v-if="sideContent.length>0" style="height: 50px;width: 100%;cursor:pointer;line-height: 50px;text-align: center;" @click="moreInfo">加载更多...</div>
+        <div v-if="sideContent.length===0&&sideTitle!=='设置'" style="height: 100%;width: 100%;display: flex;align-items: center;justify-content: center;color: #72767b;">无</div>
+        <div v-if="sideTitle==='设置'" style="height: 100%;width: 100%;color: #72767b;">接受短信</div>
+      </div>
+    </el-drawer>
     <tail id="pcmtail"/>
   </div>
 </template>
@@ -103,7 +176,11 @@
             more_goods:true,
             nowType:'',
             nowKeyword:'',
-            nowTypeName:'热门'
+            nowTypeName:'热门',
+            username:'',
+            sideCol:false,
+            sideTitle:'',
+            sideContent:[]
           }
       },
       methods:{
@@ -121,13 +198,15 @@
           let Height = window.screen.availHeight;
           let Width = window.screen.availWidth;
           document.getElementById("root").style.height = Height + "px";
-          document.getElementById("root").style.width = Width-this.getScrollWidth() + "px";
-          document.getElementById("root").style.background="#f0f0f0";
-          if(Width>1200)
-            require('../../assets/css/pages/PC/goodsStylePC.css');
-          else{
-            this.jump("MGoods");
-          }
+          document.getElementById("root").style.width = Width - this.getScrollWidth() + "px";
+          document.getElementById("root").style.background = "#f0f0f0";
+          require('../../assets/css/pages/PC/goodsStylePC.css');
+          this.$axios.get("/api/user/details/").then(res => {
+            localStorage.setItem("username", res.data.data.username);
+            this.$data.username = localStorage.getItem("username");
+          }).catch(err => {
+            console.log(err)
+          });
         },
         jump:function(name){
           this.$router.push({name:name});
@@ -237,6 +316,22 @@
               document.getElementById("moreGoods").style.cursor = "auto";
               this.$data.more_goods = false;
             } else this.$data.maxPage++;
+
+            const ddata={
+              action_type: "category",
+              record_data: item.category_id
+            };
+            const config= {
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            };
+            this.$axios.post("/api/action/record/",JSON.stringify(ddata),config).then(res=>{
+              console.log(res);
+            }).catch(err=>{
+              console.log(err);
+            })
+
           }).catch(err=>{
             console.log(err);
           });
@@ -296,6 +391,44 @@
               articleId:item.id
             }
           })
+        },
+        openSideCol:function(name) {
+          if(localStorage.getItem("username")!==''){
+            this.$data.sideContent.splice(0, this.$data.sideContent.length);
+            this.$data.sideCol = true;
+            this.$data.sideTitle = name;
+            if (name === "我的收藏") {
+              this.$axios.get("/api/user/like/").then(res=>{
+                for(let i=0;i<res.data.data.like_article_list.length;i++)
+                  this.$data.sideContent.push(res.data.data.like_article_list[i]);
+              }).catch(err=>{
+                console.log(err);
+              })
+            }
+            else if (name === "浏览记录"){
+              this.$axios.get("/api/user/viewed/").then(res=>{
+                console.log(res.data.data);
+              }).catch(err=>{
+                console.log(err);
+              })
+            }
+            else if (name === "已发布内容"){
+              this.$axios.get("/api/user/published/").then(res=>{
+                console.log(res.data.data.published_article_list);
+                for(let i=0;i<res.data.data.published_article_list.length;i++)
+                  this.$data.sideContent.push(res.data.data.published_article_list[i]);
+              }).catch(err=>{
+                console.log(err);
+              })
+            }
+          }
+          else{
+            this.$message.error("请登录后查看！");
+            this.jump("PLogin");
+          }
+          },
+        moreInfo:function(){
+
         }
 
       },
