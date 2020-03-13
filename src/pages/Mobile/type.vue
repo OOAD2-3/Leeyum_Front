@@ -112,6 +112,7 @@
     height: 100%;
     display: flex;
     flex-wrap: wrap;
+    align-content: flex-start;
     padding-top: 10px;
     padding-bottom: 20px;
   }
@@ -131,5 +132,6 @@
     margin-left: 2%;
     line-height: 100px;
     text-align: center;
+    margin-bottom: 2%;
   }
 </style>

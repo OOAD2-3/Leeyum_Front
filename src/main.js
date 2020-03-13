@@ -19,7 +19,7 @@ new Vue({
   el: '#app',
   router,
   created(){
-     axios.defaults.baseURL='http://www.leeyum.com'
+     axios.defaults.baseURL='http://www.leeyum.com';
   },
   components: { App },
   template: '<App/>'

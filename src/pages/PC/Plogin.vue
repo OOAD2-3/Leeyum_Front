@@ -94,7 +94,8 @@
             message: "登录成功",
             type: 'success'
           });
-          this.jump("PGoods");
+          localStorage.setItem("username",this.$data.phone);
+          this.$router.go(-1);
         }).catch((err)=>{
           this.$message({
             message: "登录失败",

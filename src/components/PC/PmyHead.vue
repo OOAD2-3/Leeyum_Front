@@ -110,7 +110,7 @@
         logout:function(){
           this.$axios.get("/api/user/logout/").then(res=>{
             localStorage.setItem("username",'');
-            location.reload();
+            this.jump("PGoods");
           }).catch(err=>{
             alert(err);
           })

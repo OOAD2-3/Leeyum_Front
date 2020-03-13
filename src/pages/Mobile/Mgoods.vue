@@ -7,7 +7,7 @@
              v-on:MfocusInput="MfocusInput"
              ref="mi"/>
     <div class="mbac" id="mbac">
-    <div class="madjust">
+    <div class="gmadjust">
       <div class="mgoods_main">
         <div class="mgoods_header">
           <div class="mgoods_header_left">
