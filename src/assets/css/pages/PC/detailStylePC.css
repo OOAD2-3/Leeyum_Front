@@ -1,0 +1,273 @@
+
+.pup
+{
+	width: 1200px;
+	height:400px;
+    margin: 30px auto;
+    background-color: #fff;
+    /* padding: 30px; */
+}
+.pup1
+{
+	padding:30px;
+}
+.f1
+{
+	float:left;
+}
+/* 走马灯 */
+.pinfoimg
+{
+	margin-top:50px;
+	width:500px;
+}
+.el-carousel__item h3 {
+    color: #475669;
+    font-size: 14px;
+    opacity: 0.75;
+    line-height: 200px;
+    margin: 0;
+  }
+  
+  .el-carousel__item:nth-child(2n) {
+    background-color: #99a9bf;
+  }
+  
+  .el-carousel__item:nth-child(2n+1) {
+    background-color: #d3dce6;
+  }
+  /* 走马灯 */
+/* .pimg-zoom
+{
+	width:350px;
+	height:350px;
+	background-size:cover;
+	background-position:50%;
+	cursor:pointer;
+}
+
+.pthumb-s
+{
+	margin-top:15px;
+}
+.pthumb-s img
+{
+	border:2px solid white;
+	width:55px;
+	height:55px;
+	cursor:pointer;
+	margin-right:10px;
+	display:inline-block;
+}
+.pthumb-s img .active
+{
+	border:2px solid #2d8cf0;
+} */
+/* -----------------右侧内容 ----------------*/
+.pinfo
+{
+	padding-left:40px;
+	width:590px;
+	font-size:14px;
+}
+.pinfo .pdiyihang
+{
+	display:flex;
+	align-items:center;
+	font-size:14px;
+}
+.ivu-avatar
+{
+	display: inline-block;
+    text-align: center;
+    background: #ccc;
+    color: #fff;
+    white-space: nowrap;
+    position: relative;
+    overflow: hidden;
+    vertical-align: middle;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    border-radius: 16px;
+}
+.plikeimg,.pjubaoimg
+{
+	display:inline;
+	cursor: pointer;
+	margin-left:10px;
+}
+.plikeimg{
+	border:0;
+		width: 15px;
+		height: 15px;
+		background-size: 100%;
+		font-size:15px;
+}
+.pjubaoimg{
+	border:0;
+	width: 15px;
+	height: 15px;
+	background-size: 100%;
+	font-size:15px;
+}
+i{
+	margin-right:10px;
+}
+.el-icon-tickets
+{
+	margin-top:20px;
+}
+.ptags
+{
+	display:inline;
+	
+	margin-left:10px;
+	font-size:15px;
+}
+
+
+.ptitle
+{
+margin:12px 0;
+color:#17233d;
+font-weight:700;
+font-size:16px;
+}
+.pcontent
+{
+color:#616776;
+margin-top:10px;
+}
+.pleimu
+{
+	margin-top:20px;
+	font-size:12px;
+}
+.info-item,.t-title
+{
+	font-size:14px;
+	margin-right:15px;
+}
+.pinfo-item
+{
+	display:flex;
+	align-items:center;
+	margin-top:20px;
+	color:#616776;
+}
+.plogin
+{
+	font-size:15px;
+	text-decoration: none;
+}
+/*-------------------- comment ---------------------*/
+.pshangpinpingjia
+{
+	margin-top:10px;
+	margin-left:20px;
+	width:800px;
+	float:left;
+}
+.cafterl{
+float:right;
+}
+.pcomment
+{
+	width:1200px;
+	margin:30px auto;
+	background-color: white;
+	padding-bottom:20px;
+}
+.pcommmenttitle{
+	background-color:white;
+	border:1px solid #eee;
+	font-size:14px;
+	font-weight:700;
+	padding:10px;
+	padding-left:20px;
+}
+a{
+ color:#2d8cf0;
+ background:0 0;
+ outline:0;
+ cursor:pointer;
+ transition:color .2s ease;
+}
+.ploginbtn
+{
+	padding: 10px 20px;
+	font-size: 10px;
+}
+.fr 
+{
+	float:right;
+}
+.ivu-btn-group
+{
+	position:relative;
+	display:inline-block;
+	vertical-align:middle;
+}
+.tag 
+{
+font-weight:500;
+display:flex;
+align-items:center;
+}
+.cafterl
+{
+	margin-top:10px;
+	margin-right:20px;
+
+}
+
+.comment .tag-box
+{
+	padding:20px;
+}
+.comment .tag-box .ivu-
+{
+	margin-right:20px;
+}
+.ivu-tag-primary,.ivu- 
+{
+	background:#2d8cf0;
+}
+.ivu-tag{
+    display: inline-block;
+    height: 22px;
+    line-height: 22px;
+    margin: 2px 4px 2px 0;
+    padding: 0 8px;
+    border: 1px solid #e8eaec;
+    border-radius: 3px;
+    background: #f7f7f7;
+    font-size: 12px;
+    vertical-align: middle;
+    opacity: 1;
+    overflow: hidden;
+    cursor: pointer;
+}
+/*-------------------- sendcomment ---------------------*/
+.psendcomment
+{
+	width:1200px;
+	height:100px;
+	margin:30px auto;
+	background-color: #eee;
+	padding-bottom:20px;
+}
+.pcommentarea
+{
+	height:80px;
+}
+.psend{
+	float:right;
+}
+.psendbtn
+{
+	
+	font-size: 10px;
+	
+}
