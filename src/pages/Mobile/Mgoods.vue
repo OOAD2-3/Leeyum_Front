@@ -41,10 +41,10 @@
         <div class="malreadyType">当前类目：{{this.$data.nowTypeName}}
           <div class="mclearAlreadyType" @click="clearType" v-if="this.$data.nowTypeName!=='热门'">清空已选</div>
         </div>
-        <div class="mgoods_order">
-          <div class="mgoods_time">按热度↓</div>
-          <div class="mgoods_see">按时间</div>
-        </div>
+<!--        <div class="mgoods_order">-->
+<!--          <div class="mgoods_time">按热度↓</div>-->
+<!--          <div class="mgoods_see">按时间</div>-->
+<!--        </div>-->
         <div class="mline"></div>
         <div class="mgoods_content">
           <div class="mgoods_content_col1">

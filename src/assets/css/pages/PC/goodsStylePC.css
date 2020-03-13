@@ -48,13 +48,112 @@
   color: rgb(253, 192, 6);
 }
 .goods_header_right{
-  width: calc(100% - 400px);
+  width: calc(98% - 600px);
   height: 100%;
+
 }
 .ads{
   width: 200px;
   margin-left: 1%;
   height: 100%;
+}
+.personalInfo{
+  width: 200px;
+  height: 100%;
+  background: white;
+  margin-left: 1%;
+}
+.personalInfoOne{
+  width: 80%;
+  margin-left: 10%;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+.personalInfoOneLogin{
+  width: calc(95% - 60px);
+  height: 70px;
+  margin-left: 5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #666;
+  font-size: 13px;
+}
+.loginOr{
+  cursor: pointer;
+  margin-top: 3px;
+}
+.loginOr:hover{
+  color: rgb(253,192,6);
+  transition: all .1s;
+}
+.personalInfoTwo{
+  width: 90%;
+  margin-left: 5%;
+  height: 115px;
+}
+.personalInfoTwoTitle{
+  margin-top: 5px;
+  font-weight: bolder;
+  font-size: 14px;
+  width: 100%;
+  height: 25px;
+  line-height: 25px;
+  text-align: center;
+}
+.quickNewItem{
+  height: 20px;
+  width: 100%;
+  margin-bottom: 3px;
+  display: flex;
+  font-size: 12px;
+  align-items: center;
+  cursor: context-menu;
+}
+.quickNewItemTag{
+  margin-left: 5px;
+  background: rgba(253,192,6,.2);
+  height: 18px;
+  line-height: 18px;
+  color: rgb(235, 178, 5);
+  width: 30px;
+  text-align: center;
+}
+.quickNewItemContent{
+  margin-left: 5px;
+  height: 18px;
+  line-height: 18px;
+  color: #666;
+  width: calc(100% - 40px);
+  cursor: pointer;
+}
+.quickNewItemContent:hover{
+  color: rgb(253,192,6);
+  transition: all .1s;
+}
+.personalInfoThree{
+  margin-top: 5px;
+  width: 90%;
+  margin-left: 5%;
+  height: 183px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+ }
+.personalInfoDetailItem{
+  width: 85px;
+  height: 85px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.personalInfoDetailItem:hover{
+  background: #ededed;
+  transition: all .1s;
 }
 .mobile-type{
   display: none;
@@ -234,4 +333,13 @@
   align-items: center;
   color: #939393;
   cursor: pointer;
+}
+.sideContent{
+  height: 750px;
+  width: 250px;
+  margin-left: 25px;
+  overflow: auto;
+}
+.sideContent::-webkit-scrollbar{
+  display: none;
 }

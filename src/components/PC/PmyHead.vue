@@ -87,7 +87,8 @@
             document.getElementById("userName").innerHTML=res.data.data.username;
             localStorage.setItem("username",res.data.data.username);
           }).catch(err=>{
-            console.log(err)
+            console.log(err);
+            localStorage.setItem("username",'');
           })
         },
         jump:function(name){
@@ -120,7 +121,7 @@
             this.jump("PRelease");
           }
           else{
-            this.$message.error("请登录！");
+            this.$message.error("请登录后发布！");
             this.jump("PLogin");
           }
         },

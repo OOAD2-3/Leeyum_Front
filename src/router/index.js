@@ -24,7 +24,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect:'/pgoods'
+      redirect:'/phome'
     },
 
     {

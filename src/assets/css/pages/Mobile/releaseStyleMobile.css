@@ -1,12 +1,11 @@
-.mbac{
+.mrbac{
   width: 100%;
   min-height: 800px;
-  background: #f0f0f0;
   background-size: 100% 100%;
-  padding-bottom: 100px;
+  padding-bottom: 50px;
 }
 .madjust{
-  width: 90%;
+  width: 100%;
   min-height: 800px;
   margin: 0 auto;
   padding-top: 20px;
@@ -14,7 +13,6 @@
 .mcontent{
   min-height: 800px;
   width: 100%;
-  border: 1px solid #d8d3d0;
   background: white;
 }
 .mcontent-head{
@@ -34,10 +32,10 @@
 }
 .mcontent-title{
   width: 100%;
-  height: 80px;
+  margin-bottom: 5px;
 }
 .mcontent-title-text{
-  margin-left: 10%;
+  margin-left: 5%;
   height: 20px;
   display: flex;
   align-items: center;
@@ -45,30 +43,36 @@
 }
 .mcontent-title-main{
   margin-top: 2px;
-  margin-left: 10%;
-  width: 80%;
-  height: 30px;
+  width: calc(90% - 10px);
+  margin-left: 5%;
+  height: 40px;
+  padding-left: 5px;
+  padding-right: 5px;
   display: flex;
   align-items: center;
-  border: 1px solid #e0e0e0;
-  border-radius: 3px;
+  border: none;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 18px;
 }
 .mcontent-title-main:focus{
   border-color: rgb(253,192,6);
 }
+.mcontent-title-main::placeholder{
+  font-size: 15px;
+}
 .mcontent-main{
   width: 100%;
-  height: 150px;
+  margin-bottom: 5px;
 }
 .mcontent-main-main{
   margin-top: 2px;
-  margin-left: 10%;
-  width: calc(80% - 4px);
-  height: 100px;
+  margin-left: 5%;
+  width: calc(90% - 4px);
+  height: 300px;
   display: flex;
   align-items: center;
-  border: 1px solid #e0e0e0;
-  border-radius: 3px;
+  border: none;
+  border-bottom: 1px solid #e0e0e0;
   overflow: hidden;
   padding: 2px 2px;
 }
@@ -82,20 +86,19 @@
 }
 .mcontent-type-main1{
   margin-top: 2px;
-  margin-left: 10%;
-  width: 80%;
+  margin-left: 5%;
+  width: 90%;
 }
 .mcontent-type-main{
   margin-top: 2px;
-  margin-left: 10%;
-  width: 80%;
-  min-height: 55px;
+  margin-left: 5%;
+  width: 90%;
   display: flex;
   flex-wrap: wrap;
 }
 .mcontent-tag{
   width: 100%;
-  min-height: 80px;
+  margin-bottom: 5px;
 }
 .mcontent-pic{
   width: 100%;
@@ -117,7 +120,7 @@
   margin-bottom: 50px;
 }
 .muploadPic{
-  margin-left: 10%;
+  margin-left: 5%;
   margin-top:2px;
 }
 .mmyCheckbox{
@@ -161,6 +164,27 @@
   display: none;
   flex-wrap: wrap;
   margin-top: 5px;
+}
+.mspecial{
+  width: 90%;
+  margin: 10px 0 10px 5%;
+}
+.myuqijiage{
+  border: none;
+  width: calc(100% - 4px);
+  height: 35px;
+  border-bottom: 1px solid #d0d0d0;
+  padding: 0 2px;
+}
+.myuqijiage:focus{
+  border-color:#fdc006 ;
+}
+.mzhanxinchengdu{
+  border: none;
+  width: 100%;
+  height: 35px;
+  margin: 5px 0;
+  border-bottom: 1px solid #e0e0e0;
 }
 .msecondType{
   height: 20px;
