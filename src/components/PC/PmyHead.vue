@@ -87,7 +87,8 @@
             document.getElementById("userName").innerHTML=res.data.data.username;
             localStorage.setItem("username",res.data.data.username);
           }).catch(err=>{
-            console.log(err)
+            console.log(err);
+            localStorage.setItem("username",'');
           })
         },
         jump:function(name){

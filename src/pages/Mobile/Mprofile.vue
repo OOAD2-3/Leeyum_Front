@@ -17,19 +17,23 @@
       </div>
     </div>
     <div class="muserDetail">
-      <div class="muserDetailLine">
-        <img src="../../../static/picture/收藏.png" alt="" style="height: 70%;margin:0 10px">
+      <div class="muserDetailLine" style="margin-top: 0">
+        <img src="../../../static/picture/收藏.png" alt="" style="height: 30px;margin:0 10px 5px 10px">
         <div>收藏内容</div>
       </div>
-      <div class="muserDetailLine">
-        <img src="../../../static/picture/浏览.png" alt="" style="height: 70%;margin:0 10px">
+      <div class="muserDetailLine" style="margin-left: 15px;margin-top: 0">
+        <img src="../../../static/picture/浏览.png" alt="" style="height: 30px;margin:0 10px 5px 10px">
         <div>浏览记录</div>
       </div>
       <div class="muserDetailLine">
-        <img src="../../../static/picture/发布.png" alt="" style="height: 70%;margin:0 10px">
+        <img src="../../../static/picture/发布.png" alt="" style="height: 30px;margin:0 10px 5px 10px">
         <div>已发布信息</div>
       </div>
-      <button @click="logout" style="margin-top: 100px;
+      <div class="muserDetailLine" style="margin-left: 15px">
+        <img src="../../../static/picture/设置.png" alt="" style="height: 30px;margin:0 10px 5px 10px">
+        <div>设置</div>
+      </div>
+      <button @click="logout" style="margin-top: 50px;
       width: 100%;
       height: 40px;
       border: transparent;
@@ -102,6 +106,9 @@
     margin-left: 5%;
     height: calc(65% - 80px);
     padding-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
   }
   .muserImg{
     width: 30%;
@@ -141,11 +148,15 @@
     font-size: 20px;
   }
   .muserDetailLine{
-    height: 40px;
-    width: 100%;
+    height: 0;
+    width: 40%;
+    padding: 20% 0 20% 0;
+    margin-top: 15px;
     display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    border-bottom: 1px solid #6c6c6c;
-    padding-top:10px;
+    background: white;
+    border-radius: 5px;
   }
 </style>

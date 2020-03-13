@@ -16,7 +16,7 @@ export default {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  html,body,#app {margin: 0;height: 100%}
+  html,body,#app {margin: 0;height: 100%;outline: none}
   html,body input,button,textarea,span,div {
     outline: none;
   }

@@ -95,12 +95,12 @@
           </div>
         </div>
         <div class="alreadyType">当前类目：{{this.$data.nowTypeName}}
-          <div class="clearAlreadyType" @click="clearType" v-if="this.$data.nowTypeName!=='热门'">清空已选</div>
+          <div class="clearAlreadyType" @click="clearType" v-if="this.$data.nowTypeName!=='本月热门'">清空已选</div>
         </div>
-        <div class="goods_order">
-          <div class="goods_time">按热度↓</div>
-          <div class="goods_see">按时间</div>
-        </div>
+<!--        <div class="goods_order">-->
+<!--          <div class="goods_time">按热度↓</div>-->
+<!--          <div class="goods_see">按时间</div>-->
+<!--        </div>-->
         <div class="line"></div>
         <div class="goods_content">
           <div class="goods_items" v-for="item in goodsItems" @click="enterDetail(item)">
@@ -135,7 +135,7 @@
       :title="sideTitle"
       :visible.sync="sideCol"
       direction="rtl"
-      size="500px"
+      size="300px"
       style="outline: transparent;">
       <div class="sideContent" id="sideContent">
         <div v-if="sideContent.length>0" v-for="item in sideContent" style="height: 100px;width: 100%;margin-top: 10px;background: #5daf34">{{item}}</div>
@@ -162,7 +162,12 @@
             activeIndex:'1',
             types:[{
               category_id:'1',
-              category_name:'热门',
+              category_name:'本月热门',
+              category_intro:'123',
+              sub_category_list:[]
+            },{
+              category_id:'2',
+              category_name:'个性推荐',
               category_intro:'123',
               sub_category_list:[]
             }],
@@ -176,7 +181,7 @@
             more_goods:true,
             nowType:'',
             nowKeyword:'',
-            nowTypeName:'热门',
+            nowTypeName:'本月热门',
             username:'',
             sideCol:false,
             sideTitle:'',
@@ -205,7 +210,9 @@
             localStorage.setItem("username", res.data.data.username);
             this.$data.username = localStorage.getItem("username");
           }).catch(err => {
-            console.log(err)
+            console.log(err);
+            localStorage.setItem("username",'');
+            this.$data.username='';
           });
         },
         jump:function(name){
@@ -298,8 +305,11 @@
           })
         },
         firstTypeSearch:function(item){
-          if(item.sub_category_list.length===0) {
+          if(item.category_name==='本月热门') {
             location.reload();
+          }
+          else if(item.category_name==='个性推荐'){
+            this.$message.error("123");
           }
         },
         secondTypeSearch:function(item){

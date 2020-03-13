@@ -336,8 +336,8 @@
 }
 .sideContent{
   height: 750px;
-  width: 400px;
-  margin-left: 50px;
+  width: 250px;
+  margin-left: 25px;
   overflow: auto;
 }
 .sideContent::-webkit-scrollbar{

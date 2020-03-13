@@ -1,21 +1,19 @@
 <template>
   <div id="root">
-    <MMyHead default-active="6"/>
-    <div class="mbac">
-      <div class="madjust">
+    <div class="mReleaseHeader">
+      <div style="position: absolute;left: 10px;font-weight: bolder;width: 30px" @click="$router.go(-1)">＜</div>
+      <div style="font-size: 20px;">信息发布</div>
+    </div>
+    <div class="mrbac">
         <div class="mcontent">
-          <div class="mcontent-head">信息发布</div>
-          <div class="mline"></div>
           <div class="mcontent-title">
-            <div class="mcontent-title-text">标题</div>
-            <input class="mcontent-title-main" v-model="title"/>
+            <input class="mcontent-title-main" v-model="title" placeholder="请输入标题"/>
           </div>
           <div class="mcontent-main">
-            <div class="mcontent-title-text">内容（200字以内）</div>
-            <textarea class="mcontent-main-main" maxlength="200" v-model="content"></textarea>
+            <textarea class="mcontent-main-main" maxlength="200" v-model="content" placeholder="从这里开始输入内容（活动的具体时刻等）"></textarea>
           </div>
           <div class="mcontent-type">
-            <div class="mcontent-title-text">类目</div>
+            <div class="mcontent-title-text">请选择所属类目并填写必要信息</div>
             <div class="mcontent-type-main1">
               <div class="mchooseFirstType">
                 <div
@@ -37,8 +35,91 @@
               </div>
             </div>
           </div>
+
+          <div class="mspecial" v-if="this.$data.typeCheckName==='求购'" id="求购">
+            <input class="myuqijiage" type="number" v-model="price" placeholder="请填写您的心里价位（元）">
+            <select class="mzhanxinchengdu" v-model="new_or_old">
+              <option value="1">一成新</option>
+              <option value="2">两成新</option>
+              <option value="3">三成新</option>
+              <option value="4">四成新</option>
+              <option value="5">五成新</option>
+              <option value="6">六成新</option>
+              <option value="7">七成新</option>
+              <option value="8">八成新</option>
+              <option value="9">九成新</option>
+              <option value="10">十成新</option>
+            </select>
+          </div>
+          <div class="mspecial" v-if="this.$data.typeCheckName==='出售'" id="出售">
+            <input class="myuqijiage" type="number" v-model="price" placeholder="请填写售价（元）"/>
+            <select class="mzhanxinchengdu" v-model="new_or_old">
+                  <option value="1">一成新</option>
+                  <option value="2">两成新</option>
+                  <option value="3">三成新</option>
+                  <option value="4">四成新</option>
+                  <option value="5">五成新</option>
+                  <option value="6">六成新</option>
+                  <option value="7">七成新</option>
+                  <option value="8">八成新</option>
+                  <option value="9">九成新</option>
+                  <option value="10">十成新</option>
+                </select>
+          </div>
+          <div class="mspecial" v-if="this.$data.typeCheckName==='求租'" id="求租">
+            <input class="myuqijiage" type="number" v-model="price" placeholder="请填写您的心里价位（元）"/>
+            <input class="myuqijiage" type="number" v-model="time_span" placeholder="请填写您的要租用的天数" style="border: none"/>
+          </div>
+          <div class="mspecial" v-if="this.$data.typeCheckName==='出借'" id="出借">
+            <input class="myuqijiage" type="number" v-model="price" placeholder="请填写价格（元）"/>
+            <input class="myuqijiage" type="number" v-model="time_span" placeholder="请填写您的可借出的天数" style="border: none"/>
+          </div>
+          <div class="mspecial" v-if="this.$data.typeCheckName==='约玩/约学习'" id="约玩/约学习">
+            <input type="date" class="myuqijiage" v-model="time"/>
+            <input type="number" class="myuqijiage" placeholder="请填写人数" v-model="total_number"/>
+            <input class="myuqijiage" placeholder="请填写活动地点" v-model="place"/>
+          </div>
+
+          <div class="mspecial" v-if="this.$data.typeCheckName==='拼车'" id="拼车">
+            <input type="date" class="myuqijiage" v-model="time"/>
+            <input type="number" class="myuqijiage" placeholder="请填写人数" v-model="total_number"/>
+            <input class="myuqijiage" placeholder="请填写出发地" v-model="place_start"/>
+            <input class="myuqijiage" placeholder="请填写目的地" v-model="place_end"/>
+          </div>
+
+
+          <div class="mspecial" v-if="this.$data.typeCheckName==='家教'" id="家教">
+            <input type="date" class="myuqijiage" v-model="time"/>
+            <input class="myuqijiage" placeholder="请填写年级" v-model="target_grade"/>
+            <input type="number" class="myuqijiage" placeholder="请填写课时费/节（元）" v-model="price"/>
+            <select class="mzhanxinchengdu" v-model="sex_require">
+              <option value="男">男</option>
+              <option value="女">女</option>
+            </select>
+            <input class="myuqijiage" v-model="place" placeholder="请填写上课地点" style="border: none"/>
+          </div>
+
+
+          <div class="mspecial" v-if="this.$data.typeCheckName==='学校事务'" id="学校事务">
+            <input type="date" class="myuqijiage" v-model="time"/>
+            <input type="number" class="myuqijiage" placeholder="请填写活动报酬（元）" v-model="price"/>
+            <input class="myuqijiage" v-model="place" placeholder="请填写活动地点" style="border: none"/>
+          </div>
+
+          <div class="mspecial" v-if="this.$data.typeCheckName==='其他兼职'" id="其他兼职">
+            <input type="date" class="myuqijiage" v-model="time"/>
+            <input type="number" class="myuqijiage" placeholder="请填写活动报酬（元）" v-model="price"/>
+            <input class="myuqijiage" v-model="place" placeholder="请填写活动地点" style="border: none"/>
+          </div>
+
+          <div class="mspecial" v-if="this.$data.typeCheckName==='志愿者招聘'" id="志愿者招聘">
+            <input type="date" class="myuqijiage" v-model="time"/>
+            <input class="myuqijiage" v-model="place" placeholder="请填写活动地点" style="border: none"/>
+          </div>
+
+
           <div class="mcontent-tag">
-            <div class="mcontent-title-text">标签</div>
+            <div class="mcontent-title-text">请选择合适的标签</div>
             <div class="mcontent-type-main">
               <div class="mmyCheckbox" v-for="tag in tag_list" :key="tag.name" @click="clickTag(tag)" :id="tag.name">{{tag.name}}</div>
             </div>
@@ -54,7 +135,6 @@
           </div>
           <button class="mconfirm" @click="myRelease">发 布</button>
         </div>
-      </div>
     </div>
     <bottom-router default-active="4" id="mpbr"></bottom-router>
   </div>
@@ -73,6 +153,7 @@
             activeSecondType:[],
             chosenFirstType:'',
             typeCheck:'',
+            typeCheckName:'',
             tag_list:[{
               id:'10',
               name:'又大又圆',
@@ -86,6 +167,18 @@
             tagCheckboxGroup:[],
             title:'',
             content:'',
+
+            price:'',
+            new_or_old:10,
+            time_span:'',
+            time:'',
+            place_start:'',
+            place_end:'',
+            place:'',
+            total_number:'',
+            target_grade:'',
+            sex_require:'男'
+
           }
       },
       components: {BottomRouter, MMyHead, Tail},
@@ -147,6 +240,7 @@
             document.getElementById(this.$data.chosenFirstType).style.background = "white";
             document.getElementById(this.$data.chosenFirstType).style.color = "#606266";
             document.getElementById(this.$data.chosenFirstType).style.border = "1px solid #DCDFE6";
+            this.$data.typeCheckName='';
           }
           this.$data.chosenFirstType = item.category_name;
           if (this.$data.typeCheck !== '') {
@@ -169,6 +263,7 @@
             document.getElementById(this.$data.typeCheck).style.color = "#606266";
             document.getElementById(this.$data.typeCheck).style.border = "1px solid #DCDFE6";
           }
+          this.$data.typeCheckName=item.category_name;
           this.$data.typeCheck = item.category_id;
           document.getElementById(this.$data.typeCheck).style.background = "#c0c0c0";
           document.getElementById(this.$data.typeCheck).style.color = "#606266";
@@ -192,24 +287,206 @@
           for(let i=0;i<this.$data.file_list.length;i++){
             re.push(this.$data.file_list[i].file_url);
           }
-          const dataa=JSON.stringify({
-            title:this.$data.title,
-            content:this.$data.content,
-            tags:this.$data.tagCheckboxGroup,
-            category_id:this.$data.typeCheck,
-            pic_urls:re
-          });
-          const config={
-            headers:{
-              'Content-Type':'application/json'
-            }
-          };
-          this.$axios.post("/api/article/",dataa,config).then(res=>{
-            this.jump("MGoods");
-          }).catch(err=>{
-            this.$message.error("出了一点错误，请稍后再试");
-          })
 
+
+          if(this.$data.typeCheckName==='求购'||this.$data.typeCheckName==='出售') {
+            const dataa = JSON.stringify({
+              title: this.$data.title,
+              content: {
+                body: this.$data.content,
+                price: this.$data.price,
+                new_or_old: this.$data.new_or_old,
+              },
+              tags: this.$data.tagCheckboxGroup,
+              category_id: this.$data.typeCheck,
+              pic_urls: re,
+            });
+            const config = {
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            };
+            this.$axios.post("/api/article/",dataa,config).then(res=>{
+              this.jump("MGoods");
+            }).catch(err=>{
+              this.$message.error("出了一点错误，请稍后再试");
+            })
+          }
+
+          if(this.$data.typeCheckName==='出借'||this.$data.typeCheckName==='求租') {
+            const dataa = JSON.stringify({
+              title: this.$data.title,
+              content:{
+                body:this.$data.content,
+                price:this.$data.price,
+                time_span:this.$data.time_span,
+              },
+              tags: this.$data.tagCheckboxGroup,
+              category_id: this.$data.typeCheck,
+              pic_urls: re,
+            });
+            const config = {
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            };
+            this.$axios.post("/api/article/",dataa,config).then(res=>{
+              this.jump("MGoods");
+            }).catch(err=>{
+              this.$message.error("出了一点错误，请稍后再试");
+            })
+          }
+
+          if(this.$data.typeCheckName==='约玩/约学习') {
+            const dataa = JSON.stringify({
+              title: this.$data.title,
+              content:{
+                body:this.$data.content,
+                time:this.$data.time,
+                place:this.$data.place,
+                total_number:this.$data.total_number
+              },
+              tags: this.$data.tagCheckboxGroup,
+              category_id: this.$data.typeCheck,
+              pic_urls: re,
+            });
+            const config = {
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            };
+            this.$axios.post("/api/article/",dataa,config).then(res=>{
+              this.jump("MGoods");
+            }).catch(err=>{
+              this.$message.error("出了一点错误，请稍后再试");
+            })
+          }
+
+          if(this.$data.typeCheckName==='拼车') {
+            const dataa = JSON.stringify({
+              title: this.$data.title,
+              content:{
+                body:this.$data.content,
+                time:this.$data.time,
+                place:this.$data.place_start+'-'+this.$data.place_end,
+                total_number:this.$data.total_number,
+              },
+              tags: this.$data.tagCheckboxGroup,
+              category_id: this.$data.typeCheck,
+              pic_urls: re,
+            });
+            const config = {
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            };
+            this.$axios.post("/api/article/",dataa,config).then(res=>{
+              this.jump("MGoods");
+            }).catch(err=>{
+              this.$message.error("出了一点错误，请稍后再试");
+            })
+          }
+
+          if(this.$data.typeCheckName==='家教') {
+            const dataa = JSON.stringify({
+              title: this.$data.title,
+              content:{
+                body:this.$data.content,
+                price:this.$data.price,
+                time:this.$data.time,
+                place:this.$data.place,
+                target_grade:this.$data.target_grade,
+                sex_require:this.$data.sex_require
+              },
+              tags: this.$data.tagCheckboxGroup,
+              category_id: this.$data.typeCheck,
+              pic_urls: re,
+            });
+            const config = {
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            };
+
+            this.$axios.post("/api/article/",dataa,config).then(res=>{
+              this.jump("MGoods");
+            }).catch(err=>{
+              this.$message.error("出了一点错误，请稍后再试");
+            })
+          }
+
+          if(this.$data.typeCheckName==='学校事务'||this.$data.typeCheckName==='其他兼职') {
+            const dataa = JSON.stringify({
+              title: this.$data.title,
+              content:{
+                body:this.$data.content,
+                price:this.$data.price,
+                time:this.$data.time,
+                place:this.$data.place,
+              },
+              tags: this.$data.tagCheckboxGroup,
+              category_id: this.$data.typeCheck,
+              pic_urls: re,
+            });
+            const config = {
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            };
+
+            this.$axios.post("/api/article/",dataa,config).then(res=>{
+              this.jump("MGoods");
+            }).catch(err=>{
+              this.$message.error("出了一点错误，请稍后再试");
+            })
+          }
+
+          if(this.$data.typeCheckName==='志愿者招聘') {
+            const dataa = JSON.stringify({
+              title: this.$data.title,
+              content:{
+                body:this.$data.content,
+                time:this.$data.time,
+                place:this.$data.place,
+              },
+              tags: this.$data.tagCheckboxGroup,
+              category_id: this.$data.typeCheck,
+              pic_urls: re,
+            });
+            const config = {
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            };
+
+            this.$axios.post("/api/article/",dataa,config).then(res=>{
+              this.jump("MGoods");
+            }).catch(err=>{
+              this.$message.error("出了一点错误，请稍后再试");
+            })
+          }
+
+          if(this.$data.typeCheckName==='表白墙'||this.$data.typeCheckName==='吐槽专栏') {
+            const dataa = JSON.stringify({
+              title: this.$data.title,
+              content:{
+                body: this.$data.content
+              },
+              tags: this.$data.tagCheckboxGroup,
+              category_id: this.$data.typeCheck,
+              pic_urls: re
+            });
+            const config = {
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            };
+            this.$axios.post("/api/article/", dataa, config).then(res => {
+              this.jump("MGoods");
+            }).catch(err => {
+              this.$message.error("出了一点错误，请稍后再试");
+            })
+          }
         },
       },
       mounted() {
@@ -223,22 +500,15 @@
 </script>
 
 <style scoped>
-  .myCheckbox{
-    font-size: 12px;
-    color: #606266;
-    border: 1px solid #DCDFE6;
-    background: white;
-    height: 20px;
-    border-radius: 3px;
-    padding: 1px 4px;
+  .mReleaseHeader{
+    height: 60px;
+    width: calc(100% - 10px);
+    background: #fdc006;
     display: flex;
+    justify-content: center;
     align-items: center;
-    cursor: pointer;
-    margin-bottom: 2px;
-    margin-right: 2px;
-  }
-  .myCheckbox:hover{
-    color: #fdc006;
-    transition: all .15s;
+    color: white;
+    padding-left: 10px;
+    font-size: 150%;
   }
 </style>
