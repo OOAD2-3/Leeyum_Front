@@ -252,24 +252,41 @@
           const dataa = {
             article_id: this.$data.id
           };
-          this.$axios.post("/api/user/like/", dataa).then(res => {
+          const config={
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          };
+          this.$axios.post("/api/user/like/", dataa,config).then(res => {
             this.$data.shou = !this.$data.shou;
+            this.$message.success("收藏成功！");
           }).catch(err => {
 
           })
         }
       },
       jubao: function () {
-        const dataa={
-          article_id:this.$data.id,
-          report_reason:this.$data.ReportReason
-        };
-        this.$axios.post("/api/report/",dataa).then(res=>{
-          this.$message.success("举报成功，感谢您为净化网络做出的贡献！");
-          this.$data.reportVisible=false;
-        }).catch(err=>{
-          this.$message.success("出了一点小问题，请稍后再试");
-        })
+        if(this.$data.username===''){
+          this.$message.error("请先登录！");
+          this.jump("PLogin");
+        }
+        else {
+          const dataa = {
+            article_id: this.$data.id,
+            report_reason: this.$data.ReportReason
+          };
+          const config = {
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          };
+          this.$axios.post("/api/report/", dataa, config).then(res => {
+            this.$message.success("举报成功，感谢您为净化网络做出的贡献！");
+            this.$data.reportVisible = false;
+          }).catch(err => {
+            this.$message.success("出了一点小问题，请稍后再试");
+          })
+        }
       },
       getScrollWidth: function () {
         // 获取滚动条宽度
@@ -332,38 +349,51 @@
         this.$router.push({name:name});
       },
       joinTeam:function(){
-        const dataa={
-          article_id:this.$data.id
-        };
-        const config={
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        };
-        this.$axios.put("/api/article/join_team/",JSON.stringify(dataa),config).then(res=>{
-          this.$data.team_has_joined=true;
-          let temp=parseInt(this.$data.now_number)+1;
-          this.$data.now_number=temp.toString();
-        }).catch(err=>{
-          this.$alert("加入失败，请重试");
-        })
+        if(this.$data.username===''){
+          this.$message.error("请先登录！");
+          this.jump("PLogin");
+        }
+        else {
+          const dataa = {
+            article_id: this.$data.id
+          };
+          const config = {
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          };
+          this.$axios.put("/api/article/join_team/", dataa, config).then(res => {
+            this.$data.team_has_joined = true;
+            let temp = parseInt(this.$data.now_number) + 1;
+            this.$data.now_number = temp.toString();
+          }).catch(err => {
+            this.$alert("加入失败，请重试");
+          })
+        }
       },
       exitTeam:function(){
-        const dataa={
-          article_id:this.$data.id
-        };
-        const config={
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        };
-        this.$axios.put("/api/article/leave_team/",JSON.stringify(dataa),config).then(res=>{
-          this.$data.team_has_joined=false;
-          let temp=parseInt(this.$data.now_number)-1;
-          this.$data.now_number=temp.toString();
-        }).catch(err=>{
-          this.$alert("退出失败，请重试");
-        })
+        if(this.$data.username===''){
+          this.$message.error("请先登录！");
+          this.jump("PLogin");
+        }
+        else {
+
+          const dataa = {
+            article_id: this.$data.id
+          };
+          const config = {
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          };
+          this.$axios.put("/api/article/leave_team/", dataa, config).then(res => {
+            this.$data.team_has_joined = false;
+            let temp = parseInt(this.$data.now_number) - 1;
+            this.$data.now_number = temp.toString();
+          }).catch(err => {
+            this.$alert("退出失败，请重试");
+          })
+        }
       },
       sendComment:function() {
         const dataa = {

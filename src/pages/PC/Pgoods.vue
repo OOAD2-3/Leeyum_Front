@@ -403,40 +403,36 @@
           })
         },
         openSideCol:function(name) {
-          if(localStorage.getItem("username")!==''){
+          if (localStorage.getItem("username") !== '') {
             this.$data.sideContent.splice(0, this.$data.sideContent.length);
             this.$data.sideCol = true;
             this.$data.sideTitle = name;
             if (name === "我的收藏") {
-              this.$axios.get("/api/user/like/").then(res=>{
-                for(let i=0;i<res.data.data.like_article_list.length;i++)
-                  this.$data.sideContent.push(res.data.data.like_article_list[i]);
-              }).catch(err=>{
+              this.$axios.get("/api/user/like/").then(res => {
+                for (let i = 0; i < res.data.data.length; i++)
+                  this.$data.sideContent.push(res.data.data[i]);
+              }).catch(err => {
                 console.log(err);
               })
-            }
-            else if (name === "浏览记录"){
-              this.$axios.get("/api/user/viewed/").then(res=>{
+            } else if (name === "浏览记录") {
+              this.$axios.get("/api/user/viewed/").then(res => {
                 console.log(res.data.data);
-              }).catch(err=>{
+              }).catch(err => {
+                console.log(err);
+              })
+            } else if (name === "已发布内容") {
+              this.$axios.get("/api/user/published/").then(res => {
+                for (let i = 0; i < res.data.data.length; i++)
+                  this.$data.sideContent.push(res.data.data[i]);
+              }).catch(err => {
                 console.log(err);
               })
             }
-            else if (name === "已发布内容"){
-              this.$axios.get("/api/user/published/").then(res=>{
-                console.log(res.data.data.published_article_list);
-                for(let i=0;i<res.data.data.published_article_list.length;i++)
-                  this.$data.sideContent.push(res.data.data.published_article_list[i]);
-              }).catch(err=>{
-                console.log(err);
-              })
-            }
-          }
-          else{
+          } else {
             this.$message.error("请登录后查看！");
             this.jump("PLogin");
           }
-          },
+        },
         moreInfo:function(){
 
         }
