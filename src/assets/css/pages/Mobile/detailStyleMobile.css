@@ -1,0 +1,213 @@
+/*------------------ up------------------- */
+.el-carousel__item h3 {
+  color: #475669;
+  font-size: 14px;
+  opacity: 0.75;
+  line-height: 150px;
+  margin: 0;
+}
+
+.mDetailHeader{
+  height: 60px;
+  width: calc(100% - 10px);
+  background: #fdc006;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  padding-left: 10px;
+  font-size: 150%;
+}
+
+.el-carousel__item:nth-child(2n) {
+  background-color: #99a9bf;
+}
+
+.el-carousel__item:nth-child(2n+1) {
+  background-color: #d3dce6;
+}
+/* basicinfo */
+.mbasicinfo {
+  background-color: #fff;
+  width: 100%;
+  overflow: hidden;
+}
+.mjoinTeam{
+  margin-left: 10px;
+  height: 20px;
+  background: #fdc006;
+  text-align: center;
+  line-height: 20px;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0 10px;
+  font-size: 13px;
+  border:1px solid #fdc006;
+}
+.mhasJoinTeam{
+  border:1px solid #fdc006;
+  background: rgba(253,192,6,.15);
+  border-radius: 5px;
+  margin-left: 10px;
+  height: 20px;
+  cursor: pointer;
+  padding: 0 10px;
+  font-size: 13px;
+  line-height: 20px;
+  color: #fdc006;
+}
+.mtitle {
+  width: calc(100% - 20px);
+  margin-top:10px;
+  margin-left:10px;
+  font-size:17px;
+  font-weight: bold;
+  height: 20px;
+}
+.biaobaiC{
+  color: hotpink;
+  border: 1px solid hotpink;
+  border-radius: 3px;
+  font-size: 12px;
+  padding: 0 5px;
+  display: inline-block;
+  height: 18px;
+  line-height: 20px;
+  font-weight: normal
+}
+.mmcontent {
+  margin-top:10px;
+  margin-left:10px;
+  font-size:15px;
+  color:rgb(82, 82, 82);
+}
+.mobSpecial{
+  width: calc(100% - 30px);
+  margin-top: 5px;
+  margin-left: 15px;
+}
+.mobSpecialLine{
+  height: 25px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+/* middle */
+.mmiddle {
+  padding-top: 10px;
+  background-color: white;
+  width: 100%;
+}
+
+.myonghu,.mtime,.mcate,.mmmtag,.mconnect
+{
+  margin-left:15px;
+  margin-bottom:2px;
+  width: calc(100% - 30px);
+  min-height: 30px;
+  display: flex;
+  align-items: center;
+}
+.mconnect{
+  padding-bottom: 10px;
+}
+.myonghu{
+  display: flex;
+  height: 40px;
+  align-items: center;
+}
+.mmmtag{
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+i {
+  margin-right:10px;
+}
+
+.mtouxiang {
+  height: 35px;
+}
+.mname {
+  margin-left: 10px;
+  font-size: 15px;
+}
+.mtags {
+  margin-right:5px;
+  background: white;
+  border-radius: 3px;
+  border: 1px solid #fdc006;
+  height: 20px;
+  line-height: 20px;
+  color: #fdc006;
+  font-size: 13px;
+  padding: 0 4px;
+}
+/* comment */
+.mcomment {
+  background: white;
+  margin-top: 15px;
+  padding: 10px 10px 80px 10px;
+  width: calc(100% - 20px);
+}
+.McommentItem{
+  min-height: 50px;
+  border-bottom: 1px solid #eeeeee;
+  margin-bottom: 5px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+}
+.McommentItemCol1{
+  height: 30px;
+  width: 50px;
+}
+
+.McommentItemCol2{
+  width: calc(100% - 130px);
+  min-height: 50px;
+}
+.McommentItemCol3{
+  width: 80px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  font-size: 12px;
+  color: #fdc006;
+}
+
+.mmtail{
+  font-size: 25px;
+  bottom: 10px;
+  margin-top: 10px;
+  position: fixed;
+  width: 90%;
+  height: 60px;/*脚部的高度*/
+  background: rgba(255,255,255,.7);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 5%;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.288), 0 0 12px rgba(0, 0, 0, .04);
+  border-radius: 5px;
+}
+.mreportTextarea{
+  height: 100px;
+  resize: none;
+  width: calc(100% - 8px);
+  border-radius: 5px;
+  border: 1px solid #e0e0e0;
+  padding: 3px;
+}
+.mreportButton{
+  margin-left: calc(100% - 100px);
+  width: 100px;
+  height: 30px;
+  background: red;
+  color: white;
+  margin-top: 5px;
+  border: 1px solid red;
+  border-radius: 5px;
+  cursor: pointer;
+}

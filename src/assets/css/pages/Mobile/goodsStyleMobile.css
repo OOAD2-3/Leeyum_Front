@@ -47,16 +47,25 @@
   box-shadow:0 0 10px #bdbfc2;
 }
 .mmobile-type{
+  height: 100px;
   width: 100%;
-  margin-bottom: 10px;
+  margin: 10px 0;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
 }
-.mmobile-type-item{
-  height: 49%;
+.mmmobileTypeItem{
   width: 23%;
-  margin-top: 1%;
+  height: 90%;
+  display: flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction: column;
+  background: white;
+  border-radius: 40px;
+}
+.mmobile-type-item{
+  height: 60%;
 }
 .malreadyType{
   font-size: 14px;

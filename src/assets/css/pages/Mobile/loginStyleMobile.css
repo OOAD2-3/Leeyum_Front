@@ -196,13 +196,13 @@
   }
   .mlogin_check_send{
     width: 25%;
-    height: 55%;
+    height: calc(55% - 2px);
     border: transparent;
     border-radius: 3px;
     background: rgb(253,192,6);
     color: white;
     font-size: 80%;
-    margin-top:7%;
+    margin-top:20px;
   }
   .mlogin_main_button{
     background: rgb(253,192,6);

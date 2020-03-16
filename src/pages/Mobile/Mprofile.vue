@@ -39,7 +39,8 @@
       border: transparent;
       background: rgb(253,192,6);
       color: white;
-      font-size: 15px">注 销</button>
+      font-size: 15px"
+      v-if="username!==''">注 销</button>
     </div>
     <bottom-router default-active="3"></bottom-router>
   </div>

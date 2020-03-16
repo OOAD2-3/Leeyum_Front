@@ -29,17 +29,25 @@
           </div>
         </div>
         <div class="mmobile-type">
-          <img class="mmobile-type-item" src="../../../static/picture/temp1.png"/>
-          <img class="mmobile-type-item" src="../../../static/picture/temp2.png"/>
-          <img class="mmobile-type-item" src="../../../static/picture/temp3.png"/>
-          <img class="mmobile-type-item" src="../../../static/picture/temp5.png"/>
-          <img class="mmobile-type-item" src="../../../static/picture/temp8.png"/>
-          <img class="mmobile-type-item" src="../../../static/picture/temp4.png"/>
-          <img class="mmobile-type-item" src="../../../static/picture/temp7.png"/>
-          <img class="mmobile-type-item" src="../../../static/picture/temp6.png"/>
+          <div class="mmmobileTypeItem" @click="clearType">
+            <img class="mmobile-type-item" src="../../../static/picture/热门.png"/>
+            <div style="height: 20%;width: 100%;text-align: center;color: #4b4b4b;font-size: 14px">本月热门</div>
+          </div>
+          <div class="mmmobileTypeItem">
+            <img class="mmobile-type-item" src="../../../static/picture/推荐.png"/>
+            <div style="height: 20%;width: 100%;text-align: center;color: #4b4b4b;font-size: 14px">个性推荐</div>
+          </div>
+          <div class="mmmobileTypeItem">
+            <img class="mmobile-type-item" src="../../../static/picture/毕业季.png"/>
+            <div style="height: 20%;width: 100%;text-align: center;color: #4b4b4b;font-size: 14px">毕业季</div>
+          </div>
+          <div class="mmmobileTypeItem" @click="jump('MType')">
+            <img class="mmobile-type-item" src="../../../static/picture/其他.png"/>
+            <div style="height: 20%;width: 100%;text-align: center;color: #4b4b4b;font-size: 14px">其他</div>
+          </div>
         </div>
         <div class="malreadyType">当前类目：{{this.$data.nowTypeName}}
-          <div class="mclearAlreadyType" @click="clearType" v-if="this.$data.nowTypeName!=='热门'">清空已选</div>
+          <div class="mclearAlreadyType" @click="clearType" v-if="this.$data.nowTypeName!=='本月热门'">清空已选</div>
         </div>
 <!--        <div class="mgoods_order">-->
 <!--          <div class="mgoods_time">按热度↓</div>-->
@@ -131,7 +139,7 @@
           more_goods: true,
           nowType: '',
           nowKeyword: '',
-          nowTypeName: '热门',
+          nowTypeName: '本月热门',
           search_history:[],
           search_hot:['123','123','456','789']
         }
@@ -179,20 +187,21 @@
                 console.log(err);
               });
             }
-          } else {
-            this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&is_main=1&category=" + this.$data.nowType).then(res => {
-              for (let i = 0; i < res.data.data.article_list.length; i++) {
-                if(i%2!==0) this.$data.goodsItems1.push(res.data.data.article_list[i]);
-                else this.$data.goodsItems2.push(res.data.data.article_list[i]);
-              }
-              if (!res.data.data.has_next_page) {
-                document.getElementById("mmoreGoods").innerHTML = "已无更多";
-                document.getElementById("mmoreGoods").style.cursor = "auto";
-                this.$data.more_goods = false;
-              } else this.$data.maxPage++;
-            }).catch(err => {
-              console.log(err);
-            });
+           else {
+              this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&is_main=1&category=" + this.$data.nowType).then(res => {
+                for (let i = 0; i < res.data.data.article_list.length; i++) {
+                  if (i % 2 === 0) this.$data.goodsItems1.push(res.data.data.article_list[i]);
+                  else this.$data.goodsItems2.push(res.data.data.article_list[i]);
+                }
+                if (!res.data.data.has_next_page) {
+                  document.getElementById("mmoreGoods").innerHTML = "已无更多";
+                  document.getElementById("mmoreGoods").style.cursor = "auto";
+                  this.$data.more_goods = false;
+                } else this.$data.maxPage++;
+              }).catch(err => {
+                console.log(err);
+              });
+            }
           }
         },
         getNewMsearchKeyWordOut: function (MsearchKeyWord) {
@@ -217,7 +226,7 @@
             this.$data.nowKeyword = this.$data.MsearchKeyWordOut;
             this.$data.maxPage = 1;
             this.$data.nowType = '';
-            this.$data.nowTypeName = '热门';
+            this.$data.nowTypeName = '本月热门';
             this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&keyword=" + this.$data.nowKeyword).then(res => {
               this.$data.goodsItems1.splice(0, this.$data.goodsItems1.length);
               this.$data.goodsItems2.splice(0, this.$data.goodsItems2.length);

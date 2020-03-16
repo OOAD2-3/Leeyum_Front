@@ -115,7 +115,7 @@
                 </div>
                 <div class="line1_text">
                   <div>浏览量</div>
-                  <div style="margin-top: 2px">{{item.see}}</div>
+                  <div style="margin-top: 2px">{{item.viewed_times+1}}</div>
                 </div>
               </div>
               <div class="items_line2">
@@ -138,7 +138,12 @@
       size="300px"
       style="outline: transparent;">
       <div class="sideContent" id="sideContent">
-        <div v-if="sideContent.length>0" v-for="item in sideContent" style="height: 100px;width: 100%;margin-top: 10px;background: #5daf34">{{item}}</div>
+        <div v-if="sideContent.length>0" v-for="item in sideContent" style="min-height: 80px;width: 100%;display: flex;align-items: center;border-bottom: 1px solid #eeeeee;padding: 5px 0;cursor: pointer" @click="enterDetail(item)">
+          <div style="width: 40%;height: 100%;background: white;display: flex;align-items: center"><img :src="item.pic_urls.length>0?item.pic_urls[0]:'http://leeyum-bucket.oss-cn-hangzhou.aliyuncs.com/default_front_file/404pic.png'" alt="" style="width: 100%"></div>
+          <div style="width: 55%;height: 80%;margin-left: 5%">
+            <div style="font-size: 15px;width: 100%;height: 100%;font-weight:bolder;display: flex;align-items: center">{{item.title}}</div>
+          </div>
+        </div>
         <div v-if="sideContent.length>0" style="height: 50px;width: 100%;cursor:pointer;line-height: 50px;text-align: center;" @click="moreInfo">加载更多...</div>
         <div v-if="sideContent.length===0&&sideTitle!=='设置'" style="height: 100%;width: 100%;display: flex;align-items: center;justify-content: center;color: #72767b;">无</div>
         <div v-if="sideTitle==='设置'" style="height: 100%;width: 100%;color: #72767b;">接受短信</div>
@@ -366,7 +371,7 @@
             this.$data.nowKeyword = this.$data.PsearchKeyWordOut;
             this.$data.maxPage = 1;
             this.$data.nowType='';
-            this.$data.nowTypeName='热门';
+            this.$data.nowTypeName='本月热门';
             this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&keyword=" + this.$data.nowKeyword).then(res => {
               this.$data.goodsItems.splice(0, this.$data.goodsItems.length);
               for (let i = 0; i < res.data.data.article_list.length; i++)
@@ -416,7 +421,8 @@
               })
             } else if (name === "浏览记录") {
               this.$axios.get("/api/user/viewed/").then(res => {
-                console.log(res.data.data);
+                for (let i = 0; i < res.data.data.length; i++)
+                  this.$data.sideContent.push(res.data.data[i]);
               }).catch(err => {
                 console.log(err);
               })
@@ -435,7 +441,7 @@
         },
         moreInfo:function(){
 
-        }
+        },
 
       },
       mounted() {

@@ -78,6 +78,7 @@
         })
       },
       chooseType:function(item){
+        console.log(item);
         this.$router.push({
           name:'MGoods',
           params:{

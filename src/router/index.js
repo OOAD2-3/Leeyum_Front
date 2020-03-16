@@ -9,13 +9,13 @@ import PRelease from '@/pages/PC/Prelease'
 import PDetail from '@/pages/PC/Pdetail'
 
 
-import MHome from '@/pages/Mobile/Mhome'
 import MGoods from '@/pages/Mobile/Mgoods'
 import MLogin from '@/pages/Mobile/Mlogin'
 import MRelease from '@/pages/Mobile/Mrelease'
 import Mprofile from '@/pages/Mobile/Mprofile'
 import MType from '@/pages/Mobile/type'
 import MDetail from '@/pages/Mobile/Mdetail'
+import MWritecomment from "../pages/Mobile/Mwritecomment";
 
 
 Vue.use(Router)
@@ -68,11 +68,6 @@ export default new Router({
 
 
     {
-      path:'/mhome',
-      name:'MHome',
-      component:MHome
-    },
-    {
       path:'/mgoods',
       name:'MGoods',
       component:MGoods
@@ -102,5 +97,10 @@ export default new Router({
       name:'MDetail',
       component:MDetail
     },
+    {
+      path:'/Mwritecomment/:articleId',
+      name:'MWritecomment',
+      component:MWritecomment
+    }
   ]
 })

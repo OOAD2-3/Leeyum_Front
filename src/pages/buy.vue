@@ -16,7 +16,7 @@
             <div class="buy_item_main_left_contact">{{item.contact}}</div>
           </div>
           <div class="buy_item_main_right">
-            <img src="../../static/picture/background.jpg" alt="" style="width: 80%;border-radius: 3px"/>
+<!--            <img src="../../static/picture/background.jpg" alt="" style="width: 80%;border-radius: 3px"/>-->
           </div>
         </div>
         <div class="buy_item_tail">

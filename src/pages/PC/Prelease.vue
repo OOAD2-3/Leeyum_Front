@@ -373,7 +373,7 @@
                   body:this.$data.content,
                   time:this.$data.time,
                   place:this.$data.place,
-                  total_number:this.$data.total_number
+                  total_number:parseInt(this.$data.total_number)
                 },
                 tags: this.$data.tagCheckboxGroup,
                 category_id: this.$data.typeCheck,
@@ -398,7 +398,7 @@
                   body:this.$data.content,
                   time:this.$data.time,
                   place:this.$data.place_start+'-'+this.$data.place_end,
-                  total_number:this.$data.total_number,
+                  total_number:parseInt(this.$data.total_number)
                 },
                 tags: this.$data.tagCheckboxGroup,
                 category_id: this.$data.typeCheck,

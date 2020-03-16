@@ -1,7 +1,7 @@
 <template>
   <div id="root">
     <div class="mReleaseHeader">
-      <div style="position: absolute;left: 10px;font-weight: bolder;width: 30px" @click="$router.go(-1)">＜</div>
+      <div style="position: absolute;left: 10px;font-weight: bolder;width: 30px" @click="$router.go(-1)"><el-icon class="el-icon-arrow-left"></el-icon></div>
       <div style="font-size: 20px;">信息发布</div>
     </div>
     <div class="mrbac">
@@ -344,7 +344,7 @@
                 body:this.$data.content,
                 time:this.$data.time,
                 place:this.$data.place,
-                total_number:this.$data.total_number
+                total_number:parseInt(this.$data.total_number)
               },
               tags: this.$data.tagCheckboxGroup,
               category_id: this.$data.typeCheck,
@@ -369,7 +369,7 @@
                 body:this.$data.content,
                 time:this.$data.time,
                 place:this.$data.place_start+'-'+this.$data.place_end,
-                total_number:this.$data.total_number,
+                total_number:parseInt(this.$data.total_number)
               },
               tags: this.$data.tagCheckboxGroup,
               category_id: this.$data.typeCheck,

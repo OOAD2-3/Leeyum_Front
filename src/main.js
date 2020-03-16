@@ -13,7 +13,9 @@ Vue.use(ElementUI);
 
 axios.defaults.withCredentials=true;
 Vue.prototype.$axios = axios;
-
+router.afterEach((to, from) => {
+  window.scrollTo(0,0);
+});
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

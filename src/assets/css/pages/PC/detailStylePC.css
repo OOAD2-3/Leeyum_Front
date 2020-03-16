@@ -143,13 +143,24 @@ i {
   color: #17233d;
   font-weight: 700;
   font-size: 16px;
-  min-height: 20px;
+  height: 20px;
 }
-
+.pbiaobaiC{
+  color: hotpink;
+  border: 1px solid hotpink;
+  border-radius: 3px;
+  font-size: 12px;
+  padding: 0 5px;
+  display: inline-block;
+  height: 18px;
+  line-height: 20px;
+  font-weight: normal
+}
 .pcontent {
   color: #616776;
   margin-top: 10px;
   min-height: 20px;
+  margin-bottom: 10px;
 }
 
 .pleimu {
@@ -165,8 +176,8 @@ i {
 .pinfo-item {
   display: flex;
   align-items: center;
-  margin-top: 10px;
   color: #616776;
+  height: 30px;
 }
 
 .detailSpecial{
@@ -182,7 +193,7 @@ i {
   align-items: center;
 }
 .joinTeam{
-  margin-left: 30px;
+  margin-left: 10px;
   height: 25px;
   background: #fdc006;
   text-align: center;
@@ -202,7 +213,7 @@ i {
   border:1px solid #fdc006;
   background: rgba(253,192,6,.15);
   border-radius: 5px;
-  margin-left: 30px;
+  margin-left: 10px;
   height: 25px;
   cursor: pointer;
   padding: 0 10px;
@@ -273,13 +284,40 @@ i {
 }
 .commentItemCol2{
   min-height: 70px;
-  width: calc(100% - 200px);
+  width: calc(100% - 250px);
   display: flex;
   align-items: center;
   font-size: 14px;
   color: #616776;
 }
+.commentItemCol3{
+  width: 50px;
+  min-height: 70px;
+  font-size: 13px;
+  display: none;
+  justify-content: center;
+  flex-direction: column;
+}
+.commentItemCol3Report{
+  width: 100%;
+  color: #4b4b4b;
+  cursor: pointer
+}
+.commentItemCol3Report:hover{
+  color: red;
+  text-decoration: underline;
+}
+.commentItemCol3Delete{
+  width: 100%;
+  margin-top: 5px;
+  color: #4b4b4b;
+  cursor: pointer
+}
+.commentItemCol3Delete:hover{
 
+  color: #fdc006;
+  text-decoration: underline;
+}
 .pcommmenttitle {
   background-color: white;
   border: 1px solid #eee;
