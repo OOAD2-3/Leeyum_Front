@@ -10,7 +10,6 @@
   height: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
 }
 .logo{
   height: 80%;
@@ -19,7 +18,7 @@
 .search-div{
   height: 100%;
   width: 40%;
-  margin-left: 5%;
+  margin-left: calc(30% - 264px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -64,7 +63,6 @@
   height: 80%;
   color: #222222;
   font-size: 85%;
-  width: 30%;
   display: flex;
   align-items: center;
 }

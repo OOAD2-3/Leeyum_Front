@@ -3,27 +3,23 @@
     <div class="bottom_router_see">
       <div class="bottom_router_item" @click="jump('MGoods')">
         <div class="bottom_router_item_img">
-        <img id="one" src="../../static/picture/find.png" style="height: 30px" alt=""/>
+        <img id="one" src="../../static/picture/find.png" style="height: 25px" alt=""/>
       </div>
         <div class="bottom_router_item_text" id="one_text">发现</div>
       </div>
       <div class="bottom_router_item" @click="jump('MType')">
         <div class="bottom_router_item_img">
-          <img src="../../static/picture/kind.png" style="height: 30px" alt="" id="two"/>
+          <img src="../../static/picture/kind.png" style="height: 25px" alt="" id="two"/>
         </div>
         <div class="bottom_router_item_text" id="two_text">分类</div>
       </div>
-      <div class="bottom_router_item" @click="MwantRelease">
-        <div class="bottom_router_item_img">
-          <img src="../../static/picture/add.png" style="height: 30px" alt="" id="four"/>
-        </div>
-        <div class="bottom_router_item_text" id="four_text">发布</div>
-      </div>
       <div class="bottom_router_item" @click="jump('Mprofile')">
         <div class="bottom_router_item_img">
-          <img src="../../static/picture/person.png" style="height: 30px" alt="" id="three"/>
+          <img src="../../static/picture/person.png" style="height: 25px" alt="" id="three"/>
         </div>
         <div class="bottom_router_item_text" id="three_text">我的</div>
+      </div>
+      <div class="bottom_router_item" @click="MwantRelease" style="width: 18%">
       </div>
     </div>
   </div>

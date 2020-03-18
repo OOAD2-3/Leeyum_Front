@@ -2,7 +2,6 @@
   width: 100%;
   min-height: 800px;
   background-size: 100% 100%;
-  padding-bottom: 50px;
 }
 .madjust{
   width: 100%;
@@ -124,18 +123,17 @@
   margin-top:2px;
 }
 .mmyCheckbox{
-  font-size: 12px;
+  font-size: 13px;
   color: #606266;
   border: 1px solid #DCDFE6;
   background: white;
-  height: 20px;
-  border-radius: 3px;
-  padding: 1px 4px;
-  display: flex;
-  align-items: center;
+  height: 23px;
+  line-height: 23px;
+  border-radius: 2px;
+  padding: 0 6px;
   cursor: pointer;
   margin-bottom: 2px;
-  margin-right: 2px;
+  margin-right: 5px;
 }
 .mmyCheckbox:hover{
   color: #fdc006;
@@ -148,12 +146,12 @@
 }
 .mchooseFirstTypeItem{
   border: 1px solid #d0d0d0;
-  padding: 1px 4px;
-  height: 20px;
-  line-height: 20px;
-  border-radius: 5px;
-  margin-right: 3px;
-  font-size: 12px;
+  padding: 0px 5px;
+  height: 23px;
+  line-height: 23px;
+  border-radius: 2px;
+  margin-right: 5px;
+  font-size: 13px;
   color: #606266;
   cursor: pointer;
   transition: all .15s;
@@ -187,14 +185,14 @@
   border-bottom: 1px solid #e0e0e0;
 }
 .msecondType{
-  height: 20px;
-  padding: 1px 4px;
+  height: 23px;
+  padding: 0px 4px;
   border: 1px solid #d0d0d0;
   color: #606266;
-  font-size: 12px;
-  line-height: 20px;
-  margin-right: 2px;
-  border-radius: 5px;
+  font-size: 13px;
+  line-height: 23px;
+  margin-right: 3px;
+  border-radius: 2px;
   cursor: pointer;
   transition: all .15s;
 }

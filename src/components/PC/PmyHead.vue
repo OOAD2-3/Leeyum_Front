@@ -7,7 +7,7 @@
         class="el-menu-demo"
         mode="horizontal"
         background-color="#ffffff"
-        style="border-bottom: transparent;"
+        style="border-bottom: transparent;margin-left: 24px;width: 140px"
         active-text-color="rgb(253,192,6)"
         text-color="#222222">
         <el-menu-item index="1" @click="jump('PHome')">首页</el-menu-item>
@@ -107,12 +107,23 @@
           document.getElementById("PCfocusDiv").style.display = "none";
           this.$emit('Psearch');
         },
-        logout:function(){
-          this.$axios.get("/api/user/logout/").then(res=>{
-            localStorage.setItem("username",'');
-            this.jump("PGoods");
-          }).catch(err=>{
-            alert(err);
+        logout:function() {
+          this.$confirm('确认要注销吗?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            this.$axios.get("/api/user/logout/").then(res => {
+              localStorage.setItem("username", '');
+              location.reload();
+            }).catch(err => {
+              alert(err);
+            })
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消'
+            });
           })
         },
         PwantRelease:function(){

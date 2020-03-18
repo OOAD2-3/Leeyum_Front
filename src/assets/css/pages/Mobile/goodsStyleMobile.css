@@ -12,7 +12,7 @@
   min-height: 70%;
 }
 .mgoods_header{
-  height: 150px;
+  height: 200px;
   width: 100%;
   margin: 20px 0 10px 0;
   border-bottom-left-radius: 20px;
@@ -29,7 +29,7 @@
   overflow: auto;
 }
 .mgoods_header_right{
-  width: 80%;
+  width: 100%;
   height: 200px;
 }
 .mads{
@@ -49,10 +49,12 @@
 .mmobile-type{
   height: 100px;
   width: 100%;
-  margin: 10px 0;
+  margin: 15px 0;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  background: white;
+  border-radius: 5px;
 }
 .mmmobileTypeItem{
   width: 23%;
@@ -61,7 +63,7 @@
   align-items:center;
   justify-content:center;
   flex-direction: column;
-  background: white;
+  /*background: white;*/
   border-radius: 40px;
 }
 .mmobile-type-item{
@@ -71,7 +73,7 @@
   font-size: 14px;
   margin-left: 20px;
   width: calc(100% - 20px);
-  margin-bottom: 10px;
+  margin-bottom: 4px;
   color: #797979;
   display: flex;
   align-items: center;
@@ -220,4 +222,18 @@
   margin-right: 5px;
   padding: 2px 5px;
   border-radius: 3px;
+}
+.releaseFontButton{
+  position: fixed;bottom: 0;
+  right: 0;
+  width: 100px;
+  height: 100px;
+  background: #fdc006;
+  border-top-left-radius: 105px;
+  z-index: 9999;
+  /*transform:rotate(7deg);*/
+  /*-ms-transform:rotate(7deg);*/
+  /*-moz-transform:rotate(7deg);*/
+  /*-webkit-transform:rotate(7deg);*/
+  /*-o-transform:rotate(7deg);*/
 }

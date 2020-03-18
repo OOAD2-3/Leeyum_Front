@@ -21,7 +21,7 @@
                   <img src="../../../static/picture/about_pic.jpg" style="height: 100%;width: 100%" alt=""/></span>
                 <div style="height: 20px;line-height: 20px">&nbsp;&nbsp;{{publisher}}</div>
                 <div class="plikeimg" v-if="shou===false"><i class="el-icon-star-off" @click="shoucang"></i></div>
-                <div class="plikeimg" v-if="shou===true"><i class="el-icon-star-on" @click="shoucang"></i></div>
+                <div class="plikeimg" v-if="shou===true"><i class="el-icon-star-on" @click="qvxiaoshoucang"></i></div>
                 <div class="pjubaoimg"><i class="el-icon-warning-outline" @click="reportVisible=true"></i></div>
               </div>
               <!----------------di2hang --------------------->
@@ -185,7 +185,7 @@
               <div class="commentItemCol2">{{item.comment_message}}</div>
               <div class="commentItemCol3" :id="item.comment_id">
                 <div class="commentItemCol3Report" @click="reportComment(item)">举报</div>
-                <div class="commentItemCol3Delete">删除</div>
+                <div class="commentItemCol3Delete" v-if="item.has_commented" @click="deleteMyComment(item)">删除</div>
               </div>
             </div>
           </div>
@@ -299,6 +299,15 @@
           })
         }
       },
+
+      qvxiaoshoucang:function(){
+        this.$axios.delete("/api/user/like/?article_id="+this.$data.id).then(res => {
+          this.$data.shou = !this.$data.shou;
+          this.$message.success("已取消收藏！");
+        }).catch(err => {
+
+        })
+      },
       jubao: function () {
         if (this.$data.username === '') {
           this.$message.error("请先登录！");
@@ -365,6 +374,7 @@
       getGoodInfo: function () {
         this.$data.id = this.$route.params.articleId;
         this.$axios.get("/api/article/details/?id=" + this.$data.id).then(res => {
+          this.$data.shou=res.data.data.is_liked;
           this.$data.id = res.data.data.id;
           if (res.data.data.pic_urls.length > 0) this.$data.pic_urls.push(...res.data.data.pic_urls);
           this.$data.title = res.data.data.title;
@@ -394,6 +404,7 @@
               comment_id: res.data.data[i].comment_id,
               publisher_name: res.data.data[i].publisher_name,
               comment_message: res.data.data[i].comment_message,
+              has_commented: res.data.data[i].has_commented
             };
             this.$data.comment.push(temp);
           }
@@ -505,6 +516,25 @@
         this.$data.reportVisible1 = true;
         this.$data.reportCommentContent = item.comment_message;
         this.$data.reportCommentId = item.comment_id;
+      },
+      deleteMyComment:function(item) {
+        this.$confirm('确认举报该评论?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$axios.delete("/api/comment/?comment_id=" + item.comment_id).then(() => {
+            this.$message.success("删除成功！");
+            location.reload();
+          }).catch(() => {
+            this.$message.success("出了一点小错误，请稍后重试！");
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        })
       },
       jubao1: function () {
         if (this.$data.username === '') {

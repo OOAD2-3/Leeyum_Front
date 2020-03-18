@@ -136,7 +136,6 @@
           <button class="mconfirm" @click="myRelease">发 布</button>
         </div>
     </div>
-    <bottom-router default-active="4" id="mpbr"></bottom-router>
   </div>
 </template>
 

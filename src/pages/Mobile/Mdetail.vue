@@ -160,8 +160,8 @@
           <div style="width: 100%;margin-bottom: 5px;font-size: 13px;color: #4b4b4b">{{item.comment_message}}</div>
         </div>
         <div class="McommentItemCol3">
-          <span @click="wantJubaoComment(item)">举报</span>
-          <span style="margin-left: 10px" @click="wantDeleteComment(item)">删除</span>
+          <span @click="wantJubaoComment(item)" >举报</span>
+          <span style="margin-left: 10px" @click="wantDeleteComment(item)" v-if="item.has_commented">删除</span>
         </div>
       </div>
       <div v-if="comment.length===0" style="width: 100%;height: 50px;line-height: 50px;text-align: center;color: #8c939d">暂无评论
@@ -171,9 +171,8 @@
     <div class="mmtail">
       <i class="el-icon-house" style="width: 20%;text-align: center" @click="jump('MGoods')"> </i>
       <i class="el-icon-chat-dot-square" style="width: 20%;text-align: center" @click="toComment"></i>
-      <i class="el-icon-star-off" style="color:#fdc006;width: 20%;text-align: center" v-if="!shou"
-         @click="shoucang"></i>
-      <i class="el-icon-star-on" style="color:#fdc006;width: 20%;text-align: center" v-if="shou" @click="shoucang"></i>
+      <i class="el-icon-star-off" style="color:#fdc006;width: 20%;text-align: center" v-if="!shou" @click="shoucang"></i>
+      <i class="el-icon-star-on" style="color:#fdc006;width: 20%;text-align: center" v-if="shou" @click="qvxiaoshoucang"></i>
       <i class="el-icon-warning" style="color:red;width: 20%;text-align: center" @click="wantJubao"></i>
     </div>
 
@@ -225,7 +224,7 @@
     <confirm v-model="deleteComment"
              title="确认删除该评论?"
              @on-cancel="onCancelLeave"
-             @on-confirm="">
+             @on-confirm="deleteMyComment">
       <p style="text-align:center;">删除后将无法找回</p>
     </confirm>
   </div>
@@ -240,6 +239,7 @@
     },
     data() {
       return {
+        deleteCommentId:'',
         deleteComment:false,
         reportCommentId:'',
         reportCommentContent:'',
@@ -279,7 +279,6 @@
     },
     methods: {
       shoucang: function () {
-
         if (this.$data.username === '') {
           this.$message.error("请先登录！");
           this.jump("MLogin");
@@ -299,6 +298,21 @@
 
           })
         }
+      },
+      deleteMyComment:function(){
+        this.$axios.delete("/api/comment/?comment_id="+this.$data.deleteCommentId).then(()=>{
+          this.$message.success("删除成功！");
+        }).catch(()=>{
+          this.$message.success("出了一点小错误，请稍后重试！");
+        })
+      },
+      qvxiaoshoucang:function(){
+        this.$axios.delete("/api/user/like/?article_id="+this.$data.id).then(res => {
+          this.$data.shou = !this.$data.shou;
+          this.$message.success("已取消收藏！");
+        }).catch(err => {
+
+        })
       },
       wantJubao: function () {
         if (this.$data.username === '') {
@@ -357,6 +371,7 @@
       getGoodInfo: function () {
         this.$data.id = this.$route.params.articleId;
         this.$axios.get("/api/article/details/?id=" + this.$data.id).then(res => {
+          this.$data.shou=res.data.data.is_liked;
           this.$data.id = res.data.data.id;
           if (res.data.data.pic_urls.length > 0) this.$data.pic_urls.push(...res.data.data.pic_urls);
           this.$data.title = res.data.data.title;
@@ -386,6 +401,7 @@
               comment_id: res.data.data[i].comment_id,
               publisher_name: res.data.data[i].publisher_name,
               comment_message: res.data.data[i].comment_message,
+              has_commented: res.data.data[i].has_commented
             };
             this.$data.comment.push(temp);
           }
@@ -516,6 +532,7 @@
       },
       wantDeleteComment:function(item){
         this.$data.deleteComment=true;
+        this.$data.deleteCommentId=item.comment_id;
       }
     },
     mounted() {
