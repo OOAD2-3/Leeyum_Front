@@ -94,6 +94,9 @@
             </div>
           </div>
         </div>
+
+
+
         <div class="alreadyType">当前类目：{{this.$data.nowTypeName}}
           <div class="clearAlreadyType" @click="clearType" v-if="this.$data.nowTypeName!=='本月热门'">清空已选</div>
         </div>
