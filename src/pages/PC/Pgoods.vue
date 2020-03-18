@@ -11,7 +11,9 @@
           <div class="goods_header_left" @mouseleave="judgeHandleCloseSubMenu1">
             <div class="type_see">
               <div v-for="item in types" class="type_items" @mouseenter="handleOpenSubMenu(item)" @click="firstTypeSearch(item)">
-                <span>{{item.category_name}}</span>
+                <img src="../../../static/picture/火热.png" v-if="item.category_name==='本月热门'" style="height: 18px;margin-right: 3px" alt=""/>
+                <img src="../../../static/picture/个性推荐.png" v-if="item.category_name==='个性推荐'" style="height: 18px;margin-right: 3px" alt=""/>
+                {{item.category_name}}
               </div>
             </div>
           </div>
@@ -52,28 +54,28 @@
 
             </div>
             <div style="background: linear-gradient(270deg,white,#eeeeee,#eeeeee,white);height: 1px;width: 100%"></div>
-            <div class="personalInfoTwo">
-              <div class="personalInfoTwoTitle">流云快报</div>
-              <div style="height: 90px;width: 100%">
-                <div class="quickNewItem">
-                  <div class="quickNewItemTag">热议</div>
-                  <div class="quickNewItemContent">还正在为买不到口罩...</div>
-                </div>
-                <div class="quickNewItem">
-                  <div class="quickNewItemTag">HOT</div>
-                  <div class="quickNewItemContent">抗击疫情，3Q医用口...</div>
-                </div>
-                <div class="quickNewItem">
-                  <div class="quickNewItemTag">最新</div>
-                  <div class="quickNewItemContent">降了！iPhone 11官方...</div>
-                </div>
-                <div class="quickNewItem">
-                  <div class="quickNewItemTag">推荐</div>
-                  <div class="quickNewItemContent">骁龙865对比麒麟999...</div>
-                </div>
-              </div>
-            </div>
-            <div style="background: linear-gradient(270deg,white,#eeeeee,#eeeeee,white);height: 1px;width: 100%"></div>
+<!--            <div class="personalInfoTwo">-->
+<!--              <div class="personalInfoTwoTitle">流云快报</div>-->
+<!--              <div style="height: 90px;width: 100%">-->
+<!--                <div class="quickNewItem">-->
+<!--                  <div class="quickNewItemTag">热议</div>-->
+<!--                  <div class="quickNewItemContent">还正在为买不到口罩...</div>-->
+<!--                </div>-->
+<!--                <div class="quickNewItem">-->
+<!--                  <div class="quickNewItemTag">HOT</div>-->
+<!--                  <div class="quickNewItemContent">抗击疫情，3Q医用口...</div>-->
+<!--                </div>-->
+<!--                <div class="quickNewItem">-->
+<!--                  <div class="quickNewItemTag">最新</div>-->
+<!--                  <div class="quickNewItemContent">降了！iPhone 11官方...</div>-->
+<!--                </div>-->
+<!--                <div class="quickNewItem">-->
+<!--                  <div class="quickNewItemTag">推荐</div>-->
+<!--                  <div class="quickNewItemContent">骁龙865对比麒麟999...</div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div style="background: linear-gradient(270deg,white,#eeeeee,#eeeeee,white);height: 1px;width: 100%"></div>-->
             <div class="personalInfoThree">
               <div class="personalInfoDetailItem" @click="openSideCol('我的收藏')">
                 <img src="../../../static/picture/收藏.png" alt="" style="height: 25px">
@@ -86,6 +88,10 @@
               <div class="personalInfoDetailItem" style="margin-top: 10px" @click="openSideCol('已发布内容')">
                 <img src="../../../static/picture/发布.png" alt="" style="height: 25px">
                 <div style="height: 25px;font-size: 14px;margin-top: 2px">已发布内容</div>
+              </div>
+              <div class="personalInfoDetailItem" style="margin-top: 10px" @click="openSideCol('已发布内容')">
+                <img src="../../../static/picture/组队.png" alt="" style="height: 25px">
+                <div style="height: 25px;font-size: 14px;margin-top: 2px">加入的组队</div>
               </div>
               <div class="personalInfoDetailItem" style="margin-top: 10px" @click="openSideCol('设置')">
                 <img src="../../../static/picture/设置.png" alt="" style="height: 25px">
@@ -138,12 +144,13 @@
       :title="sideTitle"
       :visible.sync="sideCol"
       direction="rtl"
-      size="300px"
+      size="400px"
       style="outline: transparent;">
       <div class="sideContent" id="sideContent">
-        <div v-if="sideContent.length>0" v-for="item in sideContent" style="min-height: 80px;width: 100%;display: flex;align-items: center;border-bottom: 1px solid #eeeeee;padding: 5px 0;cursor: pointer" @click="enterDetail(item)">
-          <div style="width: 40%;height: 100%;background: white;display: flex;align-items: center"><img :src="item.pic_urls.length>0?item.pic_urls[0]:'http://leeyum-bucket.oss-cn-hangzhou.aliyuncs.com/default_front_file/404pic.png'" alt="" style="width: 100%"></div>
-          <div style="width: 55%;height: 80%;margin-left: 5%">
+        <div v-if="sideTitle==='浏览记录'&&sideContent.length>0" style="width: 100%;text-align: right;font-size: 13px;color: #2d8cf0;cursor: pointer" @click="clearSee">清空浏览记录</div>
+        <div v-if="sideContent.length>0" v-for="item in sideContent" style="min-height: 80px;width: 100%;display: flex;align-items: center;border-bottom: 1px solid #eeeeee;padding: 5px 0;cursor: pointer">
+          <div style="width: 30%;height: 100%;background: white;display: flex;align-items: center" @click="enterDetail(item)"><img :src="item.pic_urls.length>0?item.pic_urls[0]:'http://leeyum-bucket.oss-cn-hangzhou.aliyuncs.com/default_front_file/404pic.png'" alt="" style="width: 100%"></div>
+          <div style="width: 50%;height: 80%;margin-left: 5%" @click="enterDetail(item)">
             <div style="font-size: 15px;width: 100%;height: 100%;font-weight:bolder;">
               <span style="border: 1px solid hotpink;
               padding: 0 2px;border-radius: 3px;
@@ -153,6 +160,18 @@
               margin-right: 2px"
                v-if="item.category[1]==='表白墙'">{{item.category[1]}}</span>
               <span v-else style="border: 1px solid #fdc006;padding: 0 2px;border-radius: 3px;color: #fdc006;font-size: 13px;font-weight: normal;margin-right: 2px">{{item.category[1]}}</span>{{item.title}}</div>
+          </div>
+          <div v-if="sideTitle==='已发布内容'" class="sideButton">
+            <img src="../../../static/picture/下架.png" alt="" style="height: 100%;" @click="xiajia(item)"/>
+          </div>
+          <div v-if="sideTitle==='我的收藏'" class="sideButton" @click="deleteLike(item)">
+            <el-icon class="el-icon-star-on"></el-icon>
+          </div>
+          <div v-if="sideTitle==='加入的组队'" class="sideButton">
+            <el-icon class="el-icon-star-on"></el-icon>
+          </div>
+          <div v-if="sideTitle==='浏览记录'" class="sideButton">
+            <img src="../../../static/picture/浏览.png" alt="" style="height: 65%;"/>
           </div>
         </div>
 <!--        <div v-if="sideContent.length>0" style="height: 50px;width: 100%;cursor:pointer;line-height: 50px;text-align: center;" @click="moreInfo">加载更多...</div>-->
@@ -453,7 +472,45 @@
         moreInfo:function(){
 
         },
+        xiajia:function (item) {
+          this.$confirm('确认要将“'+item.title+'”下架吗？信息下架后将不会再被其他用户看到。', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
 
+          }).catch(()=>{})
+        },
+        deleteLike:function(item){
+          this.$confirm('确认要取消对“'+item.title+'”的收藏吗？', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            console.log(item);
+            this.$axios.delete("/api/user/like/?article_id="+item.id).then(res => {
+              this.$message.success("已取消收藏！");
+              for(let i=0;i<this.$data.sideContent.length;i++)
+                if(this.$data.sideContent[i]===item) {
+                  this.$data.sideContent.splice(i,1);
+                  break;
+                }
+            }).catch(err => {
+              this.$message.error("出了一点小错误，请稍后再试！");
+              console.log(err);
+            });
+          }).catch(()=>{})
+        },
+        clearSee:function(){
+          this.$confirm('确认要清空浏览记录吗', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+
+        }).catch(()=>{})
+
+        }
       },
       mounted() {
         this.init();
