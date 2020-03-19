@@ -60,7 +60,13 @@
                      alt=""/>
                 <div class="mgoods_items_content">
                   <div class="mitems_line1">
-                    <div class="mline1_title">{{item.title}}
+                    <div class="mline1_title">
+                      <span style="padding: 1px 4px;font-size: 13px;color: #fdc006;border-radius: 3px;border: 1px solid #fdc006">{{item.category[1]}}</span>
+                      {{item.title}}
+                    </div>
+                    <div class="mline1_number" v-if="item.category[1]==='拼车'||item.category[1]==='约玩/约学习'">
+                      <el-icon class="el-icon-user" style="margin-right: 3px"></el-icon>
+                      {{item.content.now_number}}/{{item.content.total_number}}人
                     </div>
                     <div class="mline1_date">{{item.publish_time}}</div>
                   </div>
@@ -74,7 +80,13 @@
                      alt=""/>
                 <div class="mgoods_items_content">
                   <div class="mitems_line1">
-                    <div class="mline1_title">{{item.title}}
+                    <div class="mline1_title">
+                      <span style="padding: 1px 4px;font-size: 13px;color: #fdc006;border-radius: 3px;border: 1px solid #fdc006">{{item.category[1]}}</span>
+                      {{item.title}}
+                    </div>
+                    <div class="mline1_number" v-if="item.category[1]==='拼车'||item.category[1]==='约玩/约学习'">
+                      <el-icon class="el-icon-user" style="margin-right: 3px"></el-icon>
+                      {{item.content.now_number}}/{{item.content.total_number}}人
                     </div>
                     <div class="mline1_date">{{item.publish_time}}</div>
                   </div>
@@ -93,7 +105,7 @@
             <!--            </div>-->
             <!--          </div>-->
           </div>
-          <div class="mmore_goods" @click="mgetMoreGoods" id="mmoreGoods">加载更多...</div>
+          <div class="mmore_goods" @click="mgetMoreGoods" id="mmoreGoods">点击加载更多...</div>
         </div>
       </div>
       <div class="releaseFontButton">
@@ -102,15 +114,15 @@
     </div>
     <div id="focusInputDiv" class="MfocusInputDiv" @click="cancelFocusInput">
       <div class="MhotSearch">
-        <div style="margin: 8px 0">热门搜索</div>
+        <div style="padding: 8px;font-size: 13px">热门搜索</div>
         <div class="MhotSearchMain">
           <div v-for="item in search_hot" class="MhotSearchItem" @click="clickQuickSearch(item)">{{item}}</div>
         </div>
       </div>
       <div class="MhistorySearch">
         <div style="width: 100%;display: flex;justify-content: space-between">
-          <div style="margin-left: 8px">搜索历史</div>
-          <div style="font-size: 13px;color: #8cc5ff;padding-right: 10px" v-if="this.$data.search_history.length>0"
+          <div style="margin: 8px;font-size: 13px">搜索历史</div>
+          <div style="margin-top:8px;font-size: 13px;color: #8cc5ff;padding-right: 10px" v-if="this.$data.search_history.length>0"
                @click="clearSearchHistory">清空记录
           </div>
         </div>
@@ -150,7 +162,7 @@
         nowKeyword: '',
         nowTypeName: '本月热门',
         search_history: [],
-        search_hot: ['123', '123', '456', '789']
+        search_hot: []
       }
     },
     methods: {
@@ -303,11 +315,20 @@
           this.$message.error("请登录！");
           this.jump("MLogin");
         }
+      },
+      getSearchHot:function(){
+        this.$axios.get("/api/article/hot_words/").then(res=>{
+          for(let i=0;i<res.data.data.length;i++)
+            this.$data.search_hot.push(res.data.data[i]);
+        }).catch(err=>{
+          console.log(err);
+        })
       }
     },
     mounted() {
       this.init();
       this.mgetMoreGoods();
+      this.getSearchHot();
     },
 
   }

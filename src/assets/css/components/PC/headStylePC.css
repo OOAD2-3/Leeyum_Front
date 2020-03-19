@@ -123,11 +123,11 @@
   height: 30px;
 }
 .PCfocusDiv{
-  width: 40%;
+  width: 520px;
   z-index: 999;
   background: white;
-  position: fixed;
-  margin-left: 30%;
+  position: absolute;
+  left: calc(30% + 20px);
   display: none;
   font-size: 15px;
   color: black;

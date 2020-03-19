@@ -394,8 +394,15 @@
           if (res.data.data.content.now_number) this.$data.now_number = res.data.data.content.now_number;
           if (res.data.data.content.target_grade) this.$data.target_grade = res.data.data.content.target_grade;
           if (res.data.data.content.sex_require) this.$data.sex_require = res.data.data.content.sex_require;
-        }).catch(err => {
-          console.log(err);
+        }).catch(error => {
+          if (error.response) {
+            if(error.response.status===404) {
+              this.$message.error("找不到相关页面");
+              this.jump("PHome");
+            }
+          } else if (error.request) {
+            console.log(error.request);
+          }
         });
 
         this.$axios.get("/api/comment/?article_id=" + this.$data.id).then(res => {
@@ -408,8 +415,16 @@
             };
             this.$data.comment.push(temp);
           }
-        }).catch(err => {
-          console.log(err);
+        }).catch(error => {
+          if (error.response) {
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+          } else if (error.request) {
+            console.log(error.request);
+          } else {
+            console.log('Error', error.message);
+          }
         })
       },
       jump: function (name) {

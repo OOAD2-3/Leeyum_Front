@@ -108,7 +108,7 @@
                        :stroke-width="8" :show-text="false"></el-progress>
           <span>{{now_number}}/{{total_number}}人</span>
           <div class="mhasJoinTeam" v-if="now_number===total_number&&team_has_joined" @click="showLeave=true">已加入(满)</div>
-          <div class="mhasJoinTeam" v-if="now_number===total_number&&!team_has_joined" @click="showLeave=true">已满</div>
+          <div class="mhasJoinTeam" v-if="now_number===total_number&&!team_has_joined">已满</div>
           <div class="mjoinTeam" v-if="!team_has_joined&&now_number!==total_number" @click="showJoin=true">加入</div>
           <div class="mhasJoinTeam" v-if="team_has_joined&&now_number!==total_number" @click="showLeave=true">已加入</div>
         </div>
@@ -391,8 +391,15 @@
           if (res.data.data.content.target_grade) this.$data.target_grade = res.data.data.content.target_grade;
           if (res.data.data.content.sex_require) this.$data.sex_require = res.data.data.content.sex_require;
           this.$data.contactWay = res.data.data.publisher.phone_number;
-        }).catch(err => {
-          console.log(err);
+        }).catch(error => {
+          if (error.response) {
+            if(error.response.status===404) {
+              this.$message.error("找不到相关页面");
+              this.jump("MGoods");
+            }
+          } else if (error.request) {
+            console.log(error.request);
+          }
         });
 
         this.$axios.get("/api/comment/?article_id=" + this.$data.id).then(res => {
@@ -425,7 +432,7 @@
           this.$axios.put("/api/article/join_team/", dataa, config).then(res => {
             this.$data.team_has_joined = true;
             let temp = parseInt(this.$data.now_number) + 1;
-            this.$data.now_number = temp.toString();
+            this.$data.now_number = temp;
           }).catch(err => {
             this.$alert("加入失败，请重试");
           })

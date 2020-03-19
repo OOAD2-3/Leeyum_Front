@@ -23,11 +23,12 @@
                  @focus="PCfocus"
                  @blur="PCfocusOut"/>
           <div class="search-button" @click="Psearch">
-            <el-icon name="search"/></div>
+            <el-icon name="search"/>
+          </div>
         </div>
       </div>
       <div class="back">
-<!--        <div class="application" @click="dialogVisible = true">APP</div>-->
+        <!--        <div class="application" @click="dialogVisible = true">APP</div>-->
         <div class="release-button" @click="PwantRelease">我要发布</div>
         <div class="login">
           <img src="../../../static/picture/about_pic.jpg" alt="" style="height: 70%;margin-right: 10px;"/>
@@ -40,12 +41,16 @@
           </div>
         </div>
       </div>
-  </div>
+    </div>
     <div class="PCfocusDiv" id="PCfocusDiv">
       <div class="PChotSearch">
-        <div style="margin-left: 10px;width: calc(100% - 10px);height: 30px;line-height: 30px;display: flex;justify-content: space-between">
+        <div
+          style="margin-left: 10px;width: calc(100% - 10px);height: 30px;line-height: 30px;display: flex;justify-content: space-between">
           <div style="">历史搜索</div>
-          <div v-if="this.$data.search_history.length>0" style="color: #8cc5ff;font-size: 13px;padding-right: 20px;cursor: pointer" @mousedown="clearSearchHistory">清空记录</div>
+          <div v-if="this.$data.search_history.length>0"
+               style="color: #8cc5ff;font-size: 13px;padding-right: 20px;cursor: pointer"
+               @mousedown="clearSearchHistory">清空记录
+          </div>
         </div>
         <div class="PChistorySearchMain">
           <div class="searchHistoryItem" v-for="item in search_history" @mousedown="chooseSearch(item)">{{item}}</div>
@@ -55,121 +60,130 @@
       <div class="PChistorySearch">
         <div style="margin-left: 10px;width: calc(100% - 10px);height: 30px;line-height: 30px">热门搜索</div>
         <div class="PChotSearchMain">
-          <div class="searchHistoryItem" v-for="item in search_history" @mousedown="chooseSearch(item)">{{item}}</div></div>
+          <div class="searchHistoryItem" v-for="item in search_hot" @mousedown="chooseSearch(item)">{{item}}</div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-    export default {
-      name: "myHead",
-      props:{
-        defaultActive:'',
-        PsearchKeyWordIn:''
-      },
-      data(){
-        return{
-          active1:'',
-          active2:'',
-          dialogVisible:false,
-          PsearchKeyWord:this.$props.PsearchKeyWordIn,
-          search_history:[]
-        }
-      },
-      methods:{
-        init:function() {
-          this.$data.active1=this.$props.defaultActive;
-          require("../../assets/css/components/PC/headStylePC.css");
-          this.$axios.get("/api/user/details/").then(res=>{
-            document.getElementById("noLogin").style.display="none";
-            document.getElementById("onlineState").style.display="flex";
-            document.getElementById("userName").innerHTML=res.data.data.username;
-            localStorage.setItem("username",res.data.data.username);
-          }).catch(err=>{
-            console.log(err);
-            localStorage.setItem("username",'');
-          })
-        },
-        jump:function(name){
-          this.$router.push({name:name});
-        },
-        changePsearchKeyWord:function(){
-          var e = window.event || arguments.callee.caller.arguments[0];
-          if (e && e.keyCode === 13 ) {
-            document.getElementById("inputFocus").blur();
-            this.PCfocusOut();
-            this.$emit('Psearch');
-          }
-          else this.$emit('update:PsearchKeyWord',this.$data.PsearchKeyWord);
-        },
-        Psearch:function(){
-          document.getElementById("PCfocusDiv").style.display = "none";
-          this.$emit('Psearch');
-        },
-        logout:function() {
-          this.$confirm('确认要注销吗?', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-          }).then(() => {
-            this.$axios.get("/api/user/logout/").then(res => {
-              localStorage.setItem("username", '');
-              location.reload();
-            }).catch(err => {
-              alert(err);
-            })
-          }).catch(() => {
-            this.$message({
-              type: 'info',
-              message: '已取消'
-            });
-          })
-        },
-        PwantRelease:function(){
-          console.log(localStorage.getItem("username"));
-          if(localStorage.getItem("username")!==''){
-            this.jump("PRelease");
-          }
-          else{
-            this.$message.error("请登录后发布！");
-            this.jump("PLogin");
-          }
-        },
-        PCfocus:function() {
-          this.$data.search_history.splice(0, this.$data.search_history.length);
-          if(localStorage.getItem('history_search')) {
-            let temp = JSON.parse(localStorage.getItem('history_search'));
-            if (temp.length > 30) {
-              temp.splice(0, 10);
-              localStorage.setItem('history_search', JSON.stringify(temp));
-            }
-            if (temp.length < 8) {
-              for (let i = temp.length - 1; i >= 0; i--)
-                this.$data.search_history.push(temp[i]);
-            } else {
-              for (let i = temp.length - 1; i >= temp.length - 8; i--)
-                this.$data.search_history.push(temp[i]);
-            }
-          }
-          document.getElementById("PCfocusDiv").style.display = "flex";
-        },
-        PCfocusOut:function() {
-          document.getElementById("PCfocusDiv").style.display = "none";
-        },
-        chooseSearch:function(item){
-          this.$data.PsearchKeyWord=item;
-          this.$emit('update:PsearchKeyWord',this.$data.PsearchKeyWord);
-          this.Psearch();
-        },
-        clearSearchHistory:function(){
-          localStorage.removeItem("history_search");
-        }
-      },
-      mounted() {
-        this.init();
+  export default {
+    name: "myHead",
+    props: {
+      defaultActive: '',
+      PsearchKeyWordIn: ''
+    },
+    data() {
+      return {
+        active1: '',
+        active2: '',
+        dialogVisible: false,
+        PsearchKeyWord: this.$props.PsearchKeyWordIn,
+        search_history: [],
+        search_hot: [],
       }
+    },
+    methods: {
+      init: function () {
+        this.$data.active1 = this.$props.defaultActive;
+        require("../../assets/css/components/PC/headStylePC.css");
+        this.$axios.get("/api/user/details/").then(res => {
+          document.getElementById("noLogin").style.display = "none";
+          document.getElementById("onlineState").style.display = "flex";
+          document.getElementById("userName").innerHTML = res.data.data.username;
+          localStorage.setItem("username", res.data.data.username);
+        }).catch(err => {
+          console.log(err);
+          localStorage.setItem("username", '');
+        })
+      },
+      jump: function (name) {
+        this.$router.push({name: name});
+      },
+      changePsearchKeyWord: function () {
+        var e = window.event || arguments.callee.caller.arguments[0];
+        if (e && e.keyCode === 13) {
+          document.getElementById("inputFocus").blur();
+          this.PCfocusOut();
+          this.$emit('Psearch');
+        } else this.$emit('update:PsearchKeyWord', this.$data.PsearchKeyWord);
+      },
+      Psearch: function () {
+        document.getElementById("PCfocusDiv").style.display = "none";
+        this.$emit('Psearch');
+      },
+      logout: function () {
+        this.$confirm('确认要注销吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$axios.get("/api/user/logout/").then(res => {
+            localStorage.setItem("username", '');
+            location.reload();
+          }).catch(err => {
+            alert(err);
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消'
+          });
+        })
+      },
+      PwantRelease: function () {
+        console.log(localStorage.getItem("username"));
+        if (localStorage.getItem("username") !== '') {
+          this.jump("PRelease");
+        } else {
+          this.$message.error("请登录后发布！");
+          this.jump("PLogin");
+        }
+      },
+      PCfocus: function () {
+        this.$data.search_history.splice(0, this.$data.search_history.length);
+        if (localStorage.getItem('history_search')) {
+          let temp = JSON.parse(localStorage.getItem('history_search'));
+          if (temp.length > 30) {
+            temp.splice(0, 10);
+            localStorage.setItem('history_search', JSON.stringify(temp));
+          }
+          if (temp.length < 8) {
+            for (let i = temp.length - 1; i >= 0; i--)
+              this.$data.search_history.push(temp[i]);
+          } else {
+            for (let i = temp.length - 1; i >= temp.length - 8; i--)
+              this.$data.search_history.push(temp[i]);
+          }
+        }
+        document.getElementById("PCfocusDiv").style.display = "flex";
+      },
+      PCfocusOut: function () {
+        document.getElementById("PCfocusDiv").style.display = "none";
+      },
+      chooseSearch: function (item) {
+        this.$data.PsearchKeyWord = item;
+        this.$emit('update:PsearchKeyWord', this.$data.PsearchKeyWord);
+        this.Psearch();
+      },
+      clearSearchHistory: function () {
+        localStorage.removeItem("history_search");
+      },
+      getSearchHot:function(){
+        this.$axios.get("/api/article/hot_words/").then(res=>{
+          for(let i=0;i<8;i++)
+            this.$data.search_hot.push(res.data.data[i]);
+        }).catch(err=>{
+          console.log(err);
+        })
+      }
+    },
+    mounted() {
+      this.init();
+      this.getSearchHot();
     }
+  }
 </script>
 
 <style scoped>
