@@ -183,6 +183,10 @@
         document.getElementById("root").style.width = Width - this.getScrollWidth() + "px";
         document.getElementById("root").style.background = "#f0f0f0";
         require('../../assets/css/pages/Mobile/goodsStyleMobile.css');
+        if(sessionStorage.getItem("MsearchKeyWordOut")) {
+          this.$data.nowKeyword=sessionStorage.getItem("MsearchKeyWordOut");
+          this.$refs.mi.setSearchInput(this.$data.nowKeyword);
+        }
       },
       jump: function (name) {
         this.$router.push({name: name});
@@ -194,19 +198,36 @@
         }
         if (this.$data.more_goods) {
           if (this.$data.nowType === '') {
-            this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&is_main=1").then(res => {
-              for (let i = 0; i < res.data.data.article_list.length; i++) {
-                if (i % 2 === 0) this.$data.goodsItems1.push(res.data.data.article_list[i]);
-                else this.$data.goodsItems2.push(res.data.data.article_list[i]);
-              }
-              if (!res.data.data.has_next_page) {
-                document.getElementById("mmoreGoods").innerHTML = "已无更多";
-                document.getElementById("mmoreGoods").style.cursor = "auto";
-                this.$data.more_goods = false;
-              } else this.$data.maxPage++;
-            }).catch(err => {
-              console.log(err);
-            });
+            if(this.$data.nowKeyword === '') {
+              this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&is_main=1").then(res => {
+                for (let i = 0; i < res.data.data.article_list.length; i++) {
+                  if (i % 2 === 0) this.$data.goodsItems1.push(res.data.data.article_list[i]);
+                  else this.$data.goodsItems2.push(res.data.data.article_list[i]);
+                }
+                if (!res.data.data.has_next_page) {
+                  document.getElementById("mmoreGoods").innerHTML = "已无更多";
+                  document.getElementById("mmoreGoods").style.cursor = "auto";
+                  this.$data.more_goods = false;
+                } else this.$data.maxPage++;
+              }).catch(err => {
+                console.log(err);
+              });
+            }
+            else{
+              this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&keyword="+this.$data.nowKeyword).then(res => {
+                for (let i = 0; i < res.data.data.article_list.length; i++) {
+                  if (i % 2 === 0) this.$data.goodsItems1.push(res.data.data.article_list[i]);
+                  else this.$data.goodsItems2.push(res.data.data.article_list[i]);
+                }
+                if (!res.data.data.has_next_page) {
+                  document.getElementById("mmoreGoods").innerHTML = "已无更多";
+                  document.getElementById("mmoreGoods").style.cursor = "auto";
+                  this.$data.more_goods = false;
+                } else this.$data.maxPage++;
+              }).catch(err => {
+                console.log(err);
+              });
+            }
           } else {
             this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&is_main=1&category=" + this.$data.nowType).then(res => {
               for (let i = 0; i < res.data.data.article_list.length; i++) {
@@ -330,6 +351,21 @@
       this.mgetMoreGoods();
       this.getSearchHot();
     },
+    beforeRouteLeave(to, from, next) {
+      if (to.name === "MDetail") {
+        if(this.$data.MsearchKeyWordOut!=='') sessionStorage.setItem("MsearchKeyWordOut",this.$data.MsearchKeyWordOut);
+        next();
+      } else {
+        sessionStorage.removeItem("MsearchKeyWordOut");
+        next();
+      }
+    },
+    beforeRouteEnter(to,from,next){
+      if(from.name!=='MDetail'){
+        sessionStorage.removeItem("MsearchKeyWordOut");
+      }
+      next();
+    }
 
   }
 </script>

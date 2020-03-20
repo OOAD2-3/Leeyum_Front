@@ -308,7 +308,7 @@
             this.$axios.post("/api/article/",dataa,config).then(res=>{
               this.jump("MGoods");
             }).catch(err=>{
-              this.$message.error("出了一点错误，请稍后再试");
+              if(err.response.status===400) this.$message.error("发布内容中包含敏感词！");
             })
           }
 
@@ -332,7 +332,7 @@
             this.$axios.post("/api/article/",dataa,config).then(res=>{
               this.jump("MGoods");
             }).catch(err=>{
-              this.$message.error("出了一点错误，请稍后再试");
+              if(err.response.status===400) this.$message.error("发布内容中包含敏感词！");
             })
           }
 
@@ -357,7 +357,7 @@
             this.$axios.post("/api/article/",dataa,config).then(res=>{
               this.jump("MGoods");
             }).catch(err=>{
-              this.$message.error("出了一点错误，请稍后再试");
+              if(err.response.status===400) this.$message.error("发布内容中包含敏感词！");
             })
           }
 
@@ -382,7 +382,7 @@
             this.$axios.post("/api/article/",dataa,config).then(res=>{
               this.jump("MGoods");
             }).catch(err=>{
-              this.$message.error("出了一点错误，请稍后再试");
+              if(err.response.status===400) this.$message.error("发布内容中包含敏感词！");
             })
           }
 
@@ -410,7 +410,7 @@
             this.$axios.post("/api/article/",dataa,config).then(res=>{
               this.jump("MGoods");
             }).catch(err=>{
-              this.$message.error("出了一点错误，请稍后再试");
+              if(err.response.status===400) this.$message.error("发布内容中包含敏感词！");
             })
           }
 
@@ -436,7 +436,7 @@
             this.$axios.post("/api/article/",dataa,config).then(res=>{
               this.jump("MGoods");
             }).catch(err=>{
-              this.$message.error("出了一点错误，请稍后再试");
+              if(err.response.status===400) this.$message.error("发布内容中包含敏感词！");
             })
           }
 
@@ -461,7 +461,7 @@
             this.$axios.post("/api/article/",dataa,config).then(res=>{
               this.jump("MGoods");
             }).catch(err=>{
-              this.$message.error("出了一点错误，请稍后再试");
+              if(err.response.status===400) this.$message.error("发布内容中包含敏感词！");
             })
           }
 
@@ -483,7 +483,7 @@
             this.$axios.post("/api/article/", dataa, config).then(res => {
               this.jump("MGoods");
             }).catch(err => {
-              this.$message.error("出了一点错误，请稍后再试");
+              if(err.response.status===400) this.$message.error("发布内容中包含敏感词！");
             })
           }
         },

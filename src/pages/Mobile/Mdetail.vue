@@ -373,7 +373,10 @@
         this.$axios.get("/api/article/details/?id=" + this.$data.id).then(res => {
           this.$data.shou=res.data.data.is_liked;
           this.$data.id = res.data.data.id;
-          if (res.data.data.pic_urls.length > 0) this.$data.pic_urls.push(...res.data.data.pic_urls);
+          if (res.data.data.pic_urls.length > 0) {
+            this.$data.pic_urls.splice(0,1);
+            this.$data.pic_urls.push(...res.data.data.pic_urls);
+          }
           this.$data.title = res.data.data.title;
           this.$data.content = res.data.data.content.body;
           this.$data.tags = res.data.data.tags;

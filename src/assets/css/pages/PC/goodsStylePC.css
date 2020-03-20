@@ -306,25 +306,23 @@
   z-index: 999;
   width: 500px;
   height: 370px;
-  background: white;
+  background: rgba(255,255,255,1);
   position: absolute;
   left: 155px;
   top:5px;
   display: none;
-  opacity: 0.85;
   border-radius: 5px;
   padding: 10px 0;
 }
 .submenuItem{
   width: 30%;
-  height: 50px;
   color: #3c3c3c;
   display: inline-block;
   margin-left: 2%;
   margin-bottom: 2%;
   cursor: pointer;
-  line-height: 50px;
   text-align: center;
+  padding: 10px 0;
 }
 .submenuItem:hover {
   background: #cccccc;
@@ -341,10 +339,10 @@
   cursor: pointer;
 }
 .sideContent{
-  height: 750px;
+  height: 700px;
   width: 350px;
   margin-left: 25px;
-  overflow: auto;
+  overflow: scroll;
 }
 .sideContent::-webkit-scrollbar{
   display: none;

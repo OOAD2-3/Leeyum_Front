@@ -65,6 +65,9 @@
       },
       mounted() {
         this.init();
+      },
+      activated() {
+        this.init();
       }
     }
 </script>

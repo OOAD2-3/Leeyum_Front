@@ -17,21 +17,30 @@
       </div>
     </div>
     <div class="muserDetail">
-      <div class="muserDetailLine" style="margin-top: 0">
-        <img src="../../../static/picture/收藏.png" alt="" style="height: 30px;margin:0 10px 5px 10px">
+      <div class="muserDetailLine" @click="openSonPage('liked')">
+        <img src="../../../static/picture/收藏.png" alt="" style="height: 25px;margin:0 10px 0 10px">
         <div>收藏内容</div>
+        <el-icon class="el-icon-arrow-right" style="position: absolute;right: 5px;color: #bdbdbd"></el-icon>
       </div>
-      <div class="muserDetailLine" style="margin-left: 15px;margin-top: 0">
-        <img src="../../../static/picture/浏览.png" alt="" style="height: 30px;margin:0 10px 5px 10px">
+      <div class="muserDetailLine" @click="openSonPage('scanned')">
+        <img src="../../../static/picture/浏览.png" alt="" style="height: 25px;margin:0 10px 0 10px">
         <div>浏览记录</div>
+        <el-icon class="el-icon-arrow-right" style="position: absolute;right: 5px;color: #bdbdbd"></el-icon>
       </div>
-      <div class="muserDetailLine">
-        <img src="../../../static/picture/发布.png" alt="" style="height: 30px;margin:0 10px 5px 10px">
+      <div class="muserDetailLine" @click="openSonPage('released')">
+        <img src="../../../static/picture/发布.png" alt="" style="height: 25px;margin:0 10px 0 10px">
         <div>已发布信息</div>
+        <el-icon class="el-icon-arrow-right" style="position: absolute;right: 5px;color: #bdbdbd"></el-icon>
       </div>
-      <div class="muserDetailLine" style="margin-left: 15px">
-        <img src="../../../static/picture/设置.png" alt="" style="height: 30px;margin:0 10px 5px 10px">
+      <div class="muserDetailLine" style="border-bottom: none" @click="openSonPage('team')">
+        <img src="../../../static/picture/组队.png" alt="" style="height: 25px;margin:0 10px 0 10px">
+        <div>加入的队伍</div>
+        <el-icon class="el-icon-arrow-right" style="position: absolute;right: 5px;color: #bdbdbd"></el-icon>
+      </div>
+      <div class="muserDetailLine" style="margin-top: 10px;border-bottom: none" @click="openSonPage('settings')">
+        <img src="../../../static/picture/设置.png" alt="" style="height: 25px;margin:0 10px 0 10px">
         <div>设置</div>
+        <el-icon class="el-icon-arrow-right" style="position: absolute;right: 5px;color: #bdbdbd"></el-icon>
       </div>
 
       <confirm v-model="logoutShow"
@@ -42,7 +51,7 @@
       </confirm>
 
       <button @click="logoutShow=true" style="margin-top: 50px;
-      width: 100%;
+      width: 90%;
       height: 40px;
       border: transparent;
       background: rgb(253,192,6);
@@ -119,6 +128,19 @@
           this.$message.error("请登录！");
           this.jump("MLogin");
         }
+      },
+      openSonPage:function(param){
+        if (localStorage.getItem("username") !== '') {
+          this.$router.push({
+            name: 'MInfo',
+            params:{
+              son:param
+            }
+          });
+        } else {
+          this.$message.error("请登录！");
+          this.jump("MLogin");
+        }
       }
     },
     mounted() {
@@ -133,13 +155,13 @@
     height: 20%;
     width: 100%;
     display: flex;
+    background: white;
   }
 
   .muserDetail {
-    width: 90%;
-    margin-left: 5%;
+    width: 100%;
     height: calc(65% - 80px);
-    padding-top: 20px;
+    padding-top: 10px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -190,16 +212,15 @@
   }
 
   .muserDetailLine {
-    height: 0;
-    width: 40%;
-    padding: 20% 0 20% 0;
-    margin-top: 15px;
+    height: 45px;
+    width: calc(100% - 10px);
+    border-bottom: 1px solid #f2ecf2;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     background: white;
-    border-radius: 5px;
+    padding-left: 10px;
+    position: relative;
   }
   .releaseFontButton{
     position: fixed;bottom: 0;

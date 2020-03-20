@@ -6,7 +6,10 @@
       </div>
       <div class="subType">
         <div id="type_home" style="display: flex;justify-content: center;align-items: center;width: 100%;height: 100%">选择您感兴趣的分类</div>
-        <div v-for="item in nowSubMenu" class="nowSubMenuItem" @click="chooseType(item)">{{item.category_name}}</div>
+        <div v-for="item in nowSubMenu" class="nowSubMenuItem" @click="chooseType(item)">
+          <img :src="item.pic_url" alt="" style="height: 60%;margin-top: 10%"/>
+          <div style="height: 25%;width: 100%">{{item.category_name}}</div>
+        </div>
       </div>
     </div>
     <bottom-router default-active="2"></bottom-router>
@@ -138,7 +141,6 @@
     height: 100px;
     background: white;
     margin-left: 2%;
-    line-height: 100px;
     text-align: center;
     margin-bottom: 2%;
   }

@@ -15,8 +15,9 @@ import MRelease from '@/pages/Mobile/Mrelease'
 import Mprofile from '@/pages/Mobile/Mprofile'
 import MType from '@/pages/Mobile/type'
 import MDetail from '@/pages/Mobile/Mdetail'
-import MWritecomment from "../pages/Mobile/Mwritecomment";
-
+import MWritecomment from "@/pages/Mobile/Mwritecomment"
+import MInfo from '@/pages/Mobile/MInfo'
+import MMatch from '@/pages/Mobile/Mmatch'
 
 Vue.use(Router)
 
@@ -40,7 +41,7 @@ export default new Router({
     {
       path:'/pgoods',
       name:'PGoods',
-      component:PGoods
+      component:PGoods,
     },
     {
       path:'/plogin',
@@ -60,7 +61,7 @@ export default new Router({
     {
       path:'/pdetail/:articleId',
       name:'PDetail',
-      component:PDetail
+      component:PDetail,
     },
 
 
@@ -101,6 +102,16 @@ export default new Router({
       path:'/Mwritecomment/:articleId',
       name:'MWritecomment',
       component:MWritecomment
+    },
+    {
+      path:'/Minfo/:son',
+      name:'MInfo',
+      component:MInfo
+    },
+    {
+      path:'/Mmatch/:id',
+      name:'MMatch',
+      component:MMatch
     }
   ]
 })

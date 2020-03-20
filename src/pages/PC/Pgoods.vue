@@ -3,7 +3,8 @@
     <PMyHead default-active="2"
              v-bind:PsearchKeyWordOut="PsearchKeyWordOut"
              v-on:update:PsearchKeyWord="getNewPsearchKeyWordOut"
-             v-on:Psearch="Psearch"/>
+             v-on:Psearch="Psearch"
+             ref="pi"/>
     <div class="bac1">
       <div class="adjust">
         <div class="goods_main">
@@ -21,7 +22,10 @@
               </div>
             </div>
             <div class="submenu" id="submenu" v-model="activeSubMenu" @mouseleave="judgeHandleCloseSubMenu">
-              <div class="submenuItem" v-for="i in activeSubMenu" @click="secondTypeSearch(i)">{{i.category_name}}</div>
+              <div class="submenuItem" v-for="i in activeSubMenu" @click="secondTypeSearch(i)">
+                <img :src="i.pic_url" alt="" style="height: 50px;"/>
+                <div>{{i.category_name}}</div>
+              </div>
             </div>
             <div class="goods_header_right">
               <el-carousel :interval="5000" arrow="always" height="400px" id="car1">
@@ -122,7 +126,10 @@
               <div class="goods_items_content">
                 <div class="items_line1">
                   <div class="line1_title">
-                    <span style="border: #fdc006 1px solid;border-radius: 3px;font-size: 14px;padding: 1px 3px;color: #fdc006;font-weight: normal;">{{item.category[1]}}</span>
+                    <span v-if="item.category[1]==='表白墙'"
+                          style="border: hotpink 1px solid;border-radius: 3px;font-size: 14px;padding: 1px 3px;color: hotpink;font-weight: normal;">{{item.category[1]}}</span>
+                    <span v-else
+                          style="border: #fdc006 1px solid;border-radius: 3px;font-size: 14px;padding: 1px 3px;color: #fdc006;font-weight: normal;">{{item.category[1]}}</span>
                     <span style="">{{item.title}}</span>
                   </div>
                   <div class="line1_text">
@@ -140,6 +147,42 @@
                   style="height: 20px;width: 99%;margin-left:2%;font-size: 14px;line-height: 20px;color: #3c3c3c;padding-bottom: 3px">
                   <el-icon class="el-icon-user" style="padding-right: 2px"></el-icon>
                   {{item.content.now_number}}/{{item.content.total_number}}人
+                </div>
+                <div
+                  v-if="item.category[1]==='求购'||item.category[1]==='出售'"
+                  style="height: 20px;width: 98%;margin-left:2%;font-size: 14px;line-height: 20px;padding-bottom: 3px;color:red;display: flex">
+                  <div style="height: 100%;width: 50%">
+                    <el-icon class="el-icon-money" style="padding-right: 2px;color: #3c3c3c"></el-icon>
+                    {{item.content.price}}元
+                  </div>
+                  <div style="height: 100%;width: 50%;color:#3c3c3c;">
+                    <el-icon class="el-icon-magic-stick" style="padding-right: 2px;color: #3c3c3c"></el-icon>
+                    {{item.content.new_or_old}}成新
+                  </div>
+                </div>
+                <div
+                  v-if="item.category[1]==='求租'||item.category[1]==='出借'"
+                  style="height: 20px;width: 98%;margin-left:2%;font-size: 14px;line-height: 20px;padding-bottom: 3px;color:red;display: flex">
+                  <div style="height: 100%;width: 50%">
+                    <el-icon class="el-icon-money" style="padding-right: 2px;color: #3c3c3c"></el-icon>
+                    {{item.content.price}}元
+                  </div>
+                  <div style="height: 100%;width: 50%;color:#3c3c3c;">
+                    <el-icon class="el-icon-magic-stick" style="padding-right: 2px;color: #3c3c3c"></el-icon>
+                    租借{{item.content.time_span}}天
+                  </div>
+                </div>
+                <div
+                  v-if="item.category[1]==='家教'"
+                  style="height: 20px;width: 98%;margin-left:2%;font-size: 14px;line-height: 20px;padding-bottom: 3px;color:red;display: flex">
+                  <div style="height: 100%;width: 50%">
+                    <el-icon class="el-icon-money" style="padding-right: 2px;color: #3c3c3c"></el-icon>
+                    {{item.content.price}}元/节
+                  </div>
+                  <div style="height: 100%;width: 50%;color:#3c3c3c;">
+                    <el-icon class="el-icon-time" style="padding-right: 2px;color: #3c3c3c"></el-icon>
+                    {{item.content.time}}开始
+                  </div>
                 </div>
                 <div class="items_line2">
                   <div class="tags" v-for="tag in item.tags">{{tag}}</div>
@@ -223,7 +266,7 @@
              style="height: 100%;width: 100%;display: flex;align-items: center;justify-content: center;color: #72767b;">
           无
         </div>
-        <div v-if="sideTitle==='设置'" style="height: 100%;width: 100%;color: #72767b;position: relative">
+        <div v-if="sideTitle==='设置'" style="height: 90%;width: 100%;color: #72767b;position: relative;">
           <div style="display: flex;font-size: 15px;justify-content: space-between">
             <span>允许将发布的信息推荐给其他用户</span>
             <el-switch
@@ -309,6 +352,10 @@
         document.getElementById("root").style.width = Width - this.getScrollWidth() + "px";
         document.getElementById("root").style.background = "#f0f0f0";
         require('../../assets/css/pages/PC/goodsStylePC.css');
+        if (sessionStorage.getItem("PsearchKeyWordOut")) {
+          this.$data.nowKeyword = sessionStorage.getItem("PsearchKeyWordOut");
+          this.$refs.pi.setSearchInput(this.$data.nowKeyword);
+        }
         this.$axios.get("/api/user/details/").then(res => {
           localStorage.setItem("username", res.data.data.username);
           this.$data.username = localStorage.getItem("username");
@@ -549,8 +596,16 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-
+          this.$axios.delete("/api/article/?id=" + item.id).then(() => {
+            for (let i = 0; i < this.$data.sideContent.length; i++)
+              if (this.$data.sideContent[i] === item) {
+                this.$data.sideContent.splice(i, 1);
+                break;
+              }
+            this.$message.success("成功下架！");
+          })
         }).catch(() => {
+          this.$message.error("出了点小问题，请稍后再试！");
         })
       },
       deleteLike: function (item) {
@@ -559,7 +614,6 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          console.log(item);
           this.$axios.delete("/api/user/like/?article_id=" + item.id).then(res => {
             this.$message.success("已取消收藏！");
             for (let i = 0; i < this.$data.sideContent.length; i++)
@@ -622,15 +676,15 @@
 
         })
       },
-      saveSettings:function(){
+      saveSettings: function () {
         this.$confirm('确认要保存设置吗？', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           const dataa = {
-            accept_recommended_message:this.$data.accept_recommended_message,
-            accept_publish_article_recommend_to_others:this.$data.accept_publish_article_recommend_to_others
+            accept_recommended_message: this.$data.accept_recommended_message,
+            accept_publish_article_recommend_to_others: this.$data.accept_publish_article_recommend_to_others
           };
           const config = {
             headers: {
@@ -642,7 +696,7 @@
           }).catch(err => {
             this.$alert("退出设置失败，请稍后重试！");
           })
-        }).catch(()=>{
+        }).catch(() => {
         })
       }
     },
@@ -651,7 +705,22 @@
       this.getAllType();
       this.getMoreGoods();
     },
-
+    beforeRouteLeave(to, from, next) {
+      if (to.name === "PDetail") {
+        if (this.$data.PsearchKeyWordOut !== '') sessionStorage.setItem("PsearchKeyWordOut", this.$data.PsearchKeyWordOut);
+        // if(this.$data.PsearchKeyWordOut!=='') sessionStorage.setItem("PsearchKeyWordOut",this.$data.PsearchKeyWordOut);
+        next();
+      } else {
+        sessionStorage.removeItem("PsearchKeyWordOut");
+        next();
+      }
+    },
+    beforeRouteEnter(to, from, next) {
+      if (from.name !== 'PDetail') {
+        sessionStorage.removeItem("PsearchKeyWordOut");
+      }
+      next();
+    }
   }
 </script>
 

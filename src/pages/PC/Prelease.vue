@@ -338,7 +338,7 @@
             this.$axios.post("/api/article/",dataa,config).then(res=>{
               this.jump("PGoods");
             }).catch(err=>{
-              this.$message.error("出了一点错误，请稍后再试");
+              if(err.response.status===400) this.$message.error("发布内容中包含敏感词！");
             })
           }
 
@@ -362,7 +362,7 @@
               this.$axios.post("/api/article/",dataa,config).then(res=>{
                 this.jump("PGoods");
               }).catch(err=>{
-                this.$message.error("出了一点错误，请稍后再试");
+                if(err.response.status===400) this.$message.error("发布内容中包含敏感词！");
               })
             }
 
@@ -387,7 +387,7 @@
               this.$axios.post("/api/article/",dataa,config).then(res=>{
                 this.jump("PGoods");
               }).catch(err=>{
-                this.$message.error("出了一点错误，请稍后再试");
+                if(err.response.status===400) this.$message.error("发布内容中包含敏感词！");
               })
             }
 
@@ -412,7 +412,7 @@
               this.$axios.post("/api/article/",dataa,config).then(res=>{
                 this.jump("PGoods");
               }).catch(err=>{
-                this.$message.error("出了一点错误，请稍后再试");
+                if(err.response.status===400) this.$message.error("发布内容中包含敏感词！");
               })
             }
 
@@ -440,7 +440,7 @@
               this.$axios.post("/api/article/",dataa,config).then(res=>{
                 this.jump("PGoods");
               }).catch(err=>{
-                this.$message.error("出了一点错误，请稍后再试");
+                if(err.response.status===400) this.$message.error("发布内容中包含敏感词！");
               })
             }
 
@@ -466,17 +466,17 @@
               this.$axios.post("/api/article/",dataa,config).then(res=>{
                 this.jump("PGoods");
               }).catch(err=>{
-                this.$message.error("出了一点错误，请稍后再试");
+                if(err.response.status===400) this.$message.error("发布内容中包含敏感词！");
               })
             }
 
             if(this.$data.typeCheckName==='志愿者招聘') {
               const dataa = JSON.stringify({
                 title: this.$data.title,
-                content:{
-                  body:this.$data.content,
-                  time:this.$data.time,
-                  place:this.$data.place,
+                content: {
+                  body: this.$data.content,
+                  time: this.$data.time,
+                  place: this.$data.place,
                 },
                 tags: this.$data.tagCheckboxGroup,
                 category_id: this.$data.typeCheck,
@@ -488,12 +488,34 @@
                 }
               };
 
-              this.$axios.post("/api/article/",dataa,config).then(res=>{
+              this.$axios.post("/api/article/", dataa, config).then(res => {
                 this.jump("PGoods");
-              }).catch(err=>{
-                this.$message.error("出了一点错误，请稍后再试");
+              }).catch(err => {
+                if(err.response.status===400) this.$message.error("发布内容中包含敏感词！");
               })
             }
+          if(this.$data.typeCheckName==='表白墙'||this.$data.typeCheckName==='吐槽专栏') {
+            const dataa = JSON.stringify({
+              title: this.$data.title,
+              content: {
+                body: this.$data.content,
+              },
+              tags: this.$data.tagCheckboxGroup,
+              category_id: this.$data.typeCheck,
+              pic_urls: re,
+            });
+            const config = {
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            };
+
+            this.$axios.post("/api/article/", dataa, config).then(res => {
+              this.jump("PGoods");
+            }).catch(err => {
+              if(err.response.status===400) this.$message.error("发布内容中包含敏感词！");
+            })
+          }
         },
 
 

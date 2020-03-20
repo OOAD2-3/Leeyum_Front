@@ -177,12 +177,15 @@
         }).catch(err=>{
           console.log(err);
         })
+      },
+      setSearchInput:function(item){
+        this.$data.PsearchKeyWord=item;
       }
     },
     mounted() {
       this.init();
       this.getSearchHot();
-    }
+      },
   }
 </script>
 
