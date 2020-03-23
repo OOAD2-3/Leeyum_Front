@@ -4,7 +4,11 @@
       <img class="mlogo" src="../../../static/picture/logo_temp.png" alt="" @click="jump('MGoods')"/>
       <div class="msearch-div">
         <div class="msearch_main">
-          <input class="msearch-input" v-model="MsearchKeyWord" placeholder="发现你想要的" @click="MfocusInput" @keyup="changeMsearchKeyWord"/>
+          <input class="msearch-input"
+                 v-model="MsearchKeyWord"
+                 placeholder="发现你想要的"
+                 @click="MfocusInput"
+                 @keyup="changeMsearchKeyWord"/>
           <div class="msearch-button" @click="Msearch">
             <el-icon name="search"/></div>
         </div>

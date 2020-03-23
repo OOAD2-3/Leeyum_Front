@@ -160,7 +160,7 @@
         <div class="pcomment">
 
           <div class="pcommenttitle">
-            <div class="pshangpinpingjia">商品评价</div>
+            <div class="pshangpinpingjia">评论</div>
             <a @click="jump('PLogin')" class="plogin fr" v-if="username===''">
               <div class="cafterl">
                 <span> <button class="ploginbtn">登陆后评论</button></span>

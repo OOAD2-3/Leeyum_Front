@@ -18,6 +18,7 @@ import MDetail from '@/pages/Mobile/Mdetail'
 import MWritecomment from "@/pages/Mobile/Mwritecomment"
 import MInfo from '@/pages/Mobile/MInfo'
 import MMatch from '@/pages/Mobile/Mmatch'
+import PMatch from '@/pages/PC/Pmatch'
 
 Vue.use(Router)
 
@@ -62,6 +63,11 @@ export default new Router({
       path:'/pdetail/:articleId',
       name:'PDetail',
       component:PDetail,
+    },
+    {
+      path:'/Pmatch/:id',
+      name:'PMatch',
+      component:PMatch
     },
 
 

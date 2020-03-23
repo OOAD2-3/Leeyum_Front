@@ -12,8 +12,24 @@
     </div>
 
 <!--    设置-->
-    <div v-if="son==='settings'">
+    <div v-if="son==='settings'" class="infoMain" style="padding-bottom: 60px;padding-top: 20px;">
+      <div style="display: flex;font-size: 15px;justify-content: space-between">
+        <span>允许将发布的信息推荐给其他用户</span>
+        <el-switch
+          style="margin-bottom: 15px"
+          active-color="#fdc006"
+          v-model="accept_publish_article_recommend_to_others">
+        </el-switch>
+      </div>
+      <div style="display: flex;font-size: 15px;justify-content: space-between">
+        <span>接受推荐短信</span>
+        <el-switch
+          v-model="accept_recommended_message"
+          active-color="#fdc006">
+        </el-switch>
+      </div>
 
+      <button class="msettingsButton" @click="showSettings=true">保存设置</button>
     </div>
 
 <!--    组队-->
@@ -84,6 +100,10 @@
              @on-confirm="clearHistory">
       <p style="text-align:center">清空后不可找回</p>
     </confirm>
+    <confirm v-model="showSettings"
+             title="确认要保存设置吗?"
+             @on-confirm="msaveSettings">
+    </confirm>
   </div>
 </template>
 
@@ -102,7 +122,10 @@
         showRemoveLike:false,
         showBackInfo:false,
         showClear:false,
-        handleId:''
+        showSettings:false,
+        handleId:'',
+        accept_publish_article_recommend_to_others:true,
+        accept_recommended_message:true
       }
     },
     methods: {
@@ -112,6 +135,12 @@
         document.getElementById("root").style.height = Height + "px";
         document.getElementById("root").style.width = Width + "px";
         document.getElementById("root").style.background = "#f0f0f0";
+        this.$axios.get("/api/user/details/").then(res => {
+          this.$data.accept_publish_article_recommend_to_others = res.data.data.accept_publish_article_recommend_to_others;
+          this.$data.accept_recommended_message = res.data.data.accept_recommended_message;
+        }).catch(err => {
+          console.log(err);
+        });
 
         if(this.$data.son==='liked'){
           this.$axios.get("/api/user/like/").then(res => {
@@ -217,6 +246,22 @@
           this.$message.error("出了一点小错误，请稍后再试！");
           console.log(err);
         });
+      },
+      msaveSettings:function(){
+        const dataa = {
+          accept_recommended_message: this.$data.accept_recommended_message,
+          accept_publish_article_recommend_to_others: this.$data.accept_publish_article_recommend_to_others
+        };
+        const config = {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        };
+        this.$axios.post("/api/user/settings/accept/", dataa, config).then(res => {
+          this.$message.success("保存成功！");
+        }).catch(err => {
+          this.$alert("退出设置失败，请稍后重试！");
+        })
       }
     },
     mounted() {
@@ -266,6 +311,14 @@
   .mInfoTitle{
     width: calc(100% - 110px);
     font-size: 15px;
-
+  }
+  .msettingsButton{
+    margin-top: 100px;
+    width: 96%;
+    height: 50px;
+    margin-left: 2%;
+    background: #fdc006;
+    color: white;
+    border: transparent;
   }
 </style>

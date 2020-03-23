@@ -110,7 +110,7 @@
           </div>
 
 
-          <div class="alreadyType">当前类目：{{this.$data.nowTypeName}}
+          <div class="alreadyType">当前：{{this.$data.nowTypeName}}
             <div class="clearAlreadyType" @click="clearType" v-if="this.$data.nowTypeName!=='本月热门'">清空已选</div>
           </div>
           <!--        <div class="goods_order">-->
@@ -182,6 +182,31 @@
                   <div style="height: 100%;width: 50%;color:#3c3c3c;">
                     <el-icon class="el-icon-time" style="padding-right: 2px;color: #3c3c3c"></el-icon>
                     {{item.content.time}}开始
+                  </div>
+                </div>
+
+                <div
+                  v-if="item.category[1]==='学校事务'||item.category[1]==='其他兼职'"
+                  style="height: 20px;width: 98%;margin-left:2%;font-size: 14px;line-height: 20px;padding-bottom: 3px;color:red;display: flex">
+                  <div style="height: 100%;width: 50%">
+                    <el-icon class="el-icon-money" style="padding-right: 2px;color: #3c3c3c"></el-icon>
+                    {{item.content.price}}元
+                  </div>
+                  <div style="height: 100%;width: 50%;color:#3c3c3c;">
+                    <el-icon class="el-icon-time" style="padding-right: 2px;color: #3c3c3c"></el-icon>
+                    {{item.content.time}}
+                  </div>
+                </div>
+                <div
+                  v-if="item.category[1]==='志愿者招聘'"
+                  style="height: 20px;width: 98%;margin-left:2%;font-size: 14px;line-height: 20px;padding-bottom: 3px;color:red;display: flex">
+                  <div style="height: 100%;width: 50%;color:#3c3c3c;">
+                    <el-icon class="el-icon-time" style="padding-right: 2px;color: #3c3c3c"></el-icon>
+                    {{item.content.time}}
+                  </div>
+                  <div style="height: 100%;width: 50%;color:#3c3c3c;">
+                    <el-icon class="el-icon-place" style="padding-right: 2px;color: #3c3c3c"></el-icon>
+                    {{item.content.place}}
                   </div>
                 </div>
                 <div class="items_line2">
@@ -355,6 +380,12 @@
         if (sessionStorage.getItem("PsearchKeyWordOut")) {
           this.$data.nowKeyword = sessionStorage.getItem("PsearchKeyWordOut");
           this.$refs.pi.setSearchInput(this.$data.nowKeyword);
+        }
+        if (sessionStorage.getItem("nowType")) {
+          this.$data.nowType = sessionStorage.getItem("nowType");
+        }
+        if (sessionStorage.getItem("nowTypeName")) {
+          this.$data.nowTypeName = sessionStorage.getItem("nowTypeName");
         }
         this.$axios.get("/api/user/details/").then(res => {
           localStorage.setItem("username", res.data.data.username);
@@ -708,16 +739,21 @@
     beforeRouteLeave(to, from, next) {
       if (to.name === "PDetail") {
         if (this.$data.PsearchKeyWordOut !== '') sessionStorage.setItem("PsearchKeyWordOut", this.$data.PsearchKeyWordOut);
-        // if(this.$data.PsearchKeyWordOut!=='') sessionStorage.setItem("PsearchKeyWordOut",this.$data.PsearchKeyWordOut);
+        if (this.$data.nowType !== '') sessionStorage.setItem("nowType", this.$data.nowType);
+        if (this.$data.nowTypeName !== '') sessionStorage.setItem("nowTypeName", this.$data.nowTypeName);
         next();
       } else {
         sessionStorage.removeItem("PsearchKeyWordOut");
+        sessionStorage.removeItem("nowType");
+        sessionStorage.removeItem("nowTypeName");
         next();
       }
     },
     beforeRouteEnter(to, from, next) {
       if (from.name !== 'PDetail') {
         sessionStorage.removeItem("PsearchKeyWordOut");
+        sessionStorage.removeItem("nowType");
+        sessionStorage.removeItem("nowTypeName");
       }
       next();
     }

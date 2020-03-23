@@ -44,7 +44,7 @@
               <div style="height: 20%;width: 100%;text-align: center;color: #4b4b4b;font-size: 14px">其他</div>
             </div>
           </div>
-          <div class="malreadyType">当前类目：{{this.$data.nowTypeName}}
+          <div class="malreadyType">当前：{{this.$data.nowTypeName}}
             <div class="mclearAlreadyType" @click="clearType" v-if="this.$data.nowTypeName!=='本月热门'">清空已选</div>
           </div>
           <!--        <div class="mgoods_order">-->
@@ -186,6 +186,12 @@
         if(sessionStorage.getItem("MsearchKeyWordOut")) {
           this.$data.nowKeyword=sessionStorage.getItem("MsearchKeyWordOut");
           this.$refs.mi.setSearchInput(this.$data.nowKeyword);
+        }
+        if (sessionStorage.getItem("nowType")) {
+          this.$data.nowType = sessionStorage.getItem("nowType");
+        }
+        if (sessionStorage.getItem("nowTypeName")) {
+          this.$data.nowTypeName = sessionStorage.getItem("nowTypeName");
         }
       },
       jump: function (name) {
@@ -354,15 +360,21 @@
     beforeRouteLeave(to, from, next) {
       if (to.name === "MDetail") {
         if(this.$data.MsearchKeyWordOut!=='') sessionStorage.setItem("MsearchKeyWordOut",this.$data.MsearchKeyWordOut);
+        if (this.$data.nowType !== '') sessionStorage.setItem("nowType", this.$data.nowType);
+        if (this.$data.nowTypeName !== '') sessionStorage.setItem("nowTypeName", this.$data.nowTypeName);
         next();
       } else {
         sessionStorage.removeItem("MsearchKeyWordOut");
+        sessionStorage.removeItem("nowType");
+        sessionStorage.removeItem("nowTypeName");
         next();
       }
     },
     beforeRouteEnter(to,from,next){
       if(from.name!=='MDetail'){
         sessionStorage.removeItem("MsearchKeyWordOut");
+        sessionStorage.removeItem("nowType");
+        sessionStorage.removeItem("nowTypeName");
       }
       next();
     }
