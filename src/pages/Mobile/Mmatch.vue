@@ -1,9 +1,6 @@
 <template>
   <div id="root">
     <div class="mMatchHeader">
-      <div style="position: absolute;left: 10px;font-weight: bolder;width: 30px">
-        <el-icon class="el-icon-arrow-left"></el-icon>
-      </div>
       <div style="font-size: 18px;">发布成功</div>
     </div>
     <div style="width: 90%;background: #f0f0f0;padding: 0 5%">
