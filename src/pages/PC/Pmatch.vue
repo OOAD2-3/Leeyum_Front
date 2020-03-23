@@ -125,6 +125,7 @@
     components: {PMyHead, Tail},
     data() {
       return {
+        id:'',
         matchList: [
           {
             title: '苏天宇好帅',

@@ -487,7 +487,12 @@
         if (item.category_name === '本月热门') {
           location.reload();
         } else if (item.category_name === '个性推荐') {
-          this.$message.error("123");
+          this.$data.maxPage = 1;
+          this.$data.goodsItems.splice(0, this.$data.goodsItems.length);
+          this.$data.nowType = item.category_id;
+          this.$data.nowKeyword = '';
+          this.$data.nowTypeName = item.category_name;
+          console.log(this.$data.nowTypeName);
         }
       },
       secondTypeSearch: function (item) {
