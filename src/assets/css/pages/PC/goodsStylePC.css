@@ -360,14 +360,13 @@
 .settingsButton{
   width: 100%;
   height: 40px;
-  position: absolute;
-  bottom: 0;
   border-radius: 5px;
   background: #fdc006;
   border: transparent;
   color: white;
   cursor: pointer;
   transition: all .1s;
+  margin-top: 50px;
 }
 .settingsButton:hover{
   background: #f4b706;

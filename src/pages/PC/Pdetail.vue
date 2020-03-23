@@ -210,7 +210,14 @@
     <el-dialog :visible.sync="reportVisible" title="我要举报">
       <div style="margin-bottom: 10px">请核实要举报的信息名称<span style="font-weight: bolder;color: black">“{{title}}”</span>
       </div>
-      <textarea placeholder="请输入举报原因（200字以内）"
+      <select style="margin-bottom: 10px;width: 100%;height: 25px;border: 1px solid #e0e0e0;background: white;border-radius: 5px" v-model="reportChoose">
+        <option>低俗色情</option>
+        <option>内容不实或有误</option>
+        <option>涉嫌违法犯罪</option>
+        <option>侵权（抄袭）</option>
+        <option>其他</option>
+      </select>
+      <textarea placeholder="请输入详细描述（200字以内）"
                 v-model="ReportReason"
                 maxlength="200"
                 class="pcommentarea">
@@ -222,7 +229,14 @@
       <div style="margin-bottom: 10px">您要举报评论<span
         style="font-weight: bolder;color: black">“{{reportCommentContent}}”</span>
       </div>
-      <textarea placeholder="请输入举报原因（200字以内）"
+      <select style="margin-bottom: 10px;width: 100%;height: 25px;border: 1px solid #e0e0e0;background: white;border-radius: 5px" v-model="reportChoose">
+        <option>低俗色情</option>
+        <option>内容不实或有误</option>
+        <option>涉嫌违法犯罪</option>
+        <option>侵权（抄袭）</option>
+        <option>其他</option>
+      </select>
+      <textarea placeholder="请输入详细描述（200字以内）"
                 v-model="ReportReason"
                 maxlength="200"
                 class="pcommentarea">
@@ -245,6 +259,7 @@
       return {
         contactWay: '',
         ReportReason: '',
+        reportChoose:'低俗色情',
         reportVisible: false,
         reportVisible1: false,
         reportCommentContent: '',

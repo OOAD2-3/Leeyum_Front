@@ -79,6 +79,11 @@
             <input type="number" class="myuqijiage" placeholder="请填写人数" v-model="total_number"/>
             <input class="myuqijiage" placeholder="请填写活动地点" v-model="place"/>
           </div>
+          <div class="mspecial" v-if="this.$data.typeCheckName==='其它组队'" id="其它组队">
+            <input type="date" class="myuqijiage" v-model="time"/>
+            <input type="number" class="myuqijiage" placeholder="请填写人数" v-model="total_number"/>
+            <input class="myuqijiage" placeholder="请填写活动地点" v-model="place"/>
+          </div>
 
           <div class="mspecial" v-if="this.$data.typeCheckName==='拼车'" id="拼车">
             <input type="date" class="myuqijiage" v-model="time"/>
@@ -154,11 +159,11 @@
             typeCheck:'',
             typeCheckName:'',
             tag_list:[{
-              id:'10',
+              id:'10000',
               name:'又大又圆',
               intro:'自带'
             },{
-              id:'10',
+              id:'10001',
               name:'又长又宽',
               intro:'自带'
             }
@@ -268,6 +273,18 @@
           document.getElementById(this.$data.typeCheck).style.color = "#606266";
           document.getElementById(this.$data.typeCheck).style.border = "1px solid #c0c0c0";
           console.log(this.$data.typeCheck);
+          if(this.$data.typeCheckName==='出售') this.$data.tag_list.push({
+            id:'9999',
+            name:'毕业季',
+            intro:''
+          });
+          else{
+            for(let i=0;i<this.$data.tag_list.length;i++)
+              if(this.$data.tag_list[i].name==='毕业季'){
+                this.$data.tag_list.splice(i,1);
+                break;
+              }
+          }
         },
         getAllType: function () {
           this.$axios.get("/api/category/").then(res => {

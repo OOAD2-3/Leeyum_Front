@@ -60,6 +60,8 @@
 }
 
 .login{
+  border-left:1px solid #eee;
+  padding-left: 15px;
   height: 80%;
   color: #222222;
   font-size: 85%;

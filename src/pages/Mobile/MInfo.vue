@@ -11,17 +11,31 @@
       <div style="font-size: 18px;" v-if="son==='released'">已发布信息</div>
     </div>
 
-<!--    设置-->
+    <!--    设置-->
     <div v-if="son==='settings'" class="infoMain" style="padding-bottom: 60px;padding-top: 20px;">
-      <div style="display: flex;font-size: 15px;justify-content: space-between">
+      <div
+        style="height: 100px;width: 100%;display:flex;justify-content:center;margin-bottom: 20px;position: relative">
+        <input style="height: 100px;border-radius: 100px;width: 100px;opacity: 0;z-index: 999;cursor: pointer" type="file" @change="handleTouxiang">
+
+        <img :src="touxiangUrl" alt=""
+             style="height: 100px;position: absolute;z-index: 0;top: 0;left: calc(50% - 50px)">
+      </div>
+      <div style="display: flex;font-size: 15px;justify-content: space-between;height: 30px;align-items: center;margin-bottom: 15px">
+        <span>用户名：</span>
+        <input style="width: 60%;height: 25px;border-radius: 3px;border: 1px solid #e3e3e3;padding: 0 3px" v-model="username"/>
+      </div>
+      <div style="display: flex;font-size: 15px;justify-content: space-between;height: 30px;align-items: center;margin-bottom: 15px">
+        <span>联系方式：</span>
+        <input style="width: 60%;height: 25px;border-radius: 3px;border: 1px solid #e3e3e3;padding: 0 3px" v-model="userPhoneNumber"/>
+      </div>
+      <div style="display: flex;font-size: 15px;justify-content: space-between;height: 30px;align-items: center;margin-bottom: 15px">
         <span>允许将发布的信息推荐给其他用户</span>
         <el-switch
-          style="margin-bottom: 15px"
           active-color="#fdc006"
           v-model="accept_publish_article_recommend_to_others">
         </el-switch>
       </div>
-      <div style="display: flex;font-size: 15px;justify-content: space-between">
+      <div style="display: flex;font-size: 15px;justify-content: space-between;height: 30px;align-items: center;margin-bottom: 15px">
         <span>接受推荐短信</span>
         <el-switch
           v-model="accept_recommended_message"
@@ -32,49 +46,69 @@
       <button class="msettingsButton" @click="showSettings=true">保存设置</button>
     </div>
 
-<!--    组队-->
+    <!--    组队-->
     <div v-if="son==='team'" class="infoMain">
-      <div v-if="content.length===0" style="height: 300px;width: 100%;display: flex;align-items: center;justify-content: center;color: #8c939d">无内容</div>
+      <div v-if="content.length===0"
+           style="height: 300px;width: 100%;display: flex;align-items: center;justify-content: center;color: #8c939d">
+        无内容
+      </div>
       <div v-for="item in content" class="infoMainItem">
-        <img :src="item.pic_urls.length>0?item.pic_urls[0]:'http://leeyum-bucket.oss-cn-hangzhou.aliyuncs.com/default_front_file/404pic.png'"
-             alt="" style="width:50px;margin-right: 10px"/>
+        <img
+          :src="item.pic_urls.length>0?item.pic_urls[0]:'http://leeyum-bucket.oss-cn-hangzhou.aliyuncs.com/default_front_file/404pic.png'"
+          alt="" style="width:50px;margin-right: 10px"/>
         <div class="mInfoTitle">{{item.title}}</div>
         <div class="mInfoButton" @click="handleLeave(item)">退出</div>
       </div>
     </div>
 
-<!--    浏览记录-->
+    <!--    浏览记录-->
     <div v-if="son==='scanned'" class="infoMain">
-      <div v-if="content.length===0" style="height: 300px;width: 100%;display: flex;align-items: center;justify-content: center;color: #8c939d">无内容</div>
+      <div v-if="content.length===0"
+           style="height: 300px;width: 100%;display: flex;align-items: center;justify-content: center;color: #8c939d">
+        无内容
+      </div>
       <div v-if="content.length>0"
-        style="width: 100%;justify-content:flex-end;padding-right: 5px;color: #8cc5ff;height: 30px;display: flex;align-items: flex-end"
-        @click="showClear=true">清空历史</div>
+           style="width: 100%;justify-content:flex-end;padding-right: 5px;color: #8cc5ff;height: 30px;display: flex;align-items: flex-end"
+           @click="showClear=true">清空历史
+      </div>
       <div v-for="item in content" class="infoMainItem">
-        <img :src="item.pic_urls.length>0?item.pic_urls[0]:'http://leeyum-bucket.oss-cn-hangzhou.aliyuncs.com/default_front_file/404pic.png'"
-             alt="" style="width:50px;margin-right: 10px"/>
+        <img
+          :src="item.pic_urls.length>0?item.pic_urls[0]:'http://leeyum-bucket.oss-cn-hangzhou.aliyuncs.com/default_front_file/404pic.png'"
+          alt="" style="width:50px;margin-right: 10px"/>
         <div class="mInfoTitle">{{item.title}}</div>
       </div>
 
     </div>
 
-<!--    收藏-->
+    <!--    收藏-->
     <div v-if="son==='liked'" class="infoMain">
-      <div v-if="content.length===0" style="height: 300px;width: 100%;display: flex;align-items: center;justify-content: center;color: #8c939d">无内容</div>
+      <div v-if="content.length===0"
+           style="height: 300px;width: 100%;display: flex;align-items: center;justify-content: center;color: #8c939d">
+        无内容
+      </div>
       <div v-for="item in content" class="infoMainItem">
-        <img :src="item.pic_urls.length>0?item.pic_urls[0]:'http://leeyum-bucket.oss-cn-hangzhou.aliyuncs.com/default_front_file/404pic.png'"
-             alt="" style="width:50px;margin-right: 10px"/>
+        <img
+          :src="item.pic_urls.length>0?item.pic_urls[0]:'http://leeyum-bucket.oss-cn-hangzhou.aliyuncs.com/default_front_file/404pic.png'"
+          alt="" style="width:50px;margin-right: 10px"/>
         <div class="mInfoTitle">{{item.title}}</div>
-        <div class="mInfoButton" style="background: white;border: none;color: #fdc006;font-size: 20px" @click="handleRemoveLike(item)"><el-icon class="el-icon-star-on"></el-icon></div>
+        <div class="mInfoButton" style="background: white;border: none;color: #fdc006;font-size: 20px"
+             @click="handleRemoveLike(item)">
+          <el-icon class="el-icon-star-on"></el-icon>
+        </div>
       </div>
 
     </div>
 
-<!--    已发布-->
+    <!--    已发布-->
     <div v-if="son==='released'" class="infoMain">
-      <div v-if="content.length===0" style="height: 300px;width: 100%;display: flex;align-items: center;justify-content: center;color: #8c939d">无内容</div>
+      <div v-if="content.length===0"
+           style="height: 300px;width: 100%;display: flex;align-items: center;justify-content: center;color: #8c939d">
+        无内容
+      </div>
       <div v-for="item in content" class="infoMainItem">
-        <img :src="item.pic_urls.length>0?item.pic_urls[0]:'http://leeyum-bucket.oss-cn-hangzhou.aliyuncs.com/default_front_file/404pic.png'"
-             alt="" style="width:50px;margin-right: 10px"/>
+        <img
+          :src="item.pic_urls.length>0?item.pic_urls[0]:'http://leeyum-bucket.oss-cn-hangzhou.aliyuncs.com/default_front_file/404pic.png'"
+          alt="" style="width:50px;margin-right: 10px"/>
         <div class="mInfoTitle">{{item.title}}</div>
         <div class="mInfoButton" @click="handleBackInfo(item)">下架</div>
       </div>
@@ -108,7 +142,8 @@
 </template>
 
 <script>
-  import { Confirm } from 'vux'
+  import {Confirm} from 'vux'
+
   export default {
     name: "MInfo",
     components: {
@@ -117,15 +152,18 @@
     data() {
       return {
         son: this.$route.params.son,
-        content:[],
-        showLeave:false,
-        showRemoveLike:false,
-        showBackInfo:false,
-        showClear:false,
-        showSettings:false,
-        handleId:'',
-        accept_publish_article_recommend_to_others:true,
-        accept_recommended_message:true
+        content: [],
+        showLeave: false,
+        showRemoveLike: false,
+        showBackInfo: false,
+        showClear: false,
+        showSettings: false,
+        handleId: '',
+        accept_publish_article_recommend_to_others: true,
+        accept_recommended_message: true,
+        username: '',
+        touxiangUrl: '',
+        userPhoneNumber: ''
       }
     },
     methods: {
@@ -136,13 +174,16 @@
         document.getElementById("root").style.width = Width + "px";
         document.getElementById("root").style.background = "#f0f0f0";
         this.$axios.get("/api/user/details/").then(res => {
+          this.$data.username=res.data.data.username;
+          this.$data.userPhoneNumber = res.data.data.phone_number;
+          this.$data.touxiangUrl=res.data.data.profile_avatar_url;
           this.$data.accept_publish_article_recommend_to_others = res.data.data.accept_publish_article_recommend_to_others;
           this.$data.accept_recommended_message = res.data.data.accept_recommended_message;
         }).catch(err => {
           console.log(err);
         });
 
-        if(this.$data.son==='liked'){
+        if (this.$data.son === 'liked') {
           this.$axios.get("/api/user/like/").then(res => {
             for (let i = 0; i < res.data.data.length; i++)
               this.$data.content.push(res.data.data[i]);
@@ -150,7 +191,7 @@
             console.log(err);
           })
         }
-        if(this.$data.son==='released'){
+        if (this.$data.son === 'released') {
           this.$axios.get("/api/user/published/").then(res => {
             for (let i = 0; i < res.data.data.length; i++)
               this.$data.content.push(res.data.data[i]);
@@ -158,7 +199,7 @@
             console.log(err);
           })
         }
-        if(this.$data.son==='scanned'){
+        if (this.$data.son === 'scanned') {
           this.$axios.get("/api/user/viewed/").then(res => {
             for (let i = 0; i < res.data.data.length; i++)
               this.$data.content.push(res.data.data[i]);
@@ -166,10 +207,10 @@
             console.log(err);
           })
         }
-        if(this.$data.son==='settings'){
+        if (this.$data.son === 'settings') {
 
         }
-        if(this.$data.son==='team'){
+        if (this.$data.son === 'team') {
           this.$axios.get("/api/user/teams/").then(res => {
             for (let i = 0; i < res.data.data.length; i++)
               this.$data.content.push(res.data.data[i]);
@@ -181,19 +222,19 @@
       jump: function (name) {
         this.$router.push({name: name});
       },
-      handleLeave:function(item){
-        this.$data.handleId=item.id;
-        this.$data.showLeave=true;
+      handleLeave: function (item) {
+        this.$data.handleId = item.id;
+        this.$data.showLeave = true;
       },
-      handleRemoveLike:function(item){
-        this.$data.handleId=item.id;
-        this.$data.showRemoveLike=true;
+      handleRemoveLike: function (item) {
+        this.$data.handleId = item.id;
+        this.$data.showRemoveLike = true;
       },
-      handleBackInfo:function(item){
-        this.$data.handleId=item.id;
-        this.$data.showBackInfo=true;
+      handleBackInfo: function (item) {
+        this.$data.handleId = item.id;
+        this.$data.showBackInfo = true;
       },
-      clearHistory:function(){
+      clearHistory: function () {
         this.$axios.delete("/api/user/viewed/").then(() => {
           this.$data.content.splice(0, this.$data.content.length);
           this.$message.success("清除成功！");
@@ -201,11 +242,11 @@
           this.$message.error("出了一点小意外，请稍后重试！");
         })
       },
-      removeLike:function(){
+      removeLike: function () {
         this.$axios.delete("/api/user/like/?article_id=" + this.$data.handleId).then(res => {
           this.$message.success("已取消收藏！");
           for (let i = 0; i < this.$data.content.length; i++)
-            if (this.$data.content[i].id ===  this.$data.handleId) {
+            if (this.$data.content[i].id === this.$data.handleId) {
               this.$data.content.splice(i, 1);
               break;
             }
@@ -214,7 +255,7 @@
           console.log(err);
         });
       },
-      outTeam:function(){
+      outTeam: function () {
         const dataa = {
           article_id: this.$data.handleId
         };
@@ -234,7 +275,7 @@
           this.$alert("退出失败，请重试");
         })
       },
-      backInfo:function() {
+      backInfo: function () {
         this.$axios.delete("/api/article/?id=" + this.$data.handleId).then(() => {
           for (let i = 0; i < this.$data.content.length; i++)
             if (this.$data.content[i].id === this.$data.handleId) {
@@ -247,7 +288,7 @@
           console.log(err);
         });
       },
-      msaveSettings:function(){
+      msaveSettings: function () {
         const dataa = {
           accept_recommended_message: this.$data.accept_recommended_message,
           accept_publish_article_recommend_to_others: this.$data.accept_publish_article_recommend_to_others
@@ -261,6 +302,31 @@
           this.$message.success("保存成功！");
         }).catch(err => {
           this.$alert("退出设置失败，请稍后重试！");
+        });
+
+        const dataa1 = {
+          username: this.$data.username,
+          profile_avatar_url: this.$data.touxiangUrl
+        };
+        this.$axios.put("/api/user/settings/update/", dataa1, config).then(res => {
+          this.$message.success("保存成功！");
+          location.reload();
+        }).catch(err => {
+          this.$alert("保存设置失败，请稍后重试！");
+        })
+      },
+      handleTouxiang:function(e){
+        let fd=new FormData();
+        const config={
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+          },
+        };
+        fd.append("file",e.target.files[0]);
+        this.$axios.post("/api/file/upload/",fd,config).then(res=>{
+          this.$data.touxiangUrl=res.data.data.file_url;
+        }).catch(err=>{
+          console.log(err);
         })
       }
     },
@@ -271,7 +337,7 @@
 </script>
 
 <style scoped>
-  .mInfoHeader{
+  .mInfoHeader {
     height: 60px;
     width: calc(100% - 10px);
     background: #fdc006;
@@ -282,12 +348,14 @@
     padding-left: 10px;
     font-size: 150%;
   }
-  .infoMain{
+
+  .infoMain {
     width: 96%;
     padding: 0 2% 10px;
     background: #f0f0f0;
   }
-  .infoMainItem{
+
+  .infoMainItem {
     background: white;
     border-radius: 5px;
     width: calc(100% - 20px);
@@ -296,7 +364,8 @@
     align-items: center;
     padding: 10px;
   }
-  .mInfoButton{
+
+  .mInfoButton {
     width: 50px;
     border-radius: 3px;
     border: 1px solid #fdc006;
@@ -308,11 +377,13 @@
     height: 20px;
     font-size: 13px;
   }
-  .mInfoTitle{
+
+  .mInfoTitle {
     width: calc(100% - 110px);
     font-size: 15px;
   }
-  .msettingsButton{
+
+  .msettingsButton {
     margin-top: 100px;
     width: 96%;
     height: 50px;

@@ -44,7 +44,7 @@
             </div>
             <div class="personalInfo">
               <div class="personalInfoOne">
-                <img src="../../../static/picture/personalPic.png" alt="" style="height: 55px;border-radius: 55px">
+                <img :src="touxiangUrl" alt="" style="height: 55px;border-radius: 55px">
                 <div class="personalInfoOneLogin" v-if="this.$data.username===''">
                   <div style="height: 25%;width: 100%">Hi~欢迎逛流云!</div>
                   <div style="height: 25%;width: 100%;display: flex">
@@ -53,8 +53,8 @@
                 </div>
 
                 <div class="personalInfoOneLogin" v-if="this.$data.username!==''">
-                  <div style="height: 25%;width: 100%">Hi~ {{username.substr(0,7)}}
-                    <span v-if="this.$data.username.length>7">..</span>
+                  <div style="height: 25%;width: 100%">Hi~ {{username.substr(0,4)}}
+                    <span v-if="this.$data.username.length>5">..</span>
                   </div>
                   <div style="height: 25%;width: 100%;display: flex">欢迎逛流云!</div>
                 </div>
@@ -292,15 +292,40 @@
           无
         </div>
         <div v-if="sideTitle==='设置'" style="height: 90%;width: 100%;color: #72767b;position: relative;">
-          <div style="display: flex;font-size: 15px;justify-content: space-between">
+          <div
+            style="height: 100px;width: 100%;display:flex;justify-content:center;margin-bottom: 20px;position: relative">
+            <input style="height: 100px;
+            border-radius: 100px;
+            width: 100px;
+            opacity: 0;
+            z-index: 999;
+            cursor: pointer"
+                   type="file"
+            @change="handleTouxiang"/>
+            <img :src="touxiangUrl" alt=""
+                 style="height: 100px;position: absolute;z-index: 0;top: 0;left: 125px"/>
+          </div>
+          <div
+            style="display: flex;font-size: 15px;justify-content: space-between;margin-bottom: 20px;height: 30px;align-items: center">
+            <span>用户名：</span>
+            <input style="width: 200px;border: 1px solid #cbcbcb;border-radius: 3px;height: 25px;padding: 0 3px"
+                   v-model="username"></input>
+          </div>
+          <div
+            style="display: flex;font-size: 15px;justify-content: space-between;margin-bottom: 20px;height: 30px;align-items: center">
+            <span>联系方式：</span>
+            <input style="width: 200px;border: 1px solid #cbcbcb;border-radius: 3px;height: 25px;padding: 0 3px"
+                   v-model="userPhoneNumber"></input>
+          </div>
+          <div
+            style="display: flex;font-size: 15px;justify-content: space-between;margin-bottom: 15px;height: 30px;align-items: center">
             <span>允许将发布的信息推荐给其他用户</span>
             <el-switch
-              style="margin-bottom: 15px"
               active-color="#fdc006"
               v-model="accept_publish_article_recommend_to_others">
             </el-switch>
           </div>
-          <div style="display: flex;font-size: 15px;justify-content: space-between">
+          <div style="display: flex;font-size: 15px;justify-content: space-between;height: 30px;align-items: center">
             <span>接受推荐短信</span>
             <el-switch
               v-model="accept_recommended_message"
@@ -346,6 +371,7 @@
           '../../../static/picture/ads3.jpg',
         ],
         goodsItems: [],
+        userPhoneNumber: '',
         maxPage: 1,
         more_goods: true,
         nowType: '',
@@ -356,7 +382,8 @@
         sideTitle: '',
         sideContent: [],
         accept_publish_article_recommend_to_others: true,
-        accept_recommended_message: true
+        accept_recommended_message: true,
+        touxiangUrl: ''
       }
     },
     methods: {
@@ -390,6 +417,8 @@
         this.$axios.get("/api/user/details/").then(res => {
           localStorage.setItem("username", res.data.data.username);
           this.$data.username = localStorage.getItem("username");
+          this.$data.userPhoneNumber = res.data.data.phone_number;
+          this.$data.touxiangUrl=res.data.data.profile_avatar_url;
           this.$data.accept_publish_article_recommend_to_others = res.data.data.accept_publish_article_recommend_to_others;
           this.$data.accept_recommended_message = res.data.data.accept_recommended_message;
         }).catch(err => {
@@ -728,11 +757,35 @@
             }
           };
           this.$axios.post("/api/user/settings/accept/", dataa, config).then(res => {
-
           }).catch(err => {
-            this.$alert("退出设置失败，请稍后重试！");
+            this.$alert("保存设置失败，请稍后重试！");
+          });
+
+          const dataa1 = {
+            username: this.$data.username,
+            profile_avatar_url: this.$data.touxiangUrl
+          };
+          this.$axios.put("/api/user/settings/update/", dataa1, config).then(res => {
+            this.$message.success("保存成功！");
+            location.reload();
+          }).catch(err => {
+            this.$alert("保存设置失败，请稍后重试！");
           })
         }).catch(() => {
+        })
+      },
+      handleTouxiang:function(e){
+        let fd=new FormData();
+        const config={
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+          },
+        };
+        fd.append("file",e.target.files[0]);
+        this.$axios.post("/api/file/upload/",fd,config).then(res=>{
+          this.$data.touxiangUrl=res.data.data.file_url;
+        }).catch(err=>{
+          console.log(err);
         })
       }
     },

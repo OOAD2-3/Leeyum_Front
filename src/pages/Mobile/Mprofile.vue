@@ -3,7 +3,8 @@
     <!--    <div style="background: rgb(253,192,6);width: 100%;height: 50px"></div>-->
     <div class="muserInfo">
       <div class="muserImg">
-        <img src="../../../static/picture/own.jpg" alt="" style="margin-left:5%;width: 90%;"/>
+        <img :src="touxiangUrl" alt="" style="margin-left:5%;width: 90%;" v-if="username!==''"/>
+        <img src="../../../static/picture/own.jpg" alt="" style="margin-left:5%;width: 90%;" v-else/>
       </div>
       <div class="muserInfoDetail">
         <div class="muserInfoDetailMain">
@@ -79,7 +80,8 @@
     data() {
       return {
         logoutShow: false,
-        username: ''
+        username: '',
+        touxiangUrl:''
       }
     },
     methods: {
@@ -92,6 +94,7 @@
         this.$axios.get("/api/user/details/").then(res => {
           this.$data.username = res.data.data.username;
           localStorage.setItem("username", res.data.data.username);
+          this.$data.touxiangUrl=res.data.data.profile_avatar_url;
         }).catch(err => {
           console.log(err)
         });

@@ -31,7 +31,7 @@
         <!--        <div class="application" @click="dialogVisible = true">APP</div>-->
         <div class="release-button" @click="PwantRelease">我要发布</div>
         <div class="login">
-          <img src="../../../static/picture/about_pic.jpg" alt="" style="height: 70%;margin-right: 10px;"/>
+          <img :src="touxiangUrl" alt="" style="height: 70%;margin-right: 10px;"/>
           <div class="login_button" @click="jump('PLogin')" id="noLogin">登录</div>
           <div class="onlineState" id="onlineState">
             <div id="userName"></div>
@@ -82,6 +82,7 @@
         PsearchKeyWord: this.$props.PsearchKeyWordIn,
         search_history: [],
         search_hot: [],
+        touxiangUrl:''
       }
     },
     methods: {
@@ -92,6 +93,7 @@
           document.getElementById("noLogin").style.display = "none";
           document.getElementById("onlineState").style.display = "flex";
           document.getElementById("userName").innerHTML = res.data.data.username;
+          this.$data.touxiangUrl=res.data.data.profile_avatar_url;
           localStorage.setItem("username", res.data.data.username);
         }).catch(err => {
           console.log(err);

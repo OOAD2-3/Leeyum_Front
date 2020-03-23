@@ -98,13 +98,16 @@
                   </div>
                 </div>
 
-                <div style="margin-left: 2%;width: 98%;min-height: 20px;display: flex;flex-wrap: wrap;" v-if="item.tags.length>0">
+                <div style="margin-left: 2%;width: 98%;min-height: 20px;display: flex;flex-wrap: wrap;"
+                     v-if="item.tags.length>0">
                   <div class="tags" v-for="tag in item.tags">{{tag}}</div>
                 </div>
                 <div class="matchItemContent">{{item.content.body}}</div>
               </div>
               <div class="matchMainItemButtonCol">
-                <button class="matchJoinButton" v-if="item.category[1]==='拼车'||item.category[1]==='约玩/约学习'" @click="joinMatchTeam">加入</button>
+                <button class="matchJoinButton" v-if="item.category[1]==='拼车'||item.category[1]==='约玩/约学习'"
+                        @click="joinMatchTeam(item)">加入
+                </button>
                 <button class="matchJoinButton" v-else @click="showDetail(item)">详情</button>
               </div>
             </div>
@@ -125,42 +128,8 @@
     components: {PMyHead, Tail},
     data() {
       return {
-        id:'',
-        matchList: [
-          {
-            title: '苏天宇好帅',
-            content: {
-              body: '巨帅'
-            },
-            tags:['太帅了'],
-            category: ['二手交易', '出售'],
-            pic_urls: []
-          }, {
-            title: '苏天宇好帅',
-            content: {
-              body: '巨帅'
-            },
-            tags:[],
-            category: ['二手交易', '出售'],
-            pic_urls: []
-          }, {
-            title: '苏天宇好帅',
-            content: {
-              body: '巨帅'
-            },
-            tags:[],
-            category: ['二手交易', '出售'],
-            pic_urls: []
-          }, {
-            title: '苏天宇好帅',
-            content: {
-              body: '巨帅'
-            },
-            tags:[],
-            category: ['二手交易', '出售'],
-            pic_urls: []
-          }
-        ]
+        id: this.$route.params.id,
+        matchList: []
       }
     },
     methods: {
@@ -193,20 +162,45 @@
           this.jump("PGoods");
         })
       },
-      showDetail:function(item){
-
+      showDetail: function (item) {
+        this.$router.push({
+          name: 'PDetail',
+          params: {
+            articleId: item.id
+          }
+        })
       },
-      joinMatchTeam:function () {
+      joinMatchTeam: function (item) {
+        this.$confirm('确认要加入“'+item.title+'”吗？您可以在首页右侧加入的组队中看到您加入的组队。', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
 
+          this.jump("PGoods");
+        }).catch(()=>{
+          console.log("err");
+        })
+      },
+      getMatchList: function () {
+        this.$axios.get("/api/article/publish_recommend/?article_id=" + this.$data.id).then(res => {
+          for (let i = 0; i < res.data.data.length; i++)
+            this.$data.matchList.push(res.data.data[i]);
+        }).catch(err => {
+          console.log(err);
+        })
       }
     },
     mounted() {
       this.init();
     },
-    // beforeRouteEnter(to, from, next){
-    //   if(from.name==='PRelease'||from.name==='PDetail') next();
-    //   else next("/pgoods");
-    // },
+    created() {
+      this.getMatchList();
+    },
+    beforeRouteEnter(to, from, next){
+      if(from.name==='PRelease'||from.name==='PDetail') next();
+      else next("/pgoods");
+    },
   }
 </script>
 
@@ -276,7 +270,6 @@
   }
 
   .matchMainItem {
-    min-height: 190px;
     width: calc(80% - 10px);
     margin-left: 10%;
     border: 1px solid #e0e0e0;
@@ -288,7 +281,6 @@
   }
 
   .matchMainItemMain {
-    min-height: 190px;
     width: 300px;
     padding: 5px 5px 5px 0;
   }
@@ -296,12 +288,12 @@
   .matchItemContent {
     width: 98%;
     margin-left: 2%;
-    min-height: 100px;
     font-size: 14px;
     color: #aeaeae;
     margin-top: 3px;
   }
-  .tags{
+
+  .tags {
     color: #a4a5a7;
     border: solid 1px #e8eaec;
     font-size: 13px;
@@ -312,6 +304,7 @@
     margin-right: 3px;
     padding: 1px 3px;
   }
+
   .matchMainItemButtonCol {
     width: 60px;
   }

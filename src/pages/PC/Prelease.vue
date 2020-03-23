@@ -120,6 +120,19 @@
             <div class="content-title-text">地点</div>
             <input class="content-title-main" style="height: 23px;" v-model="place"/>
           </div>
+          <div class="special" v-if="this.$data.typeCheckName==='其它组队'" id="其它组队">
+            <div style="display: flex;width: 80%;margin-left: 10%;margin-bottom: 5px">
+              <div style="width: 50%">
+                <div>日期(具体时间请在内容里写明)</div>
+                <input type="date" class="content-title-main" style="width: 150px;height: 25px;margin-left: 0" v-model="time"/>
+              </div>
+              <div style="width: 50%">
+                <div>人数</div>
+                <input type="number" class="content-title-main" style="width: 150px;height: 23px;margin-left: 0" v-model="total_number"/></div>
+            </div>
+            <div class="content-title-text">地点</div>
+            <input class="content-title-main" style="height: 23px;" v-model="place"/>
+          </div>
 
           <div class="special" v-if="this.$data.typeCheckName==='拼车'" id="拼车">
             <div style="display: flex;width: 80%;margin-left: 10%;margin-bottom: 5px;justify-content: space-between">
@@ -256,19 +269,18 @@
             typeCheck:'',
             typeCheckName:'',
             tag_list:[{
-              id:'10',
+              id:'10000',
               name:'又大又圆',
               intro:'自带'
             },{
-              id:'10',
+              id:'11000',
               name:'又长又宽',
               intro:'自带'
             },{
-              id:'10',
+              id:'12000',
               name:'又扁又圆',
               intro:'自带'
-            }
-            ],
+            }],
             tagCheckboxGroup:[],
             title:'',
             content:'',
@@ -336,7 +348,14 @@
               }
             };
             this.$axios.post("/api/article/",dataa,config).then(res=>{
-              this.jump("PGoods");
+              let t=res.data.data.article_id;
+              console.log(t);
+              this.$router.push({
+                name:'PMatch',
+                params:{
+                  id:t
+                }
+              })
             }).catch(err=>{
               if(err.response.status===400) this.$message.error("发布内容中包含敏感词！");
             })
@@ -360,7 +379,14 @@
                 }
               };
               this.$axios.post("/api/article/",dataa,config).then(res=>{
-                this.jump("PGoods");
+                let t=res.data.data.article_id;
+                console.log(t);
+                this.$router.push({
+                  name:'PMatch',
+                  params:{
+                    id:t
+                  }
+                })
               }).catch(err=>{
                 if(err.response.status===400) this.$message.error("发布内容中包含敏感词！");
               })
@@ -385,7 +411,14 @@
                 }
               };
               this.$axios.post("/api/article/",dataa,config).then(res=>{
-                this.jump("PGoods");
+                let t=res.data.data.article_id;
+                console.log(t);
+                this.$router.push({
+                  name:'PMatch',
+                  params:{
+                    id:t
+                  }
+                })
               }).catch(err=>{
                 if(err.response.status===400) this.$message.error("发布内容中包含敏感词！");
               })
@@ -410,7 +443,14 @@
                 }
               };
               this.$axios.post("/api/article/",dataa,config).then(res=>{
-                this.jump("PGoods");
+                let t=res.data.data.article_id;
+                console.log(t);
+                this.$router.push({
+                  name:'PMatch',
+                  params:{
+                    id:t
+                  }
+                })
               }).catch(err=>{
                 if(err.response.status===400) this.$message.error("发布内容中包含敏感词！");
               })
@@ -438,7 +478,14 @@
               };
 
               this.$axios.post("/api/article/",dataa,config).then(res=>{
-                this.jump("PGoods");
+                let t=res.data.data.article_id;
+                console.log(t);
+                this.$router.push({
+                  name:'PMatch',
+                  params:{
+                    id:t
+                  }
+                })
               }).catch(err=>{
                 if(err.response.status===400) this.$message.error("发布内容中包含敏感词！");
               })
@@ -464,7 +511,14 @@
               };
 
               this.$axios.post("/api/article/",dataa,config).then(res=>{
-                this.jump("PGoods");
+                let t=res.data.data.article_id;
+                console.log(t);
+                this.$router.push({
+                  name:'PMatch',
+                  params:{
+                    id:t
+                  }
+                })
               }).catch(err=>{
                 if(err.response.status===400) this.$message.error("发布内容中包含敏感词！");
               })
@@ -489,7 +543,14 @@
               };
 
               this.$axios.post("/api/article/", dataa, config).then(res => {
-                this.jump("PGoods");
+                let t=res.data.data.article_id;
+                console.log(t);
+                this.$router.push({
+                  name:'PMatch',
+                  params:{
+                    id:t
+                  }
+                })
               }).catch(err => {
                 if(err.response.status===400) this.$message.error("发布内容中包含敏感词！");
               })
@@ -511,7 +572,14 @@
             };
 
             this.$axios.post("/api/article/", dataa, config).then(res => {
-              this.jump("PGoods");
+              let t=res.data.data.article_id;
+              console.log(t);
+              this.$router.push({
+                name:'PMatch',
+                params:{
+                  id:t
+                }
+              })
             }).catch(err => {
               if(err.response.status===400) this.$message.error("发布内容中包含敏感词！");
             })
@@ -584,6 +652,7 @@
           document.getElementById("chooseSubTypeDiv").style.display = "flex";
           for (let i = 0; i < item.sub_category_list.length; i++)
             this.$data.activeSecondType.push(item.sub_category_list[i]);
+
         },
         alreadyChooseSecondType:function(item){
           if(this.$data.typeCheck!==''){
@@ -596,6 +665,18 @@
           document.getElementById(this.$data.typeCheck).style.background = "#c0c0c0";
           document.getElementById(this.$data.typeCheck).style.color = "#606266";
           document.getElementById(this.$data.typeCheck).style.border = "1px solid #c0c0c0";
+          if(this.$data.typeCheckName==='出售') this.$data.tag_list.push({
+            id:'9999',
+            name:'毕业季',
+            intro:''
+          });
+          else{
+            for(let i=0;i<this.$data.tag_list.length;i++)
+              if(this.$data.tag_list[i].name==='毕业季'){
+                this.$data.tag_list.splice(i,1);
+                break;
+              }
+          }
         }
       },
       mounted() {
