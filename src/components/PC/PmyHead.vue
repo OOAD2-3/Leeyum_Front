@@ -6,7 +6,6 @@
         :default-active="active1"
         class="el-menu-demo"
         mode="horizontal"
-        background-color="#ffffff"
         style="border-bottom: transparent;margin-left: 24px;width: 140px"
         active-text-color="rgb(253,192,6)"
         text-color="#222222">
@@ -17,6 +16,8 @@
         <div class="search_main">
           <input id="inputFocus"
                  class="search-input"
+                 type="text"
+                 autocomplete="off"
                  v-model="PsearchKeyWord"
                  placeholder="发现你想要的"
                  @keyup="changePsearchKeyWord"
@@ -53,14 +54,21 @@
           </div>
         </div>
         <div class="PChistorySearchMain">
-          <div class="searchHistoryItem" v-for="item in search_history" @mousedown="chooseSearch(item)">{{item}}</div>
+          <div class="searchHistoryItem" v-for="item in search_history" @mousedown="chooseSearch(item)">
+            <span style="color: #6f6f6f">{{item}}</span>
+          </div>
           <div class="searchHistoryItem" style="cursor: auto" v-if="this.$data.search_history.length===0">无</div>
         </div>
       </div>
       <div class="PChistorySearch">
         <div style="margin-left: 10px;width: calc(100% - 10px);height: 30px;line-height: 30px">热门搜索</div>
         <div class="PChotSearchMain">
-          <div class="searchHistoryItem" v-for="item in search_hot" @mousedown="chooseSearch(item)">{{item}}</div>
+          <div class="searchHistoryItem" v-for="(item,index) in search_hot" @mousedown="chooseSearch(item)">
+            <span v-if="index===0" style="color: red">No.{{index+1}} {{item}}</span>
+            <span v-else-if="index===1" style="color: orangered">No.{{index+1}} {{item}}</span>
+            <span v-else-if="index===2" style="color: orange">No.{{index+1}} {{item}}</span>
+            <span v-else>{{item}}</span>
+          </div>
         </div>
       </div>
     </div>

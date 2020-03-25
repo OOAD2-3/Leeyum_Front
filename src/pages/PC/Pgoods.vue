@@ -304,7 +304,7 @@
             z-index: 999;
             cursor: pointer"
                    type="file"
-            @change="handleTouxiang"/>
+                   @change="handleTouxiang"/>
             <img :src="touxiangUrl" alt=""
                  style="height: 100px;position: absolute;z-index: 0;top: 0;left: 125px"/>
           </div>
@@ -421,7 +421,7 @@
           localStorage.setItem("username", res.data.data.username);
           this.$data.username = localStorage.getItem("username");
           this.$data.userPhoneNumber = res.data.data.phone_number;
-          this.$data.touxiangUrl=res.data.data.profile_avatar_url;
+          this.$data.touxiangUrl = res.data.data.profile_avatar_url;
           this.$data.accept_publish_article_recommend_to_others = res.data.data.accept_publish_article_recommend_to_others;
           this.$data.accept_recommended_message = res.data.data.accept_recommended_message;
         }).catch(err => {
@@ -583,7 +583,16 @@
         else {
           if (localStorage.getItem('history_search')) {
             let temp = JSON.parse(localStorage.getItem('history_search'));
-            temp.push(this.$data.PsearchKeyWordOut);
+
+            let new_search_word_index = temp.indexOf(this.$data.PsearchKeyWordOut);
+            if (new_search_word_index === -1) {
+              temp.push(this.$data.PsearchKeyWordOut);
+            } else if (new_search_word_index !== temp.len - 1) {
+              temp.splice(new_search_word_index, 1);
+              temp.push(this.$data.PsearchKeyWordOut);
+            } else {
+
+            }
             localStorage.setItem('history_search', JSON.stringify(temp));
           } else {
             let temp = [];
@@ -593,7 +602,7 @@
           this.$data.nowKeyword = this.$data.PsearchKeyWordOut;
           this.$data.maxPage = 1;
           this.$data.nowType = '';
-          this.$data.nowTypeName = '本月热门';
+          this.$data.nowTypeName = '搜索';
           this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&keyword=" + this.$data.nowKeyword).then(res => {
             this.$data.goodsItems.splice(0, this.$data.goodsItems.length);
             for (let i = 0; i < res.data.data.article_list.length; i++)
@@ -622,12 +631,10 @@
         }
       },
       enterDetail: function (item) {
-        this.$router.push({
-          name: 'PDetail',
-          params: {
-            articleId: item.id
-          }
-        })
+        let routeUrl = this.$router.resolve({
+          path: "/pdetail/" + item.id
+        });
+        window.open(routeUrl.href, '_blank');
       },
       openSideCol: function (name) {
         if (localStorage.getItem("username") !== '') {
@@ -790,17 +797,17 @@
         }).catch(() => {
         })
       },
-      handleTouxiang:function(e){
-        let fd=new FormData();
-        const config={
+      handleTouxiang: function (e) {
+        let fd = new FormData();
+        const config = {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
           },
         };
-        fd.append("file",e.target.files[0]);
-        this.$axios.post("/api/file/upload/",fd,config).then(res=>{
-          this.$data.touxiangUrl=res.data.data.file_url;
-        }).catch(err=>{
+        fd.append("file", e.target.files[0]);
+        this.$axios.post("/api/file/upload/", fd, config).then(res => {
+          this.$data.touxiangUrl = res.data.data.file_url;
+        }).catch(err => {
           console.log(err);
         })
       }
