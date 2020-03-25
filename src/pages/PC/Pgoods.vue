@@ -112,6 +112,7 @@
 
           <div class="alreadyType">当前：{{this.$data.nowTypeName}}
             <div class="clearAlreadyType" @click="clearType" v-if="this.$data.nowTypeName!=='本月热门'">清空已选</div>
+            <div class="clearAlreadyType" @click="selfRecommend" v-if="this.$data.nowTypeName==='个性推荐'">换一波</div>
           </div>
           <!--        <div class="goods_order">-->
           <!--          <div class="goods_time">按热度↓</div>-->
@@ -141,19 +142,26 @@
                     <div style="margin-top: 2px">{{item.viewed_times+1}}</div>
                   </div>
                 </div>
+                <div class="items_line2">
+                  <div class="tags" v-for="tag in item.tags">{{tag}}</div>
+                </div>
+
+                <div class="items_line3">{{item.content.body.substr(0,50)}}
+                  <span v-if="item.content.body.length>50">...</span>
+                </div>
 
                 <div
                   v-if="item.category[1]==='拼车'||item.category[1]==='约玩/约学习'"
-                  style="height: 20px;width: 99%;margin-left:2%;font-size: 14px;line-height: 20px;color: #3c3c3c;padding-bottom: 3px">
+                  class="items_line4">
                   <el-icon class="el-icon-user" style="padding-right: 2px"></el-icon>
-                  {{item.content.now_number}}/{{item.content.total_number}}人
+                  当前人数 {{item.content.now_number}}/{{item.content.total_number}}
                 </div>
                 <div
                   v-if="item.category[1]==='求购'||item.category[1]==='出售'"
-                  style="height: 20px;width: 98%;margin-left:2%;font-size: 14px;line-height: 20px;padding-bottom: 3px;color:red;display: flex">
+                  class="items_line4">
                   <div style="height: 100%;width: 50%">
                     <el-icon class="el-icon-money" style="padding-right: 2px;color: #3c3c3c"></el-icon>
-                    {{item.content.price}}元
+                    ￥{{item.content.price}}
                   </div>
                   <div style="height: 100%;width: 50%;color:#3c3c3c;">
                     <el-icon class="el-icon-magic-stick" style="padding-right: 2px;color: #3c3c3c"></el-icon>
@@ -162,63 +170,58 @@
                 </div>
                 <div
                   v-if="item.category[1]==='求租'||item.category[1]==='出借'"
-                  style="height: 20px;width: 98%;margin-left:2%;font-size: 14px;line-height: 20px;padding-bottom: 3px;color:red;display: flex">
+                  class="items_line4">
                   <div style="height: 100%;width: 50%">
                     <el-icon class="el-icon-money" style="padding-right: 2px;color: #3c3c3c"></el-icon>
-                    {{item.content.price}}元
+                    ￥{{item.content.price}}
                   </div>
                   <div style="height: 100%;width: 50%;color:#3c3c3c;">
                     <el-icon class="el-icon-magic-stick" style="padding-right: 2px;color: #3c3c3c"></el-icon>
-                    租借{{item.content.time_span}}天
+                    租借天数 {{item.content.time_span}}
                   </div>
                 </div>
                 <div
                   v-if="item.category[1]==='家教'"
-                  style="height: 20px;width: 98%;margin-left:2%;font-size: 14px;line-height: 20px;padding-bottom: 3px;color:red;display: flex">
+                  class="items_line4">
                   <div style="height: 100%;width: 50%">
                     <el-icon class="el-icon-money" style="padding-right: 2px;color: #3c3c3c"></el-icon>
-                    {{item.content.price}}元/节
+                    ￥{{item.content.price}}/节次
                   </div>
                   <div style="height: 100%;width: 50%;color:#3c3c3c;">
                     <el-icon class="el-icon-time" style="padding-right: 2px;color: #3c3c3c"></el-icon>
-                    {{item.content.time}}开始
+                    时间 {{item.content.time}}
                   </div>
                 </div>
 
                 <div
                   v-if="item.category[1]==='学校事务'||item.category[1]==='其他兼职'"
-                  style="height: 20px;width: 98%;margin-left:2%;font-size: 14px;line-height: 20px;padding-bottom: 3px;color:red;display: flex">
+                  class="items_line4">
                   <div style="height: 100%;width: 50%">
                     <el-icon class="el-icon-money" style="padding-right: 2px;color: #3c3c3c"></el-icon>
-                    {{item.content.price}}元
+                    ￥{{item.content.price}}
                   </div>
                   <div style="height: 100%;width: 50%;color:#3c3c3c;">
                     <el-icon class="el-icon-time" style="padding-right: 2px;color: #3c3c3c"></el-icon>
-                    {{item.content.time}}
+                    时间 {{item.content.time}}
                   </div>
                 </div>
                 <div
                   v-if="item.category[1]==='志愿者招聘'"
-                  style="height: 20px;width: 98%;margin-left:2%;font-size: 14px;line-height: 20px;padding-bottom: 3px;color:red;display: flex">
+                  class="items_line4">
                   <div style="height: 100%;width: 50%;color:#3c3c3c;">
                     <el-icon class="el-icon-time" style="padding-right: 2px;color: #3c3c3c"></el-icon>
-                    {{item.content.time}}
+                    时间 {{item.content.time}}
                   </div>
                   <div style="height: 100%;width: 50%;color:#3c3c3c;">
                     <el-icon class="el-icon-place" style="padding-right: 2px;color: #3c3c3c"></el-icon>
-                    {{item.content.place}}
+                    地点 {{item.content.place}}
                   </div>
                 </div>
-                <div class="items_line2">
-                  <div class="tags" v-for="tag in item.tags">{{tag}}</div>
-                </div>
-                <div class="items_line3">{{item.content.body.substr(0,90)}}
-                  <span v-if="item.content.body.length>90">...</span>
-                </div>
+
               </div>
             </div>
           </div>
-          <div class="more_goods" @click="getMoreGoods" id="moreGoods">加载更多...</div>
+          <div class="more_goods" @click="getMoreGoods" id="moreGoods">点击加载更多...</div>
         </div>
       </div>
     </div>
@@ -516,13 +519,26 @@
         if (item.category_name === '本月热门') {
           location.reload();
         } else if (item.category_name === '个性推荐') {
-          this.$data.maxPage = 1;
-          this.$data.goodsItems.splice(0, this.$data.goodsItems.length);
-          this.$data.nowType = item.category_id;
-          this.$data.nowKeyword = '';
-          this.$data.nowTypeName = item.category_name;
-          console.log(this.$data.nowTypeName);
+          this.selfRecommend()
         }
+      },
+      selfRecommend: function () {
+        this.$data.maxPage = 1;
+        this.$data.goodsItems.splice(0, this.$data.goodsItems.length);
+        this.$data.nowType = 1;
+        this.$data.nowKeyword = '';
+        this.$data.nowTypeName = '个性推荐';
+        this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&is_main=1&recommend=1").then(res => {
+          for (let i = 0; i < res.data.data.article_list.length; i++)
+            this.$data.goodsItems.push(res.data.data.article_list[i]);
+          if (!res.data.data.has_next_page) {
+            document.getElementById("moreGoods").innerHTML = "已无更多";
+            document.getElementById("moreGoods").style.cursor = "auto";
+            this.$data.more_goods = false;
+          } else this.$data.maxPage++;
+        }).catch(err => {
+          console.log(err);
+        })
       },
       secondTypeSearch: function (item) {
         this.$data.maxPage = 1;

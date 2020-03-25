@@ -279,16 +279,16 @@
         shou: false,
 
 
-        price: '100',
+        price: 'X',
         new_or_old: 10,
-        time_span: '3',
-        time: '',
-        place: '厦大',
-        now_number: '1',
-        total_number: '3',
-        target_grade: '五年级',
-        sex_require: '男',
-        team_has_joined: '',
+        time_span: 'X',
+        time: '未知',
+        place: '未知',
+        now_number: '未知',
+        total_number: '未知',
+        target_grade: '未知',
+        sex_require: '未知',
+        team_has_joined: false,
 
       }
     },
