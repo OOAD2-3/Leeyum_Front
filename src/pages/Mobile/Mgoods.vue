@@ -262,7 +262,17 @@
         else {
           if (localStorage.getItem('history_search')) {
             let temp = JSON.parse(localStorage.getItem('history_search'));
-            temp.push(this.$data.MsearchKeyWordOut);
+
+            let new_search_word_index = temp.indexOf(this.$data.MsearchKeyWordOut);
+            console.log(new_search_word_index);
+            if (new_search_word_index === -1) {
+              temp.push(this.$data.MsearchKeyWordOut);
+            } else if (new_search_word_index !== temp.len - 1) {
+              temp.splice(new_search_word_index, 1);
+              temp.push(this.$data.MsearchKeyWordOut);
+            } else {
+
+            }
             localStorage.setItem('history_search', JSON.stringify(temp));
           } else {
             let temp = [];
