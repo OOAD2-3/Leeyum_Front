@@ -12,11 +12,12 @@
             <button class="chooseOrNotButton" style="margin-right: 30px" @click="confirmLeave">继续</button>
             <button class="chooseOrNotButton" @click="confirmLeave">随便逛逛</button>
           </div>
+
           <div class="matchMain">
             <div v-for="item in matchList" class="matchMainItem">
-              <img
-                :src="item.pic_urls.length>0?item.pic_urls[0]:'http://leeyum-bucket.oss-cn-hangzhou.aliyuncs.com/default_front_file/404pic.png'"
-                style="margin-right: 10px;width: 190px">
+              <img class="matchItemImg"
+                   :src="item.pic_urls.length>0?item.pic_urls[0]:'http://leeyum-bucket.oss-cn-hangzhou.aliyuncs.com/default_front_file/404pic.png'"
+                   alt=""/>
               <div class="matchMainItemMain">
                 <div style="width: 100%;height: 30px;line-height: 30px;font-weight: bolder">
                   <span v-if="item.category[1]==='表白墙'"
@@ -199,7 +200,8 @@
     },
     beforeRouteEnter(to, from, next){
       if(from.name==='PRelease'||from.name==='PDetail') next();
-      else next("/pgoods");
+      // else next("/pgoods");
+      else next();
     },
   }
 </script>
@@ -270,14 +272,21 @@
   }
 
   .matchMainItem {
-    width: calc(80% - 10px);
-    margin-left: 10%;
+    display: flex;
     border: 1px solid #e0e0e0;
     border-radius: 5px;
+    width: 80%;
+    padding: 10px;
+    cursor: pointer;
     margin-bottom: 10px;
-    padding: 5px;
-    display: flex;
+    margin-left: 8%;
     align-items: center;
+    background: white;
+  }
+
+  .matchItemImg {
+    height: 180px;
+    width: 180px;
   }
 
   .matchMainItemMain {
