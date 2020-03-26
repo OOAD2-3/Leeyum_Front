@@ -35,11 +35,11 @@
               </el-carousel>
             </div>
             <div class="ads">
-              <div class="ads_item" style="margin-bottom: 10px" @click="$message({message:'广告位1招租',type:'info'})">
-                <img src="../../../static/picture/kw1.jpg" style="height: 100%;width: 100%">
+              <div class="ads_item" style="margin-bottom: 10px" @click="biyeji">
+                <img src="https://leeyum-bucket.oss-cn-hangzhou.aliyuncs.com/default_front_file/%E6%AF%95%E4%B8%9A%E5%AD%A3.jpg" style="height: 100%;width: 100%">
               </div>
-              <div class="ads_item" @click="$message({message:'广告位2招租',type:'info'})">
-                <img src="../../../static/picture/kw2.jpg" style="height: 100%;width: 100%">
+              <div class="ads_item" @click="$message({message:'敬请期待',type:'info'})">
+                <img src="https://leeyum-bucket.oss-cn-hangzhou.aliyuncs.com/default_front_file/%E6%95%AC%E8%AF%B7%E6%9C%9F%E5%BE%85.jpg" style="height: 100%;width: 100%">
               </div>
             </div>
             <div class="personalInfo">
@@ -810,6 +810,24 @@
         }).catch(err => {
           console.log(err);
         })
+      },
+      biyeji: function () {
+        this.$data.nowKeyword = '毕业季';
+        this.$data.maxPage = 1;
+        this.$data.nowType = '';
+        this.$data.nowTypeName = '毕业季';
+        this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&keyword=" + this.$data.nowKeyword).then(res => {
+          this.$data.goodsItems.splice(0, this.$data.goodsItems.length);
+          for (let i = 0; i < res.data.data.article_list.length; i++)
+            this.$data.goodsItems.push(res.data.data.article_list[i]);
+          if (!res.data.data.has_next_page) {
+            document.getElementById("moreGoods").innerHTML = "已无更多";
+            document.getElementById("moreGoods").style.cursor = "auto";
+            this.$data.more_goods = false;
+          } else this.$data.maxPage++;
+        }).catch(err => {
+          console.log(err);
+        });
       }
     },
     mounted() {
