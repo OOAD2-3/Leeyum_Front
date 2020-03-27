@@ -1,5 +1,6 @@
 <template>
   <div id="root">
+
     <PMyHead default-active="2"
              v-bind:PsearchKeyWordOut="PsearchKeyWordOut"
              v-on:update:PsearchKeyWord="getNewPsearchKeyWordOut"
@@ -36,10 +37,14 @@
             </div>
             <div class="ads">
               <div class="ads_item" style="margin-bottom: 10px" @click="biyeji">
-                <img src="https://leeyum-bucket.oss-cn-hangzhou.aliyuncs.com/default_front_file/%E6%AF%95%E4%B8%9A%E5%AD%A3.jpg" style="height: 100%;width: 100%">
+                <img
+                  src="https://leeyum-bucket.oss-cn-hangzhou.aliyuncs.com/default_front_file/%E6%AF%95%E4%B8%9A%E5%AD%A3.jpg"
+                  style="height: 100%;width: 100%">
               </div>
               <div class="ads_item" @click="$message({message:'敬请期待',type:'info'})">
-                <img src="https://leeyum-bucket.oss-cn-hangzhou.aliyuncs.com/default_front_file/%E6%95%AC%E8%AF%B7%E6%9C%9F%E5%BE%85.jpg" style="height: 100%;width: 100%">
+                <img
+                  src="https://leeyum-bucket.oss-cn-hangzhou.aliyuncs.com/default_front_file/%E6%95%AC%E8%AF%B7%E6%9C%9F%E5%BE%85.jpg"
+                  style="height: 100%;width: 100%">
               </div>
             </div>
             <div class="personalInfo">
@@ -51,7 +56,6 @@
                     <div class="loginOr" @click="jump('PLogin')">登陆 | 注册</div>
                   </div>
                 </div>
-
                 <div class="personalInfoOneLogin" v-if="this.$data.username!==''">
                   <div style="height: 25%;width: 100%">Hi~ {{username.substr(0,4)}}
                     <span v-if="this.$data.username.length>5">..</span>
@@ -239,9 +243,11 @@
         <div v-if="sideContent.length>0" v-for="item in sideContent"
              style="min-height: 80px;width: 100%;display: flex;align-items: center;border-bottom: 1px solid #eeeeee;padding: 5px 0;cursor: pointer">
           <div style="width: 30%;height: 100%;background: white;display: flex;align-items: center"
-               @click="enterDetail(item)"><img
-            :src="item.pic_urls.length>0?item.pic_urls[0]:'http://leeyum-bucket.oss-cn-hangzhou.aliyuncs.com/default_front_file/404pic.png'"
-            alt="" style="width: 100%"></div>
+               @click="enterDetail(item)">
+            <img
+              :src="item.pic_urls.length>0?item.pic_urls[0]:'http://leeyum-bucket.oss-cn-hangzhou.aliyuncs.com/default_front_file/404pic.png'"
+              alt="" style="width: 100%">
+          </div>
           <div style="width: 50%;height: 80%;margin-left: 5%" @click="enterDetail(item)">
             <div style="font-size: 15px;width: 100%;height: 100%;font-weight:bolder;">
               <span style="border: 1px solid hotpink;
@@ -382,6 +388,7 @@
         nowTypeName: '本月热门',
         username: '',
         sideCol: false,
+        sideCol1: true,
         sideTitle: '',
         sideContent: [],
         accept_publish_article_recommend_to_others: true,

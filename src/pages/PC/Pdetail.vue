@@ -72,7 +72,6 @@
                                style="width: 40%;margin-right: 10px" :stroke-width="10"
                                :show-text="false"></el-progress>
                   <span>{{now_number}}/{{total_number}}人</span>
-
                   <div class="hasJoinTeam" v-if="now_number===total_number&&team_has_joined" @click="exitTeam">已加入(满)
                   </div>
                   <div class="hasJoinTeam" v-if="now_number===total_number&&!team_has_joined">已满</div>

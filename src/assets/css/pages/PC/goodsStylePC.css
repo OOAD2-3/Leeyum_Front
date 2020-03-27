@@ -399,7 +399,7 @@
   height: 700px;
   width: 350px;
   margin-left: 25px;
-  overflow: scroll;
+  /*overflow: scroll;*/
 }
 
 .sideContent::-webkit-scrollbar {
