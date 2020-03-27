@@ -212,7 +212,7 @@
                   <el-input-number
                     style="margin-top:2px;"
                     size="small"
-                    :min="0" :max="999"
+                    :min="1" :max="999"
                     v-model="total_number">
                   </el-input-number>
                 </div>
@@ -257,7 +257,7 @@
                   <el-input-number
                     style="margin-top:2px;"
                     size="small"
-                    :min="0" :max="999"
+                    :min="1" :max="999"
                     v-model="total_number">
                   </el-input-number>
                 </div>
@@ -317,7 +317,7 @@
                   <el-input-number
                     style="margin-top:2px;"
                     size="small"
-                    :min="0" :max="999"
+                    :min="1" :max="999"
                     v-model="total_number">
                   </el-input-number>
                 </div>
