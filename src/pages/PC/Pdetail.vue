@@ -402,7 +402,7 @@
           this.$data.contactWay = res.data.data.publisher.phone_number;
           this.$data.publisher = res.data.data.publisher.username;
           if (res.data.data.team_has_joined) this.$data.team_has_joined = res.data.data.team_has_joined;
-          if (res.data.data.content.price) this.$data.price = res.data.data.content.price;
+          if (res.data.data.content.price !== null) this.$data.price = res.data.data.content.price;
           if (res.data.data.content.new_or_old) this.$data.new_or_old = res.data.data.content.new_or_old;
           if (res.data.data.content.time_span) this.$data.time_span = res.data.data.content.time_span;
           if (res.data.data.content.time) this.$data.time = res.data.data.content.time;

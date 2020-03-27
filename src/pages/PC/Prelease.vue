@@ -212,7 +212,7 @@
                   <el-input-number
                     style="margin-top:2px;"
                     size="small"
-                    :min="0" :max="999"
+                    :min="1" :max="999"
                     v-model="total_number">
                   </el-input-number>
                 </div>
@@ -257,7 +257,7 @@
                   <el-input-number
                     style="margin-top:2px;"
                     size="small"
-                    :min="0" :max="999"
+                    :min="1" :max="999"
                     v-model="total_number">
                   </el-input-number>
                 </div>
@@ -317,7 +317,7 @@
                   <el-input-number
                     style="margin-top:2px;"
                     size="small"
-                    :min="0" :max="999"
+                    :min="1" :max="999"
                     v-model="total_number">
                   </el-input-number>
                 </div>
@@ -832,6 +832,11 @@
           re.push(this.$data.file_list[i].file_url);
         }
 
+        let tags = [];
+        for (let i = 0; i < this.$data.tag_list.length; i++) {
+          tags.push(this.$data.tag_list[i].name);
+        }
+
         const config = {
           headers: {
             'Content-Type': 'application/json'
@@ -840,7 +845,7 @@
         const dataa = JSON.stringify({
           title: this.$data.title,
           content: content,
-          tags: this.$data.tag_list,
+          tags: tags,
           category_id: this.$data.typeCheck,
           pic_urls: re,
         });
