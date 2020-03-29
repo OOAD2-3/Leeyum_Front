@@ -27,15 +27,15 @@
             <!--          </div>-->
           </div>
           <div class="mmobile-type">
-            <div class="mmmobileTypeItem" @click="clearType">
+            <div class="mmmobileTypeItem" @click="monthly_hot">
               <img class="mmobile-type-item" src="../../../static/picture/热门.png"/>
               <div style="height: 20%;width: 100%;text-align: center;color: #4b4b4b;font-size: 14px">本月热门</div>
             </div>
-            <div class="mmmobileTypeItem">
+            <div class="mmmobileTypeItem" @click="selfRecommend">
               <img class="mmobile-type-item" src="../../../static/picture/推荐.png"/>
               <div style="height: 20%;width: 100%;text-align: center;color: #4b4b4b;font-size: 14px">个性推荐</div>
             </div>
-            <div class="mmmobileTypeItem">
+            <div class="mmmobileTypeItem" @click="biyeji">
               <img class="mmobile-type-item" src="../../../static/picture/毕业季.png"/>
               <div style="height: 20%;width: 100%;text-align: center;color: #4b4b4b;font-size: 14px">毕业季</div>
             </div>
@@ -45,7 +45,8 @@
             </div>
           </div>
           <div class="malreadyType">当前：{{this.$data.nowTypeName}}
-            <div class="mclearAlreadyType" @click="clearType" v-if="this.$data.nowTypeName!=='本月热门'">清空已选</div>
+            <div class="mclearAlreadyType" @click="monthly_hot" v-if="this.$data.nowTypeName!=='本月热门'">清空已选</div>
+            <div class="mclearAlreadyType" @click="selfRecommend" v-if="this.$data.nowTypeName==='个性推荐'">换一波</div>
           </div>
           <!--        <div class="mgoods_order">-->
           <!--          <div class="mgoods_time">按热度↓</div>-->
@@ -61,8 +62,13 @@
                 <div class="mgoods_items_content">
                   <div class="mitems_line1">
                     <div class="mline1_title">
-                      <span style="padding: 1px 4px;font-size: 13px;color: #fdc006;border-radius: 3px;border: 1px solid #fdc006">{{item.category[1]}}</span>
-                      {{item.title}}
+                    <span v-if="item.category[1]==='表白墙'"
+                          style="border: hotpink 1px solid;border-radius: 3px;font-size: 14px;padding: 1px 3px;color: hotpink;font-weight: normal;">{{item.category[1]}}</span>
+                      <span v-else-if="item.category[1]==='广告'"
+                            style="border: #858585 1px solid;border-radius: 3px;font-size: 14px;padding: 1px 3px;color: #858585;font-weight: normal;">{{item.category[1]}}</span>
+                      <span v-else
+                            style="border: #fdc006 1px solid;border-radius: 3px;font-size: 14px;padding: 1px 3px;color: #fdc006;font-weight: normal;">{{item.category[1]}}</span>
+                      <span style="">{{item.title}}</span>
                     </div>
                     <div class="mline1_number" v-if="item.category[1]==='拼车'||item.category[1]==='约玩/约学习'">
                       <el-icon class="el-icon-user" style="margin-right: 3px"></el-icon>
@@ -81,8 +87,13 @@
                 <div class="mgoods_items_content">
                   <div class="mitems_line1">
                     <div class="mline1_title">
-                      <span style="padding: 1px 4px;font-size: 13px;color: #fdc006;border-radius: 3px;border: 1px solid #fdc006">{{item.category[1]}}</span>
-                      {{item.title}}
+                    <span v-if="item.category[1]==='表白墙'"
+                          style="border: hotpink 1px solid;border-radius: 3px;font-size: 14px;padding: 1px 3px;color: hotpink;font-weight: normal;">{{item.category[1]}}</span>
+                      <span v-else-if="item.category[1]==='广告'"
+                            style="border: #858585 1px solid;border-radius: 3px;font-size: 14px;padding: 1px 3px;color: #858585;font-weight: normal;">{{item.category[1]}}</span>
+                      <span v-else
+                            style="border: #fdc006 1px solid;border-radius: 3px;font-size: 14px;padding: 1px 3px;color: #fdc006;font-weight: normal;">{{item.category[1]}}</span>
+                      <span style="">{{item.title}}</span>
                     </div>
                     <div class="mline1_number" v-if="item.category[1]==='拼车'||item.category[1]==='约玩/约学习'">
                       <el-icon class="el-icon-user" style="margin-right: 3px"></el-icon>
@@ -282,7 +293,7 @@
           this.$data.nowKeyword = this.$data.MsearchKeyWordOut;
           this.$data.maxPage = 1;
           this.$data.nowType = '';
-          this.$data.nowTypeName = '本月热门';
+          this.$data.nowTypeName = '搜索-' + this.$data.nowKeyword;
           this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&keyword=" + this.$data.nowKeyword).then(res => {
             this.$data.goodsItems1.splice(0, this.$data.goodsItems1.length);
             this.$data.goodsItems2.splice(0, this.$data.goodsItems2.length);
@@ -360,6 +371,68 @@
         }).catch(err=>{
           console.log(err);
         })
+      },
+      biyeji: function () {
+        this.$data.nowKeyword = '毕业季';
+        this.$data.maxPage = 1;
+        this.$data.nowType = '';
+        this.$data.nowTypeName = '毕业季';
+        this.$data.goodsItems1.splice(0, this.$data.goodsItems1.length);
+        this.$data.goodsItems2.splice(0, this.$data.goodsItems2.length);
+        this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&keyword=" + this.$data.nowKeyword).then(res => {
+          for (let i = 0; i < res.data.data.article_list.length; i++) {
+            if (i % 2 === 0) this.$data.goodsItems1.push(res.data.data.article_list[i]);
+            else this.$data.goodsItems2.push(res.data.data.article_list[i]);
+          }
+          if (!res.data.data.has_next_page) {
+            document.getElementById("mmoreGoods").innerHTML = "已无更多";
+            document.getElementById("mmoreGoods").style.cursor = "auto";
+            this.$data.more_goods = false;
+          } else this.$data.maxPage++;
+        }).catch(err => {
+          console.log(err);
+        });
+      },
+      selfRecommend: function () {
+        this.$data.maxPage = 1;
+        this.$data.nowType = 1;
+        this.$data.nowKeyword = '';
+        this.$data.nowTypeName = '个性推荐';
+        this.$data.goodsItems1.splice(0, this.$data.goodsItems1.length);
+        this.$data.goodsItems2.splice(0, this.$data.goodsItems2.length);
+        this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&is_main=1&recommend=1").then(res => {
+          for (let i = 0; i < res.data.data.article_list.length; i++) {
+            if (i % 2 === 0) this.$data.goodsItems1.push(res.data.data.article_list[i]);
+            else this.$data.goodsItems2.push(res.data.data.article_list[i]);
+          }
+          document.getElementById("mmoreGoods").innerHTML = "已无更多";
+          document.getElementById("mmoreGoods").style.cursor = "auto";
+          this.$data.more_goods = false;
+        }).catch(err => {
+          console.log(err);
+        })
+      },
+      monthly_hot: function () {
+        this.$data.maxPage = 1;
+        this.$data.nowType = '';
+        this.$data.nowKeyword = '';
+        this.$data.nowTypeName = '本月热门';
+        this.$data.more_goods = true;
+        this.$data.goodsItems1.splice(0, this.$data.goodsItems1.length);
+        this.$data.goodsItems2.splice(0, this.$data.goodsItems2.length);
+        this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&is_main=1").then(res => {
+          for (let i = 0; i < res.data.data.article_list.length; i++) {
+            if (i % 2 === 0) this.$data.goodsItems1.push(res.data.data.article_list[i]);
+            else this.$data.goodsItems2.push(res.data.data.article_list[i]);
+          }
+          if (!res.data.data.has_next_page) {
+            document.getElementById("mmoreGoods").innerHTML = "已无更多";
+            document.getElementById("mmoreGoods").style.cursor = "auto";
+            this.$data.more_goods = false;
+          } else this.$data.maxPage++;
+        }).catch(err => {
+          console.log(err);
+        });
       }
     },
     mounted() {

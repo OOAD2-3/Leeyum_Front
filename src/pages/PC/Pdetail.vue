@@ -278,9 +278,9 @@
         shou: false,
 
 
-        price: 'X',
+        price: '未知',
         new_or_old: 10,
-        time_span: 'X',
+        time_span: '未知',
         time: '未知',
         place: '未知',
         now_number: '未知',

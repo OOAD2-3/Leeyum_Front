@@ -115,7 +115,7 @@
 
 
           <div class="alreadyType">当前：{{this.$data.nowTypeName}}
-            <div class="clearAlreadyType" @click="clearType" v-if="this.$data.nowTypeName!=='本月热门'">清空已选</div>
+            <div class="clearAlreadyType" @click="monthly_hot" v-if="this.$data.nowTypeName!=='本月热门'">清空已选</div>
             <div class="clearAlreadyType" @click="selfRecommend" v-if="this.$data.nowTypeName==='个性推荐'">换一波</div>
           </div>
           <!--        <div class="goods_order">-->
@@ -133,6 +133,8 @@
                   <div class="line1_title">
                     <span v-if="item.category[1]==='表白墙'"
                           style="border: hotpink 1px solid;border-radius: 3px;font-size: 14px;padding: 1px 3px;color: hotpink;font-weight: normal;">{{item.category[1]}}</span>
+                    <span v-else-if="item.category[1]==='广告'"
+                          style="border: #858585 1px solid;border-radius: 3px;font-size: 14px;padding: 1px 3px;color: #858585;font-weight: normal;">{{item.category[1]}}</span>
                     <span v-else
                           style="border: #fdc006 1px solid;border-radius: 3px;font-size: 14px;padding: 1px 3px;color: #fdc006;font-weight: normal;">{{item.category[1]}}</span>
                     <span style="">{{item.title}}</span>
@@ -524,7 +526,7 @@
       },
       firstTypeSearch: function (item) {
         if (item.category_name === '本月热门') {
-          location.reload();
+          this.monthly_hot()
         } else if (item.category_name === '个性推荐') {
           this.selfRecommend()
         }
@@ -609,7 +611,7 @@
           this.$data.nowKeyword = this.$data.PsearchKeyWordOut;
           this.$data.maxPage = 1;
           this.$data.nowType = '';
-          this.$data.nowTypeName = '搜索';
+          this.$data.nowTypeName = '搜索-' + this.$data.nowKeyword;
           this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&keyword=" + this.$data.nowKeyword).then(res => {
             this.$data.goodsItems.splice(0, this.$data.goodsItems.length);
             for (let i = 0; i < res.data.data.article_list.length; i++)
@@ -823,13 +825,32 @@
         this.$data.maxPage = 1;
         this.$data.nowType = '';
         this.$data.nowTypeName = '毕业季';
+        this.$data.goodsItems.splice(0, this.$data.goodsItems.length);
         this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&keyword=" + this.$data.nowKeyword).then(res => {
-          this.$data.goodsItems.splice(0, this.$data.goodsItems.length);
           for (let i = 0; i < res.data.data.article_list.length; i++)
             this.$data.goodsItems.push(res.data.data.article_list[i]);
           if (!res.data.data.has_next_page) {
             document.getElementById("moreGoods").innerHTML = "已无更多";
             document.getElementById("moreGoods").style.cursor = "auto";
+            this.$data.more_goods = false;
+          } else this.$data.maxPage++;
+        }).catch(err => {
+          console.log(err);
+        });
+      },
+      monthly_hot: function () {
+        this.$data.maxPage = 1;
+        this.$data.nowType = '';
+        this.$data.nowKeyword = '';
+        this.$data.nowTypeName = '本月热门';
+        this.$data.more_goods = true;
+        this.$data.goodsItems.splice(0, this.$data.goodsItems.length);
+        this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&is_main=1").then(res => {
+          for (let i = 0; i < res.data.data.article_list.length; i++)
+            this.$data.goodsItems.push(res.data.data.article_list[i]);
+          if (!res.data.data.has_next_page) {
+            document.getElementById("mmoreGoods").innerHTML = "已无更多";
+            document.getElementById("mmoreGoods").style.cursor = "auto";
             this.$data.more_goods = false;
           } else this.$data.maxPage++;
         }).catch(err => {

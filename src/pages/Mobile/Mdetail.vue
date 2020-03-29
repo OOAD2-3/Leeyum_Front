@@ -203,7 +203,7 @@
       <option>侵权（抄袭）</option>
       <option>其他</option>
     </select>
-    
+
     <textarea placeholder="请输入举报原因（200字以内）"
               v-model="ReportReason"
               maxlength="200"
@@ -281,16 +281,16 @@
         comment: [],
         shou: false,
 
-        price: '100',
+        price: '未知',
         new_or_old: 10,
-        time_span: '3',
-        time: '',
-        place: '厦大',
-        now_number: '1',
-        total_number: '3',
-        target_grade: '五年级',
-        sex_require: '男',
-        team_has_joined: '',
+        time_span: '未知',
+        time: '未知',
+        place: '未知',
+        now_number: '未知',
+        total_number: '未知',
+        target_grade: '未知',
+        sex_require: '未知',
+        team_has_joined: false,
       }
     },
     methods: {
@@ -400,7 +400,7 @@
           this.$data.publish_time = res.data.data.publish_time;
           this.$data.publisher = res.data.data.publisher.username;
           if (res.data.data.team_has_joined) this.$data.team_has_joined = res.data.data.team_has_joined;
-          if (res.data.data.content.price) this.$data.price = res.data.data.content.price;
+          if (res.data.data.content.price !== null) this.$data.price = res.data.data.content.price;
           if (res.data.data.content.new_or_old) this.$data.new_or_old = res.data.data.content.new_or_old;
           if (res.data.data.content.time_span) this.$data.time_span = res.data.data.content.time_span;
           if (res.data.data.content.time) this.$data.time = res.data.data.content.time;
