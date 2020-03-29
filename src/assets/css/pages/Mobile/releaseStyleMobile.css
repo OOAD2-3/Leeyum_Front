@@ -98,11 +98,13 @@
 .mcontent-tag{
   width: 100%;
   margin-bottom: 5px;
+  margin-top: 5px;
 }
 .mcontent-pic{
   width: 100%;
   height: 200px;
   overflow: auto;
+  margin-top: 5px;
 }
 .mcontent-pic::-webkit-scrollbar {display:none}
 .mconfirm{
@@ -146,11 +148,11 @@
 }
 .mchooseFirstTypeItem{
   border: 1px solid #d0d0d0;
-  padding: 0px 5px;
+  padding: 1px 10px;
   height: 23px;
   line-height: 23px;
   border-radius: 2px;
-  margin-right: 5px;
+  margin-right: 10px;
   font-size: 13px;
   color: #606266;
   cursor: pointer;
@@ -166,6 +168,10 @@
 .mspecial{
   width: 90%;
   margin: 10px 0 10px 5%;
+}
+.mspecial_item{
+  font-size: 13px;
+  margin-top: 10px
 }
 .myuqijiage{
   border: none;

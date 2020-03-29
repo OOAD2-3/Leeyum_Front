@@ -267,13 +267,20 @@
                   <span style="color: red">*</span>
                   <span>出发地</span>
                 </div>
-                <div>
-                  <el-input
-                    style="margin-top:2px;width:30%"
-                    size="small"
-                    clearable
-                    v-model="place_start">
-                  </el-input>
+                <div style="margin-top: 2px">
+                  <el-select filterable allow-create clearable size="small" v-model="place_start" placeholder="请选择/自定义">
+                    <el-option-group
+                      v-for="group in pinche_options"
+                      :key="group.label"
+                      :label="group.label">
+                      <el-option
+                        v-for="item in group.options"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                      </el-option>
+                    </el-option-group>
+                  </el-select>
                 </div>
               </div>
               <div class="special_item">
@@ -281,13 +288,20 @@
                   <span style="color: red">*</span>
                   <span>目的地</span>
                 </div>
-                <div>
-                  <el-input
-                    style="margin-top:2px;width:30%"
-                    size="small"
-                    clearable
-                    v-model="place_end">
-                  </el-input>
+                <div style="margin-top: 2px">
+                  <el-select filterable allow-create clearable size="small" v-model="place_end" placeholder="请选择/自定义">
+                    <el-option-group
+                      v-for="group in pinche_options"
+                      :key="group.label"
+                      :label="group.label">
+                      <el-option
+                        v-for="item in group.options"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                      </el-option>
+                    </el-option-group>
+                  </el-select>
                 </div>
               </div>
             </div>
@@ -665,7 +679,55 @@
               {
                 'value': '六年级',
                 'label': '六年级',
-              }
+              },
+              {
+                'value': '其它',
+                'label': '其它',
+              },
+            ]
+          },
+          {
+            'value': '初中',
+            'label': '初中',
+            'children': [
+              {
+                'value': '初一',
+                'label': '初一',
+              },
+              {
+                'value': '初二',
+                'label': '初二',
+              },
+              {
+                'value': '初三',
+                'label': '初三',
+              },
+              {
+                'value': '其它',
+                'label': '其它',
+              },
+            ]
+          },
+          {
+            'value': '高中',
+            'label': '高中',
+            'children': [
+              {
+                'value': '高一',
+                'label': '高一',
+              },
+              {
+                'value': '高二',
+                'label': '高二',
+              },
+              {
+                'value': '高三',
+                'label': '高三',
+              },
+              {
+                'value': '其它',
+                'label': '其它',
+              },
             ]
           }
         ],
@@ -683,10 +745,74 @@
             'label': '只要男生',
           }
         ],
+        pinche_options: [
+          {
+            label: '学校相关',
+            options: [
+              {
+                value: '厦大西村',
+                label: '厦大西村'
+              },
+              {
+                value: '厦大白城',
+                label: '厦大白城'
+              },
+              {
+                value: '厦大学生公寓',
+                label: '厦大学生公寓'
+              },
+              {
+                value: '厦大海韵教学楼',
+                label: '厦大海韵教学楼'
+              },
+              {
+                value: '翔安校区',
+                label: '翔安校区'
+              }
+            ]
+          },
+          {
+            label: '机场车站',
+            options: [
+              {
+                value: '高崎机场T3',
+                label: '高崎机场T3'
+              },
+              {
+                value: '高崎机场T4',
+                label: '高崎机场T4'
+              },
+              {
+                value: '厦门站',
+                label: '厦门站'
+              },
+              {
+                value: '厦门北站',
+                label: '厦门北站'
+              },
+            ]
+          },
+          {
+            label: '常用地点',
+            options: [
+              {
+                value: '世贸/沙坡尾',
+                label: '世贸/沙坡尾'
+              },
+              {
+                value: '中山路',
+                label: '中山路'
+              },
+              {
+                value: 'SM',
+                label: 'SM'
+              }
+            ]
+          }
+        ],
 
         title: '',
         content: '',
-
         price: 0,
         new_or_old: 10,
         time_span: 0,

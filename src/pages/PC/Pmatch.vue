@@ -31,14 +31,12 @@
                         style="border: #fdc006 1px solid;border-radius: 3px;font-size: 14px;padding: 1px 3px;color: #fdc006;font-weight: normal;">{{item.category[1]}}</span>
                   <span style="">{{item.title}}</span>
                 </div>
-                <div
-                  v-if="item.category[1]==='拼车'||item.category[1]==='约玩/约学习'"
+                <div v-if="item.category[1]==='拼车'||item.category[1]==='约玩/约学习'"
                   style="height: 20px;width: 99%;margin-left:2%;font-size: 14px;line-height: 20px;color: #3c3c3c;padding-bottom: 3px">
                   <el-icon class="el-icon-user" style="padding-right: 2px"></el-icon>
                   {{item.content.now_number}}/{{item.content.total_number}}人
                 </div>
-                <div
-                  v-if="item.category[1]==='求购'||item.category[1]==='出售'"
+                <div v-if="item.category[1]==='求购'||item.category[1]==='出售'"
                   style="height: 20px;width: 98%;margin-left:2%;font-size: 14px;line-height: 20px;padding-bottom: 3px;color:red;display: flex;">
                   <div style="height: 100%;width: 50%">
                     <el-icon class="el-icon-money" style="padding-right: 2px;color: #3c3c3c"></el-icon>
@@ -49,8 +47,7 @@
                     {{item.content.new_or_old}}成新
                   </div>
                 </div>
-                <div
-                  v-if="item.category[1]==='求租'||item.category[1]==='出借'"
+                <div v-if="item.category[1]==='求租'||item.category[1]==='出借'"
                   style="height: 20px;width: 98%;margin-left:2%;font-size: 14px;line-height: 20px;padding-bottom: 3px;color:red;display: flex;">
                   <div style="height: 100%;width: 50%">
                     <el-icon class="el-icon-money" style="padding-right: 2px;color: #3c3c3c"></el-icon>
@@ -61,8 +58,7 @@
                     租借{{item.content.time_span}}天
                   </div>
                 </div>
-                <div
-                  v-if="item.category[1]==='家教'"
+                <div v-if="item.category[1]==='家教'"
                   style="height: 20px;width: 98%;margin-left:2%;font-size: 14px;line-height: 20px;padding-bottom: 3px;color:red;display: flex">
                   <div style="height: 100%;width: 50%">
                     <el-icon class="el-icon-money" style="padding-right: 2px;color: #3c3c3c"></el-icon>
@@ -74,8 +70,7 @@
                   </div>
                 </div>
 
-                <div
-                  v-if="item.category[1]==='学校事务'||item.category[1]==='其他兼职'"
+                <div v-if="item.category[1]==='学校事务'||item.category[1]==='其他兼职'"
                   style="height: 20px;width: 98%;margin-left:2%;font-size: 14px;line-height: 20px;padding-bottom: 3px;color:red;display: flex">
                   <div style="height: 100%;width: 50%">
                     <el-icon class="el-icon-money" style="padding-right: 2px;color: #3c3c3c"></el-icon>
@@ -86,8 +81,7 @@
                     {{item.content.time}}
                   </div>
                 </div>
-                <div
-                  v-if="item.category[1]==='志愿者招聘'"
+                <div v-if="item.category[1]==='志愿者招聘'"
                   style="height: 20px;width: 98%;margin-left:2%;font-size: 14px;line-height: 20px;padding-bottom: 3px;color:red;display: flex">
                   <div style="height: 100%;width: 50%;color:#3c3c3c;">
                     <el-icon class="el-icon-time" style="padding-right: 2px;color: #3c3c3c"></el-icon>
@@ -185,8 +179,9 @@
       },
       getMatchList: function () {
         this.$axios.get("/api/article/publish_recommend/?article_id=" + this.$data.id).then(res => {
-          for (let i = 0; i < res.data.data.length; i++)
-            this.$data.matchList.push(res.data.data[i]);
+          this.$data.matchList = res.data.data;
+          if (this.$data.matchList.length <= 0)
+            this.jump("MGoods");
         }).catch(err => {
           console.log(err);
         })

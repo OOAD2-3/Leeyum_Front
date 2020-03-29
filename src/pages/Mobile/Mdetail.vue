@@ -4,11 +4,11 @@
       <div style="position: absolute;left: 10px;font-weight: bolder;width: 30px" @click="$router.go(-1)"><el-icon class="el-icon-arrow-left"></el-icon></div>
       <div style="font-size: 20px;">信息详情</div>
     </div>
-    <div class="mup">
-      <el-carousel height="300px">
+    <div>
+      <el-carousel>
         <el-carousel-item v-for="item in pic_urls" :key="item"
-                          style="display: flex;align-items:center;background: white">
-          <img :src="item" alt="" style="width:100%;"/>
+                          style="text-align:center;background: white">
+          <img :src="item" alt="" :id="item" style="width: auto;height: auto;max-width: 100%;max-height: 100%;	"/>
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -562,7 +562,7 @@
       },
       changeOOO:function(){
         console.log(this.$data.reportChoose);
-      }
+      },
     },
     mounted() {
       this.init();
