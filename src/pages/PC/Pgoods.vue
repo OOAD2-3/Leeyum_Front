@@ -540,11 +540,9 @@
         this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&is_main=1&recommend=1").then(res => {
           for (let i = 0; i < res.data.data.article_list.length; i++)
             this.$data.goodsItems.push(res.data.data.article_list[i]);
-          if (!res.data.data.has_next_page) {
-            document.getElementById("moreGoods").innerHTML = "已无更多";
-            document.getElementById("moreGoods").style.cursor = "auto";
-            this.$data.more_goods = false;
-          } else this.$data.maxPage++;
+          document.getElementById("moreGoods").innerHTML = "已无更多";
+          document.getElementById("moreGoods").style.cursor = "auto";
+          this.$data.more_goods = false;
         }).catch(err => {
           console.log(err);
         })
