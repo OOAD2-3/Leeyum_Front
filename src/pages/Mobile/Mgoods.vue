@@ -348,12 +348,19 @@
         localStorage.removeItem("history_search");
       },
       enterDetail: function (item) {
-        this.$router.push({
-          name: 'MDetail',
-          params: {
-            articleId: item.id
-          }
-        })
+        if (item.category[1] === '广告') {
+          this.$notify({
+            title: item.title,
+            message: item.content.body,
+          });
+        } else {
+          this.$router.push({
+            name: 'MDetail',
+            params: {
+              articleId: item.id
+            }
+          })
+        }
       },
       MwantRelease: function () {
         console.log(localStorage.getItem("username"));

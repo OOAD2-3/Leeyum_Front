@@ -640,10 +640,17 @@
         }
       },
       enterDetail: function (item) {
-        let routeUrl = this.$router.resolve({
-          path: "/pdetail/" + item.id
-        });
-        window.open(routeUrl.href, '_blank');
+        if (item.category[1] === '广告') {
+          this.$notify({
+            title: item.title,
+            message: item.content.body,
+          });
+        } else {
+          let routeUrl = this.$router.resolve({
+            path: "/pdetail/" + item.id
+          });
+          window.open(routeUrl.href, '_blank');
+        }
       },
       openSideCol: function (name) {
         if (localStorage.getItem("username") !== '') {
