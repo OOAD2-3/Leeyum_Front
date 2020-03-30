@@ -569,7 +569,7 @@
     },
     created() {
       this.getGoodInfo();
-    }
+    },
   }
 </script>
 

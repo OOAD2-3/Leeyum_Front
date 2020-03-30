@@ -59,6 +59,8 @@
           });
         },
         jump:function(name){
+          if(name === this.$route.name)
+            return;
           this.$router.push({name:name});
         },
         MwantRelease:function(){

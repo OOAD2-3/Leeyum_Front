@@ -20,7 +20,7 @@ import MInfo from '@/pages/Mobile/MInfo'
 import MMatch from '@/pages/Mobile/Mmatch'
 import PMatch from '@/pages/PC/Pmatch'
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   routes: [
@@ -77,7 +77,8 @@ export default new Router({
     {
       path:'/mgoods',
       name:'MGoods',
-      component:MGoods
+      component:MGoods,
+      meta: {keepAlive: true}
     },
     {
       path:'/mlogin',
@@ -92,12 +93,14 @@ export default new Router({
     {
       path:'/mprofile',
       name:'Mprofile',
-      component:Mprofile
+      component:Mprofile,
+      meta: {keepAlive: true}
     },
     {
       path:'/mtype',
       name:'MType',
-      component:MType
+      component:MType,
+      meta: {keepAlive: true}
     },
     {
       path:'/mdetail/:articleId',
@@ -119,5 +122,13 @@ export default new Router({
       name:'MMatch',
       component:MMatch
     }
-  ]
+  ],
+  mode: 'history',
+  scrollBehavior (to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { x: 0, y: 0 }
+    }
+  }
 })

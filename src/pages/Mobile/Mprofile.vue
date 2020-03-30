@@ -61,8 +61,8 @@
               v-if="username!==''">注 销
       </button>
     </div>
-    <bottom-router default-active="3"></bottom-router>
-    <div class="releaseFontButton">
+    <bottom-router id="pcmbottomrouter3" default-active="3"></bottom-router>
+    <div  class="releaseFontButton">
       <img src="../../../static/picture/releaseFont.png" style="height: 43px;margin-top: 37px;margin-left: 22px"
            @click="MwantRelease"/>
     </div>

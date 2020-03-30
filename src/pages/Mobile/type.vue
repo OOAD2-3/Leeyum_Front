@@ -12,7 +12,7 @@
         </div>
       </div>
     </div>
-    <bottom-router default-active="2"></bottom-router>
+    <bottom-router id="pcmbottomrouter2" default-active="2"></bottom-router>
     <div class="releaseFontButton">
     <img src="../../../static/picture/releaseFont.png" style="height: 43px;margin-top: 37px;margin-left: 22px" @click="MwantRelease" />
   </div>
@@ -78,7 +78,6 @@
         })
       },
       chooseType:function(item){
-        console.log(item);
         this.$router.push({
           name:'MGoods',
           params:{
@@ -137,7 +136,7 @@
     font-size: 15px;
   }
   .nowSubMenuItem{
-    width: calc(92%/3);
+    width: calc(92%/2);
     height: 100px;
     background: white;
     margin-left: 2%;

@@ -120,7 +120,8 @@
         </div>
       </div>
       <div class="releaseFontButton">
-        <img src="../../../static/picture/releaseFont.png" style="height: 43px;margin-top: 37px;margin-left: 22px" @click="MwantRelease" />
+        <img src="../../../static/picture/releaseFont.png" style="height: 43px;margin-top: 37px;margin-left: 22px"
+             @click="MwantRelease"/>
       </div>
     </div>
     <div id="focusInputDiv" class="MfocusInputDiv" @click="cancelFocusInput">
@@ -133,7 +134,8 @@
       <div class="MhistorySearch">
         <div style="width: 100%;display: flex;justify-content: space-between">
           <div style="margin: 8px;font-size: 13px">搜索历史</div>
-          <div style="margin-top:8px;font-size: 13px;color: #8cc5ff;padding-right: 10px" v-if="this.$data.search_history.length>0"
+          <div style="margin-top:8px;font-size: 13px;color: #8cc5ff;padding-right: 10px"
+               v-if="this.$data.search_history.length>0"
                @click="clearSearchHistory">清空记录
           </div>
         </div>
@@ -144,7 +146,6 @@
       </div>
     </div>
     <bottom-router id="pcmbottomrouter" default-active="1"></bottom-router>
-
   </div>
 </template>
 
@@ -194,8 +195,8 @@
         document.getElementById("root").style.width = Width - this.getScrollWidth() + "px";
         document.getElementById("root").style.background = "#f0f0f0";
         require('../../assets/css/pages/Mobile/goodsStyleMobile.css');
-        if(sessionStorage.getItem("MsearchKeyWordOut")) {
-          this.$data.nowKeyword=sessionStorage.getItem("MsearchKeyWordOut");
+        if (sessionStorage.getItem("MsearchKeyWordOut")) {
+          this.$data.nowKeyword = sessionStorage.getItem("MsearchKeyWordOut");
           this.$refs.mi.setSearchInput(this.$data.nowKeyword);
         }
         if (sessionStorage.getItem("nowType")) {
@@ -209,13 +210,9 @@
         this.$router.push({name: name});
       },
       mgetMoreGoods: function () {
-        if (this.$route.params.choosenType && this.$route.params.choosenTypeName) {
-          this.$data.nowType = this.$route.params.choosenType;
-          this.$data.nowTypeName = this.$route.params.choosenTypeName;
-        }
         if (this.$data.more_goods) {
           if (this.$data.nowType === '') {
-            if(this.$data.nowKeyword === '') {
+            if (this.$data.nowKeyword === '') {
               this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&is_main=1").then(res => {
                 for (let i = 0; i < res.data.data.article_list.length; i++) {
                   if (i % 2 === 0) this.$data.goodsItems1.push(res.data.data.article_list[i]);
@@ -229,9 +226,8 @@
               }).catch(err => {
                 console.log(err);
               });
-            }
-            else{
-              this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&keyword="+this.$data.nowKeyword).then(res => {
+            } else {
+              this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&keyword=" + this.$data.nowKeyword).then(res => {
                 for (let i = 0; i < res.data.data.article_list.length; i++) {
                   if (i % 2 === 0) this.$data.goodsItems1.push(res.data.data.article_list[i]);
                   else this.$data.goodsItems2.push(res.data.data.article_list[i]);
@@ -371,11 +367,11 @@
           this.jump("MLogin");
         }
       },
-      getSearchHot:function(){
-        this.$axios.get("/api/article/hot_words/").then(res=>{
-          for(let i=0;i<res.data.data.length;i++)
+      getSearchHot: function () {
+        this.$axios.get("/api/article/hot_words/").then(res => {
+          for (let i = 0; i < res.data.data.length; i++)
             this.$data.search_hot.push(res.data.data[i]);
-        }).catch(err=>{
+        }).catch(err => {
           console.log(err);
         })
       },
@@ -436,6 +432,31 @@
             document.getElementById("mmoreGoods").innerHTML = "已无更多";
             document.getElementById("mmoreGoods").style.cursor = "auto";
             this.$data.more_goods = false;
+          } else {
+            this.$data.maxPage++;
+          }
+        }).catch(err => {
+          console.log(err);
+        });
+      },
+
+      select_type: function () {
+        this.$data.maxPage = 1;
+        this.$data.nowKeyword = '';
+        this.$data.nowType = this.$route.params.choosenType;
+        this.$data.nowTypeName = this.$route.params.choosenTypeName;
+        this.$data.more_goods = true;
+        this.$data.goodsItems1.splice(0, this.$data.goodsItems1.length);
+        this.$data.goodsItems2.splice(0, this.$data.goodsItems2.length);
+        this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&is_main=1&category=" + this.$data.nowType).then(res => {
+          for (let i = 0; i < res.data.data.article_list.length; i++) {
+            if (i % 2 === 0) this.$data.goodsItems1.push(res.data.data.article_list[i]);
+            else this.$data.goodsItems2.push(res.data.data.article_list[i]);
+          }
+          if (!res.data.data.has_next_page) {
+            document.getElementById("mmoreGoods").innerHTML = "已无更多";
+            document.getElementById("mmoreGoods").style.cursor = "auto";
+            this.$data.more_goods = false;
           } else this.$data.maxPage++;
         }).catch(err => {
           console.log(err);
@@ -449,19 +470,24 @@
     },
     beforeRouteLeave(to, from, next) {
       if (to.name === "MDetail") {
-        if(this.$data.MsearchKeyWordOut!=='') sessionStorage.setItem("MsearchKeyWordOut",this.$data.MsearchKeyWordOut);
+        if (this.$data.MsearchKeyWordOut !== '') sessionStorage.setItem("MsearchKeyWordOut", this.$data.MsearchKeyWordOut);
         if (this.$data.nowType !== '') sessionStorage.setItem("nowType", this.$data.nowType);
         if (this.$data.nowTypeName !== '') sessionStorage.setItem("nowTypeName", this.$data.nowTypeName);
-        next();
       } else {
         sessionStorage.removeItem("MsearchKeyWordOut");
         sessionStorage.removeItem("nowType");
         sessionStorage.removeItem("nowTypeName");
-        next();
       }
+
+      next();
     },
-    beforeRouteEnter(to,from,next){
-      if(from.name!=='MDetail'){
+    beforeRouteEnter(to, from, next) {
+      if (from.name === 'MType' && to.params.choosenType && to.params.choosenTypeName)
+        next(vm => {
+          vm.select_type();
+        });
+
+      if (from.name !== 'MDetail') {
         sessionStorage.removeItem("MsearchKeyWordOut");
         sessionStorage.removeItem("nowType");
         sessionStorage.removeItem("nowTypeName");
