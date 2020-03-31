@@ -510,7 +510,6 @@
               }).catch(err => {
                 console.log(err);
               });
-
             }
           }
         }
@@ -532,10 +531,7 @@
         }
       },
       selfRecommend: function () {
-        this.$data.maxPage = 1;
-        this.$data.goodsItems.splice(0, this.$data.goodsItems.length);
-        this.$data.nowType = 1;
-        this.$data.nowKeyword = '';
+        this.clear_get_goods_config();
         this.$data.nowTypeName = '个性推荐';
         this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&is_main=1&recommend=1").then(res => {
           for (let i = 0; i < res.data.data.article_list.length; i++)
@@ -548,10 +544,9 @@
         })
       },
       secondTypeSearch: function (item) {
-        this.$data.maxPage = 1;
-        this.$data.goodsItems.splice(0, this.$data.goodsItems.length);
+        this.clear_get_goods_config();
+        document.getElementById("moreGoods").innerHTML = "点击加载更多...";
         this.$data.nowType = item.category_id;
-        this.$data.nowKeyword = '';
         this.$data.nowTypeName = item.category_name;
         this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&is_main=1&category=" + item.category_id).then(res => {
           for (let i = 0; i < res.data.data.article_list.length; i++)
@@ -606,9 +601,8 @@
             temp.push(this.$data.PsearchKeyWordOut);
             localStorage.setItem('history_search', JSON.stringify(temp));
           }
+          this.clear_get_goods_config();
           this.$data.nowKeyword = this.$data.PsearchKeyWordOut;
-          this.$data.maxPage = 1;
-          this.$data.nowType = '';
           this.$data.nowTypeName = '搜索-' + this.$data.nowKeyword;
           this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&keyword=" + this.$data.nowKeyword).then(res => {
             this.$data.goodsItems.splice(0, this.$data.goodsItems.length);
@@ -826,11 +820,9 @@
         })
       },
       biyeji: function () {
+        this.clear_get_goods_config();
         this.$data.nowKeyword = '毕业季';
-        this.$data.maxPage = 1;
-        this.$data.nowType = '';
         this.$data.nowTypeName = '毕业季';
-        this.$data.goodsItems.splice(0, this.$data.goodsItems.length);
         this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&keyword=" + this.$data.nowKeyword).then(res => {
           for (let i = 0; i < res.data.data.article_list.length; i++)
             this.$data.goodsItems.push(res.data.data.article_list[i]);
@@ -844,12 +836,8 @@
         });
       },
       monthly_hot: function () {
-        this.$data.maxPage = 1;
-        this.$data.nowType = '';
-        this.$data.nowKeyword = '';
+        this.clear_get_goods_config();
         this.$data.nowTypeName = '本月热门';
-        this.$data.more_goods = true;
-        this.$data.goodsItems.splice(0, this.$data.goodsItems.length);
         this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&is_main=1").then(res => {
           for (let i = 0; i < res.data.data.article_list.length; i++)
             this.$data.goodsItems.push(res.data.data.article_list[i]);
@@ -861,6 +849,16 @@
         }).catch(err => {
           console.log(err);
         });
+      },
+
+      clear_get_goods_config: function () {
+        document.getElementById("moreGoods").innerHTML = "点击加载更多...";
+        this.$data.maxPage = 1;
+        this.$data.nowType = '';
+        this.$data.nowTypeName = '';
+        this.$data.nowKeyword = '';
+        this.$data.more_goods = true;
+        this.$data.goodsItems.splice(0, this.$data.goodsItems.length);
       }
     },
     mounted() {

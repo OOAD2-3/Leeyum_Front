@@ -32,7 +32,6 @@
   }
 
   .mlogin_title{
-    height: 4%;
     /* width: 100%; */
     /* display: flex; */
     background-color: rgba(255, 255, 255, 0.781);
@@ -45,8 +44,15 @@
     margin-left:20%;
     font-family: stxinwei;
     margin-top:40%;
-
   }
+.mbackimg{
+  background: url(/static/picture/返回.png) no-repeat;
+  background-size: 100%;
+  border: transparent;
+  border-radius: 50%;
+  height:40px;
+  width:40px;
+}
   .mintro{
     /* position: absolute; */
     top:0;
@@ -91,7 +97,6 @@
     border-radius: 50%;
     height:50px;
     width:50px;
-
   }
   .mmain{
     /* background: url("../../../../../static/picture/campusmobile.jpg") no-repeat; */

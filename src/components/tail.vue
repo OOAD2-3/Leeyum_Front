@@ -14,11 +14,8 @@
             <div>关注微信公众平台</div>
           </div>
           <div class="tail_main_tel">
+            <div class="tail_main_tel_tag">合作意向</div>
             <div class="tail_main_tel_content">TEL：13063031520</div>
-            <div class="tail_main_tel_tag">24小时在线客服</div>
-            <div class="tail_main_tel_icon">
-              <img class="tail_main_tel_icon_content" src="../../static/picture/icon.png" alt=""/>
-            </div>
           </div>
         </div>
       </div>

@@ -73,7 +73,16 @@
   border-radius: 50%;
   height:50px;
   width:50px;
+  margin-left: 10px;
 
+}
+.backimg{
+  background: url(/static/picture/返回.png)  no-repeat;
+  background-size: 100%;
+  border: transparent;
+  border-radius: 50%;
+  height:50px;
+  width:50px;
 }
 .plmain{
   background: url("../../../../../static/picture/campus.jpg") no-repeat;

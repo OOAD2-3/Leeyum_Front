@@ -286,9 +286,8 @@
             temp.push(this.$data.MsearchKeyWordOut);
             localStorage.setItem('history_search', JSON.stringify(temp));
           }
+          this.clear_get_goods_config();
           this.$data.nowKeyword = this.$data.MsearchKeyWordOut;
-          this.$data.maxPage = 1;
-          this.$data.nowType = '';
           this.$data.nowTypeName = '搜索-' + this.$data.nowKeyword;
           this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&keyword=" + this.$data.nowKeyword).then(res => {
             this.$data.goodsItems1.splice(0, this.$data.goodsItems1.length);
@@ -376,12 +375,9 @@
         })
       },
       biyeji: function () {
+        this.clear_get_goods_config();
         this.$data.nowKeyword = '毕业季';
-        this.$data.maxPage = 1;
-        this.$data.nowType = '';
         this.$data.nowTypeName = '毕业季';
-        this.$data.goodsItems1.splice(0, this.$data.goodsItems1.length);
-        this.$data.goodsItems2.splice(0, this.$data.goodsItems2.length);
         this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&keyword=" + this.$data.nowKeyword).then(res => {
           for (let i = 0; i < res.data.data.article_list.length; i++) {
             if (i % 2 === 0) this.$data.goodsItems1.push(res.data.data.article_list[i]);
@@ -397,12 +393,8 @@
         });
       },
       selfRecommend: function () {
-        this.$data.maxPage = 1;
-        this.$data.nowType = 1;
-        this.$data.nowKeyword = '';
+        this.clear_get_goods_config();
         this.$data.nowTypeName = '个性推荐';
-        this.$data.goodsItems1.splice(0, this.$data.goodsItems1.length);
-        this.$data.goodsItems2.splice(0, this.$data.goodsItems2.length);
         this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&is_main=1&recommend=1").then(res => {
           for (let i = 0; i < res.data.data.article_list.length; i++) {
             if (i % 2 === 0) this.$data.goodsItems1.push(res.data.data.article_list[i]);
@@ -416,13 +408,8 @@
         })
       },
       monthly_hot: function () {
-        this.$data.maxPage = 1;
-        this.$data.nowType = '';
-        this.$data.nowKeyword = '';
+        this.clear_get_goods_config();
         this.$data.nowTypeName = '本月热门';
-        this.$data.more_goods = true;
-        this.$data.goodsItems1.splice(0, this.$data.goodsItems1.length);
-        this.$data.goodsItems2.splice(0, this.$data.goodsItems2.length);
         this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&is_main=1").then(res => {
           for (let i = 0; i < res.data.data.article_list.length; i++) {
             if (i % 2 === 0) this.$data.goodsItems1.push(res.data.data.article_list[i]);
@@ -441,13 +428,9 @@
       },
 
       select_type: function () {
-        this.$data.maxPage = 1;
-        this.$data.nowKeyword = '';
+        this.clear_get_goods_config();
         this.$data.nowType = this.$route.params.choosenType;
         this.$data.nowTypeName = this.$route.params.choosenTypeName;
-        this.$data.more_goods = true;
-        this.$data.goodsItems1.splice(0, this.$data.goodsItems1.length);
-        this.$data.goodsItems2.splice(0, this.$data.goodsItems2.length);
         this.$axios.get("/api/article/?page=" + this.$data.maxPage + "&page_size=10&is_main=1&category=" + this.$data.nowType).then(res => {
           for (let i = 0; i < res.data.data.article_list.length; i++) {
             if (i % 2 === 0) this.$data.goodsItems1.push(res.data.data.article_list[i]);
@@ -461,6 +444,19 @@
         }).catch(err => {
           console.log(err);
         });
+      },
+
+
+      clear_get_goods_config: function () {
+        document.getElementById("mmoreGoods").innerHTML = "点击加载更多...";
+
+        this.$data.maxPage = 1;
+        this.$data.nowType = '';
+        this.$data.nowTypeName = '';
+        this.$data.nowKeyword = '';
+        this.$data.more_goods = true;
+        this.$data.goodsItems1.splice(0, this.$data.goodsItems1.length);
+        this.$data.goodsItems2.splice(0, this.$data.goodsItems2.length);
       }
     },
     mounted() {

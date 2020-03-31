@@ -1,15 +1,14 @@
 <template>
   <div id="root" class="mroot">
     <div class="mllogo">
-      <button type="button" class="mlogoimg"></button>
-      <p class="mlogin_title">HANZI CAMPUS</p>
-    </div>
-    <div class="mintro">
-      <p id="big">HELLO,ITEMS.</p>
-      <p id="small">We provide school goods trading platform in order to enhance the value of the items.<br>The way items should be.</p>
-      <button type="button" class="mlogoimg2"></button>
+        <p class="mlogin_title">HANZI CAMPUS</p>
+      <div class="mlogin_main_row">
+        <button class="mbackimg" @click="$router.go(-1)"></button>
+      </div>
+
     </div>
     <div class="mmain">
+
       <div class="mlogin_main">
         <div class="mlogin_main_content">
           <div class="mlogin_main_row">
