@@ -94,7 +94,6 @@ export default new Router({
       path:'/mprofile',
       name:'Mprofile',
       component:Mprofile,
-      meta: {keepAlive: true}
     },
     {
       path:'/mtype',
@@ -123,7 +122,6 @@ export default new Router({
       component:MMatch
     }
   ],
-  mode: 'history',
   scrollBehavior (to, from, savedPosition) {
     if (savedPosition) {
       return savedPosition
