@@ -53,6 +53,15 @@
         this.$router.push({name:name});
       },
       mgetCheckNum:function(){
+        if (!this.phoneFun(this.$data.phone)) {
+          this.$message({
+            showClose: true,
+            message: '手机号码不正确',
+            type: 'error'
+          });
+          return;
+        }
+
         if(this.$data.mbtnDisabled===false) {
           this.$axios.get("/api/user/captcha?phone_number="+this.$data.phone).then((res)=>{
             this.$message({
@@ -103,6 +112,10 @@
           console.log(err);
         })
       },
+      phoneFun: function (phones) {
+        var myreg = /^[1][3,4,5,7,8,9][0-9]{9}$/;
+        return myreg.test(phones);
+      }
     },
     mounted() {
       this.init();

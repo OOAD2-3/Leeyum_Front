@@ -322,12 +322,12 @@
             <input style="width: 200px;border: 1px solid #cbcbcb;border-radius: 3px;height: 25px;padding: 0 3px"
                    v-model="username"></input>
           </div>
-          <div
-            style="display: flex;font-size: 15px;justify-content: space-between;margin-bottom: 20px;height: 30px;align-items: center">
-            <span>联系方式：</span>
-            <input style="width: 200px;border: 1px solid #cbcbcb;border-radius: 3px;height: 25px;padding: 0 3px"
-                   v-model="userPhoneNumber"></input>
-          </div>
+<!--          <div-->
+<!--            style="display: flex;font-size: 15px;justify-content: space-between;margin-bottom: 20px;height: 30px;align-items: center">-->
+<!--            <span>联系方式：</span>-->
+<!--            <input style="width: 200px;border: 1px solid #cbcbcb;border-radius: 3px;height: 25px;padding: 0 3px"-->
+<!--                   v-model="userPhoneNumber"></input>-->
+<!--          </div>-->
           <div
             style="display: flex;font-size: 15px;justify-content: space-between;margin-bottom: 15px;height: 30px;align-items: center">
             <span>允许将发布的信息推荐给其他用户</span>
@@ -779,6 +779,7 @@
           type: 'warning'
         }).then(() => {
           const dataa = {
+            username: this.$data.username,
             accept_recommended_message: this.$data.accept_recommended_message,
             accept_publish_article_recommend_to_others: this.$data.accept_publish_article_recommend_to_others
           };
@@ -787,7 +788,7 @@
               'Content-Type': 'application/json'
             }
           };
-          this.$axios.post("/api/user/settings/accept/", dataa, config).then(res => {
+          this.$axios.post("/api/user/settings/update/", dataa, config).then(res => {
           }).catch(err => {
             this.$alert("保存设置失败，请稍后重试！");
           });

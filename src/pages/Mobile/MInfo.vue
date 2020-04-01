@@ -24,10 +24,10 @@
         <span>用户名：</span>
         <input style="width: 60%;height: 25px;border-radius: 3px;border: 1px solid #e3e3e3;padding: 0 3px" v-model="username"/>
       </div>
-      <div style="display: flex;font-size: 15px;justify-content: space-between;height: 30px;align-items: center;margin-bottom: 15px">
-        <span>联系方式：</span>
-        <input style="width: 60%;height: 25px;border-radius: 3px;border: 1px solid #e3e3e3;padding: 0 3px" v-model="userPhoneNumber"/>
-      </div>
+<!--      <div style="display: flex;font-size: 15px;justify-content: space-between;height: 30px;align-items: center;margin-bottom: 15px">-->
+<!--        <span>联系方式：</span>-->
+<!--        <input style="width: 60%;height: 25px;border-radius: 3px;border: 1px solid #e3e3e3;padding: 0 3px" v-model="userPhoneNumber"/>-->
+<!--      </div>-->
       <div style="display: flex;font-size: 15px;justify-content: space-between;height: 30px;align-items: center;margin-bottom: 15px">
         <span>允许将发布的信息推荐给其他用户</span>
         <el-switch
@@ -52,7 +52,7 @@
            style="height: 300px;width: 100%;display: flex;align-items: center;justify-content: center;color: #8c939d">
         无内容
       </div>
-      <div v-for="item in content" class="infoMainItem">
+      <div v-for="item in content" class="infoMainItem" @click="enterDetail(item)">
         <img
           :src="item.pic_urls.length>0?item.pic_urls[0]:'http://leeyum-bucket.oss-cn-hangzhou.aliyuncs.com/default_front_file/404pic.png'"
           alt="" style="width:50px;margin-right: 10px"/>
@@ -71,7 +71,7 @@
            style="width: 100%;justify-content:flex-end;padding-right: 5px;color: #8cc5ff;height: 30px;display: flex;align-items: flex-end"
            @click="showClear=true">清空历史
       </div>
-      <div v-for="item in content" class="infoMainItem">
+      <div v-for="item in content" class="infoMainItem" @click="enterDetail(item)">
         <img
           :src="item.pic_urls.length>0?item.pic_urls[0]:'http://leeyum-bucket.oss-cn-hangzhou.aliyuncs.com/default_front_file/404pic.png'"
           alt="" style="width:50px;margin-right: 10px"/>
@@ -86,7 +86,7 @@
            style="height: 300px;width: 100%;display: flex;align-items: center;justify-content: center;color: #8c939d">
         无内容
       </div>
-      <div v-for="item in content" class="infoMainItem">
+      <div v-for="item in content" class="infoMainItem" @click="enterDetail(item)">
         <img
           :src="item.pic_urls.length>0?item.pic_urls[0]:'http://leeyum-bucket.oss-cn-hangzhou.aliyuncs.com/default_front_file/404pic.png'"
           alt="" style="width:50px;margin-right: 10px"/>
@@ -105,7 +105,7 @@
            style="height: 300px;width: 100%;display: flex;align-items: center;justify-content: center;color: #8c939d">
         无内容
       </div>
-      <div v-for="item in content" class="infoMainItem">
+      <div v-for="item in content" class="infoMainItem" @click="enterDetail(item)">
         <img
           :src="item.pic_urls.length>0?item.pic_urls[0]:'http://leeyum-bucket.oss-cn-hangzhou.aliyuncs.com/default_front_file/404pic.png'"
           alt="" style="width:50px;margin-right: 10px"/>
@@ -290,6 +290,7 @@
       },
       msaveSettings: function () {
         const dataa = {
+          username: this.$data.username,
           accept_recommended_message: this.$data.accept_recommended_message,
           accept_publish_article_recommend_to_others: this.$data.accept_publish_article_recommend_to_others
         };
@@ -298,7 +299,7 @@
             'Content-Type': 'application/json'
           }
         };
-        this.$axios.post("/api/user/settings/accept/", dataa, config).then(res => {
+        this.$axios.post("/api/user/settings/update/", dataa, config).then(res => {
           this.$message.success("保存成功！");
         }).catch(err => {
           this.$alert("退出设置失败，请稍后重试！");
@@ -328,7 +329,22 @@
         }).catch(err=>{
           console.log(err);
         })
+      },
+      enterDetail: function (item) {
+      if (item.category[1] === '广告') {
+        this.$notify({
+          title: item.title,
+          message: item.content.body,
+        });
+      } else {
+        this.$router.push({
+          name: 'MDetail',
+          params: {
+            articleId: item.id
+          }
+        })
       }
+    },
     },
     mounted() {
       this.init();
