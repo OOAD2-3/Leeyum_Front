@@ -78,7 +78,6 @@ export default new Router({
       path:'/mgoods',
       name:'MGoods',
       component:MGoods,
-      meta: {keepAlive: true}
     },
     {
       path:'/mlogin',
@@ -99,7 +98,6 @@ export default new Router({
       path:'/mtype',
       name:'MType',
       component:MType,
-      meta: {keepAlive: true}
     },
     {
       path:'/mdetail/:articleId',

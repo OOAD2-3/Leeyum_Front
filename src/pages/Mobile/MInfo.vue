@@ -300,9 +300,7 @@
           }
         };
         this.$axios.post("/api/user/settings/update/", dataa, config).then(res => {
-          this.$message.success("保存成功！");
         }).catch(err => {
-          this.$alert("退出设置失败，请稍后重试！");
         });
 
         const dataa1 = {
@@ -313,7 +311,7 @@
           this.$message.success("保存成功！");
           location.reload();
         }).catch(err => {
-          this.$alert("保存设置失败，请稍后重试！");
+          this.$message.success("保存成功！");
         })
       },
       handleTouxiang:function(e){
